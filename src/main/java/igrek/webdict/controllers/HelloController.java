@@ -1,4 +1,4 @@
-package igrek.webdict;
+package igrek.webdict.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
