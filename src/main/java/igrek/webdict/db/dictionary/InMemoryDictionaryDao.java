@@ -21,7 +21,9 @@ public class InMemoryDictionaryDao implements DictionaryDao {
 	
 	@Override
 	public Optional<Dictionary> findOne(long id) {
-		return dicts.stream().filter(d -> d.getId() == id).findAny();
+		return dicts.stream().
+				filter(d -> d.getId() == id).
+				findAny();
 	}
 	
 	@Override

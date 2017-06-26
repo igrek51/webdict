@@ -14,6 +14,10 @@ public interface DictEntryDao {
 	
 	Optional<DictEntry> findOne(long id);
 	
+	List<DictEntry> getByDictionaryId(long dictionaryId);
+	
 	List<DictEntry> findAll();
+	
+	void save(DictEntry dictEntry);
 	
 }
