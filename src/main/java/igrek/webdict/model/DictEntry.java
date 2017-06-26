@@ -1,6 +1,8 @@
 package igrek.webdict.model;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 public class DictEntry {
 	
@@ -15,6 +17,9 @@ public class DictEntry {
 	private double rank;
 	
 	private LocalDateTime lastUse;
+	
+	private final transient Duration COOLDOWN_TIME = Duration.ofMinutes(10);
+	private final transient double COOLDOWN_MAX_PENALTY = 20;
 	
 	public DictEntry(Long id, long dictionaryId, String word, String definition, double rank, LocalDateTime lastUse) {
 		this.id = id;
@@ -71,5 +76,23 @@ public class DictEntry {
 	
 	public void setLastUse(LocalDateTime lastUse) {
 		this.lastUse = lastUse;
+	}
+	
+	public double getCooldownPenalty() {
+		if (getLastUse() == null)
+			return 0;
+		
+		long elapsedSeconds = LocalDateTime.from(getLastUse())
+				.until(LocalDateTime.now(), ChronoUnit.SECONDS);
+		long cooldownSeconds = COOLDOWN_TIME.getSeconds();
+		
+		if (elapsedSeconds >= cooldownSeconds)
+			return 0;
+		
+		return (cooldownSeconds - elapsedSeconds) * COOLDOWN_MAX_PENALTY / cooldownSeconds;
+	}
+	
+	public double getEffectiveRank() {
+		return getRank() + getCooldownPenalty();
 	}
 }

@@ -14,5 +14,7 @@ public interface DictionaryDao {
 	
 	Optional<Dictionary> findOne(long id);
 	
+	Optional<Dictionary> findByLangs(String sourceLanguage, String targetLanguage);
+	
 	List<Dictionary> findAll();
 }

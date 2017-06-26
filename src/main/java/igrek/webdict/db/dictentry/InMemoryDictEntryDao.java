@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -60,4 +61,19 @@ public class InMemoryDictEntryDao implements DictEntryDao {
 		dictEntries.removeIf(d -> d.getId().equals(dictEntry.getId()));
 		dictEntries.add(dictEntry);
 	}
+	
+	@Override
+	public boolean exists(long id) {
+		return dictEntries.stream().anyMatch(d -> d.getId() == id);
+	}
+	
+	@Override
+	public Optional<DictEntry> getTop() {
+		Comparator<DictEntry> effectiveRankComparator = (o1, o2) -> {
+			double diff = o1.getEffectiveRank() - o2.getEffectiveRank();
+			return diff < 0 ? -1 : 1;
+		};
+		return dictEntries.stream().max(effectiveRankComparator);
+	}
+	
 }

@@ -30,4 +30,12 @@ public class InMemoryDictionaryDao implements DictionaryDao {
 	public List<Dictionary> findAll() {
 		return new ArrayList<>(dicts);
 	}
+	
+	@Override
+	public Optional<Dictionary> findByLangs(String sourceLanguage, String targetLanguage) {
+		return dicts.stream().
+				filter(d -> d.getSourceLanguage().equals(sourceLanguage)).
+				filter(d -> d.getTargetLanguage().equals(targetLanguage)).
+				findAny();
+	}
 }

@@ -16,8 +16,6 @@ public class DictEntryDTO {
 	
 	public DictEntryDTO() {}
 	
-	;
-	
 	public DictEntryDTO(Long id, long dictionaryId, String word, String definition, double rank, String lastUse) {
 		this.id = id;
 		this.dictionaryId = dictionaryId;
