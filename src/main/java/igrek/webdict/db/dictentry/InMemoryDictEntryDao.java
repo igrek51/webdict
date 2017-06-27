@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -20,20 +21,25 @@ public class InMemoryDictEntryDao implements DictEntryDao {
 	
 	@Autowired
 	public InMemoryDictEntryDao(DictionaryDao dictionaryDao) {
-		dictEntries.add(new DictEntry(1L, 1, "ass", "dupa", 0, LocalDateTime.now()));
-		dictEntries.add(new DictEntry(2L, 1, "as", "gdy", 0, LocalDateTime.now()));
 		this.dictionaryDao = dictionaryDao;
+		addSampleEntry("ass", "dupa");
+		addSampleEntry("as", "gdy");
+		addSampleEntry("dick", "dik");
+	}
+	
+	private void addSampleEntry(String word, String definition) {
+		dictEntries.add(new DictEntry(getMaxId() + 1, 1, word, definition, 0, LocalDateTime.now()));
 	}
 	
 	@Override
-	public int count() {
+	public long count() {
 		return dictEntries.size();
 	}
 	
 	@Override
-	public Optional<DictEntry> findOne(long id) {
+	public Optional<DictEntry> findOne(Long id) {
 		return dictEntries.stream().
-				filter(d -> d.getId() == id).
+				filter(d -> Objects.equals(d.getId(), id)).
 				findAny();
 	}
 	
@@ -43,9 +49,8 @@ public class InMemoryDictEntryDao implements DictEntryDao {
 	}
 	
 	@Override
-	public List<DictEntry> getByDictionaryId(long dictionaryId) {
-		return dictEntries.stream()
-				.filter(d -> d.getDictionaryId() == dictionaryId)
+	public List<DictEntry> getByDictionaryId(Long dictionaryId) {
+		return dictEntries.stream().filter(d -> Objects.equals(d.getDictionaryId(), dictionaryId))
 				.collect(Collectors.toList());
 	}
 	
@@ -63,8 +68,8 @@ public class InMemoryDictEntryDao implements DictEntryDao {
 	}
 	
 	@Override
-	public boolean exists(long id) {
-		return dictEntries.stream().anyMatch(d -> d.getId() == id);
+	public boolean exists(Long id) {
+		return dictEntries.stream().anyMatch(d -> Objects.equals(d.getId(), id));
 	}
 	
 	@Override

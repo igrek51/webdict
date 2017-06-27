@@ -4,8 +4,16 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class DictEntry {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
 	private long dictionaryId;
@@ -82,8 +90,7 @@ public class DictEntry {
 		if (getLastUse() == null)
 			return 0;
 		
-		long elapsedSeconds = LocalDateTime.from(getLastUse())
-				.until(LocalDateTime.now(), ChronoUnit.SECONDS);
+		long elapsedSeconds = LocalDateTime.from(getLastUse()).until(LocalDateTime.now(), ChronoUnit.SECONDS);
 		long cooldownSeconds = COOLDOWN_TIME.getSeconds();
 		
 		if (elapsedSeconds >= cooldownSeconds)

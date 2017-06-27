@@ -10,11 +10,11 @@ import igrek.webdict.model.DictEntry;
 @Repository
 public interface DictEntryDao {
 	
-	int count();
+	long count();
 	
-	Optional<DictEntry> findOne(long id);
+	Optional<DictEntry> findOne(Long id);
 	
-	List<DictEntry> getByDictionaryId(long dictionaryId);
+	List<DictEntry> getByDictionaryId(Long dictionaryId);
 	
 	Optional<DictEntry> getTop();
 	
@@ -22,6 +22,6 @@ public interface DictEntryDao {
 	
 	void save(DictEntry dictEntry);
 	
-	boolean exists(long id);
+	boolean exists(Long id);
 	
 }
