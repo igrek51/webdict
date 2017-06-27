@@ -49,7 +49,7 @@ public class InMemoryDictEntryDao implements DictEntryDao {
 	}
 	
 	@Override
-	public List<DictEntry> getByDictionaryId(Long dictionaryId) {
+	public List<DictEntry> findByDictionaryId(Long dictionaryId) {
 		return dictEntries.stream().filter(d -> Objects.equals(d.getDictionaryId(), dictionaryId))
 				.collect(Collectors.toList());
 	}
@@ -74,10 +74,12 @@ public class InMemoryDictEntryDao implements DictEntryDao {
 	
 	@Override
 	public Optional<DictEntry> getTop() {
+		
 		Comparator<DictEntry> effectiveRankComparator = (o1, o2) -> {
 			double diff = o1.getEffectiveRank() - o2.getEffectiveRank();
 			return diff < 0 ? -1 : 1;
 		};
+		
 		return dictEntries.stream().max(effectiveRankComparator);
 	}
 	

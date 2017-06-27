@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,13 +32,20 @@ public class JpaDictEntryDao implements DictEntryDao {
 	}
 	
 	@Override
-	public List<DictEntry> getByDictionaryId(Long dictionaryId) {
-		return null; // TODO
+	public List<DictEntry> findByDictionaryId(Long dictionaryId) {
+		return dictEntryRepository.findByDictionaryId(dictionaryId);
 	}
 	
 	@Override
 	public Optional<DictEntry> getTop() {
-		return null; // TODO
+		List<DictEntry> entries = findAll();
+		
+		Comparator<DictEntry> effectiveRankComparator = (o1, o2) -> {
+			double diff = o1.getEffectiveRank() - o2.getEffectiveRank();
+			return diff < 0 ? -1 : 1;
+		};
+		
+		return entries.stream().max(effectiveRankComparator);
 	}
 	
 	@Override

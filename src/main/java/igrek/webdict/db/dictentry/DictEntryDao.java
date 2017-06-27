@@ -14,7 +14,7 @@ public interface DictEntryDao {
 	
 	Optional<DictEntry> findOne(Long id);
 	
-	List<DictEntry> getByDictionaryId(Long dictionaryId);
+	List<DictEntry> findByDictionaryId(Long dictionaryId);
 	
 	Optional<DictEntry> getTop();
 	
