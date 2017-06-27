@@ -29,6 +29,9 @@ public class DictEntry {
 	private final transient Duration COOLDOWN_TIME = Duration.ofMinutes(10);
 	private final transient double COOLDOWN_MAX_PENALTY = 20;
 	
+	public DictEntry() {
+	}
+	
 	public DictEntry(Long id, long dictionaryId, String word, String definition, double rank, LocalDateTime lastUse) {
 		this.id = id;
 		this.dictionaryId = dictionaryId;
@@ -90,7 +93,8 @@ public class DictEntry {
 		if (getLastUse() == null)
 			return 0;
 		
-		long elapsedSeconds = LocalDateTime.from(getLastUse()).until(LocalDateTime.now(), ChronoUnit.SECONDS);
+		long elapsedSeconds = LocalDateTime.from(getLastUse())
+				.until(LocalDateTime.now(), ChronoUnit.SECONDS);
 		long cooldownSeconds = COOLDOWN_TIME.getSeconds();
 		
 		if (elapsedSeconds >= cooldownSeconds)
