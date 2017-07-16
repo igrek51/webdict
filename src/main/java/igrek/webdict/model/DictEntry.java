@@ -104,6 +104,6 @@ public class DictEntry {
 	}
 	
 	public double getEffectiveRank() {
-		return getRank() + getCooldownPenalty();
+		return getRank() - getCooldownPenalty();
 	}
 }

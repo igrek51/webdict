@@ -19,7 +19,8 @@ import igrek.webdict.model.dto.parser.DictEntryDTOParser;
 @Controller
 @RequestMapping("/dict")
 public class DictEntryController {
-	
+	//TODO update endpoints names
+	//TODO botstrap js
 	private static final String VIEW_SUBDIR = "dict/";
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
