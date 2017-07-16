@@ -33,5 +33,9 @@
     </div>
 </div>
 
+<script>
+    dictEntryId = <c:out value="${entry.id}"/>;
+</script>
+
 </body>
 </html>
