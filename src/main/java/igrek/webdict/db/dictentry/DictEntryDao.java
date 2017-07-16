@@ -24,4 +24,6 @@ public interface DictEntryDao {
 	
 	boolean exists(Long id);
 	
+	Optional<DictEntry> findByWord(String word);
+	
 }

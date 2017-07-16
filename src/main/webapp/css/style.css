@@ -24,3 +24,8 @@ body {
 #dict-definition {
     min-height: 3em;
 }
+
+.row-form-add-word {
+    text-align: center;
+    margin-top: 10px;
+}

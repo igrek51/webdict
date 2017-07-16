@@ -12,4 +12,6 @@ public interface DictEntryRepository extends JpaRepository<DictEntry, Long> {
 	
 	List<DictEntry> findByDictionaryId(Long dictionaryId);
 	
+	List<DictEntry> findByWord(String word);
+	
 }

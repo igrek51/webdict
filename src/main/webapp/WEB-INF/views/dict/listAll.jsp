@@ -6,28 +6,39 @@
 <html>
 <head>
     <title>${title}</title>
-    <link href="<c:url value="/css/style.css" />" rel="stylesheet">
     <script src="<c:url value="/js/jquery-2.1.4.min.js" />"></script>
-    <script src="<c:url value="/js/welcome.js" />"></script>
+    <%-- Bootstrap --%>
+    <link href="<c:url value="/bootstrap/css/bootstrap.min.css" />" rel="stylesheet">
+    <link href="<c:url value="/bootstrap/css/bootstrap-theme.min.css" />" rel="stylesheet">
+    <script src="<c:url value="/bootstrap/js/bootstrap.min.js" />"></script>
+
+    <link href="<c:url value="/css/style.css" />" rel="stylesheet">
 </head>
 <body>
 
-<div id="outer">
-    <div id="inner">
-        <div>
-            <table>
-                <tr>
-                    <th>Word</th>
-                    <th>Definition</th>
-                </tr>
-                <c:forEach items="${entries}" var="entry">
+<div id="container" class="panel panel-default">
+    <div class="panel-body">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading" id="dict-word">Dictionary entries</div>
+            <div class="panel-body">
+                <table class="table">
                     <tr>
-                        <td><c:out value="${entry.word}"/></td>
-                        <td><c:out value="${entry.definition}"/></td>
+                        <th>Word</th>
+                        <th>Definition</th>
+                        <th>Rank</th>
                     </tr>
-                </c:forEach>
-            </table>
+                    <c:forEach items="${entries}" var="entry">
+                        <tr>
+                            <td><c:out value="${entry.word}"/></td>
+                            <td><c:out value="${entry.definition}"/></td>
+                            <td><c:out value="${entry.rank}"/></td>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </div>
         </div>
+
     </div>
 </div>
 

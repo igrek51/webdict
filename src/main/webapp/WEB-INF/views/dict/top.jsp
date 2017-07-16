@@ -6,13 +6,14 @@
 <html>
 <head>
     <title>${title}</title>
-    <link href="<c:url value="/css/style.css" />" rel="stylesheet">
     <script src="<c:url value="/js/jquery-2.1.4.min.js" />"></script>
-    <script src="<c:url value="/js/top.js" />"></script>
     <%-- Bootstrap --%>
     <link href="<c:url value="/bootstrap/css/bootstrap.min.css" />" rel="stylesheet">
     <link href="<c:url value="/bootstrap/css/bootstrap-theme.min.css" />" rel="stylesheet">
     <script src="<c:url value="/bootstrap/js/bootstrap.min.js" />"></script>
+
+    <link href="<c:url value="/css/style.css" />" rel="stylesheet">
+    <script src="<c:url value="/js/top.js" />"></script>
 </head>
 <body>
 

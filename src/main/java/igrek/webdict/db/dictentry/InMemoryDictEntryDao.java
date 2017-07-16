@@ -83,4 +83,10 @@ public class InMemoryDictEntryDao implements DictEntryDao {
 		return dictEntries.stream().max(effectiveRankComparator);
 	}
 	
+	@Override
+	public Optional<DictEntry> findByWord(String word) {
+		return dictEntries.stream().
+				filter(d -> Objects.equals(d.getWord(), word)).
+				findAny();
+	}
 }

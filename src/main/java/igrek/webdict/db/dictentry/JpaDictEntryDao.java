@@ -62,4 +62,9 @@ public class JpaDictEntryDao implements DictEntryDao {
 	public boolean exists(Long id) {
 		return dictEntryRepository.exists(id);
 	}
+	
+	@Override
+	public Optional<DictEntry> findByWord(String word) {
+		return dictEntryRepository.findByWord(word).stream().findAny();
+	}
 }
