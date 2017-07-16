@@ -3,15 +3,24 @@ body {
 }
 
 #container {
-    width: 50%;
+    width: 40%;
     margin: 10px auto 0;
-    padding: 30px;
-    text-align: center;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
-#button-answer-correct, #button-answer-wrong, #dict-definition {
+#button-answer-correct, #button-answer-wrong {
     display: none;
+}
+
+#dict-word {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+#buttons-panel {
+    text-align: center;
+}
+
+#dict-definition {
+    min-height: 3em;
 }

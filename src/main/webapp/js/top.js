@@ -1,10 +1,7 @@
 $(document).ready(function () {
     // bind action to buttons
     $("#button-check").click(function () {
-        $("#dict-definition").fadeIn(1000);
-        $("#button-answer-correct").fadeIn(1000);
-        $("#button-answer-wrong").fadeIn(1000);
-        $("#button-check").hide();
+        checkAnswer();
     });
 
     $("#button-skip").click(function () {
@@ -17,6 +14,17 @@ $(document).ready(function () {
         clickedEntryAction('answer/wrong');
     });
 });
+
+function checkAnswer() {
+    var fadeTime = 500;
+    $("#button-answer-correct").fadeIn(fadeTime);
+    $("#button-answer-wrong").fadeIn(fadeTime);
+    $("#button-check").hide();
+    $("#dict-definition")
+        .hide()
+        .text(dictEntryDefinition)
+        .fadeIn(fadeTime);
+}
 
 function ajaxPutRequest(endpoint, onSuccess) {
     $.ajax({
