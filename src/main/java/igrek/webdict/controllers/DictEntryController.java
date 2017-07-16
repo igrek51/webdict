@@ -34,7 +34,7 @@ public class DictEntryController {
 		this.dictEntryDao = dictEntryDao;
 	}
 	
-	@GetMapping("/showAll")
+	@GetMapping("/all")
 	public String listAll(Map<String, Object> model) {
 		model.put("title", "All dict entries");
 		
@@ -45,5 +45,17 @@ public class DictEntryController {
 		model.put("entries", entries);
 		
 		return VIEW_SUBDIR + "listAll"; // view listAll
+	}
+	
+	@GetMapping("/top")
+	public String showTop(Map<String, Object> model) {
+		model.put("title", "Top");
+		
+		DictEntryDTO dictEntry = dictEntryDao.getTop().
+				map(DictEntryDTOParser::parse).
+				orElse(null);
+		model.put("entry", dictEntry);
+		
+		return VIEW_SUBDIR + "top"; // view listAll
 	}
 }

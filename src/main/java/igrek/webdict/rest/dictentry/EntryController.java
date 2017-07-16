@@ -24,7 +24,7 @@ import igrek.webdict.model.dto.DictEntryDTO;
 import igrek.webdict.model.dto.parser.DictEntryDTOParser;
 
 @RestController
-@RequestMapping("/entry")
+@RequestMapping("/rest/entry")
 class EntryController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -57,7 +57,7 @@ class EntryController {
 			throw new IllegalArgumentException("object with given id already exists");
 		
 		dictEntryDao.save(dictEntry);
-		return new ResponseEntity<>(DictEntryDTOParser.parse(dictEntry), HttpStatus.OK);
+		return responseDictEntryOK(dictEntry);
 	}
 	
 	@PutMapping("/{id}")
@@ -71,22 +71,42 @@ class EntryController {
 			throw new IllegalArgumentException("object with given id doesn't exist");
 		
 		dictEntryDao.save(dictEntry);
-		return new ResponseEntity<>(DictEntryDTOParser.parse(dictEntry), HttpStatus.OK);
+		return responseDictEntryOK(dictEntry);
 	}
 	
 	@PutMapping("/{id}/rank")
 	public ResponseEntity<DictEntryDTO> updateRank(@PathVariable("id") long id, @RequestParam("rank") double rank) {
 		
-		Optional<DictEntry> oDictEntry = dictEntryDao.findOne(id);
-		if (!oDictEntry.isPresent())
-			throw new IllegalArgumentException("object with given id doesn't exist");
-		
-		DictEntry dictEntry = oDictEntry.get();
+		DictEntry dictEntry = findDictEntry(id);
 		dictEntry.setRank(rank);
-		dictEntry.setLastUse(LocalDateTime.now());
+		updateLastUse(dictEntry);
 		dictEntryDao.save(dictEntry);
 		
-		return new ResponseEntity<>(DictEntryDTOParser.parse(dictEntry), HttpStatus.OK);
+		return responseDictEntryOK(dictEntry);
+	}
+	
+	@PutMapping("/{id}/skip")
+	public ResponseEntity<DictEntryDTO> skipEntry(@PathVariable("id") long id) {
+		
+		DictEntry dictEntry = updateRelativeRank(id, 0);
+		
+		return responseDictEntryOK(dictEntry);
+	}
+	
+	@PutMapping("/{id}/answer/correct")
+	public ResponseEntity<DictEntryDTO> answerCorrect(@PathVariable("id") long id) {
+		
+		DictEntry dictEntry = updateRelativeRank(id, -1);
+		
+		return responseDictEntryOK(dictEntry);
+	}
+	
+	@PutMapping("/{id}/answer/wrong")
+	public ResponseEntity<DictEntryDTO> answerWrong(@PathVariable("id") long id) {
+		
+		DictEntry dictEntry = updateRelativeRank(id, +1);
+		
+		return responseDictEntryOK(dictEntry);
 	}
 	
 	@GetMapping("/top")
@@ -94,5 +114,30 @@ class EntryController {
 		return dictEntryDao.getTop().
 				map(DictEntryDTOParser::parse).
 				orElse(null);
+	}
+	
+	
+	private DictEntry findDictEntry(long id) {
+		Optional<DictEntry> oDictEntry = dictEntryDao.findOne(id);
+		if (!oDictEntry.isPresent())
+			throw new IllegalArgumentException("object with given id doesn't exist");
+		
+		return oDictEntry.get();
+	}
+	
+	private void updateLastUse(DictEntry dictEntry) {
+		dictEntry.setLastUse(LocalDateTime.now());
+	}
+	
+	private DictEntry updateRelativeRank(long id, double relativeRank) {
+		DictEntry dictEntry = findDictEntry(id);
+		dictEntry.setRank(dictEntry.getRank() + relativeRank);
+		updateLastUse(dictEntry);
+		dictEntryDao.save(dictEntry);
+		return dictEntry;
+	}
+	
+	private ResponseEntity<DictEntryDTO> responseDictEntryOK(DictEntry dictEntry) {
+		return new ResponseEntity<>(DictEntryDTOParser.parse(dictEntry), HttpStatus.OK);
 	}
 }

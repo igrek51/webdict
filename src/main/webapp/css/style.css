@@ -2,24 +2,16 @@ body {
     font-family: Arial, sans-serif;
 }
 
-#outer {
-    top: 50%;
-    left: 35%;
-    width: 30%;
-    height: 50%;
-    position: absolute;
-}
-
-#inner {
-    transform: translateY(-100%);
-    display: none;
-}
-
-#inner > div {
-    text-align: center;
-    margin: 10px 0;
+#container {
+    width: 50%;
+    margin: 10px auto 0;
     padding: 30px;
+    text-align: center;
     border: 1px solid #ddd;
     border-radius: 5px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+#button-answer-correct, #button-answer-wrong, #dict-definition {
+    display: none;
 }

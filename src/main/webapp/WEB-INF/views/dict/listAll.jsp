@@ -16,10 +16,14 @@
     <div id="inner">
         <div>
             <table>
+                <tr>
+                    <th>Word</th>
+                    <th>Definition</th>
+                </tr>
                 <c:forEach items="${entries}" var="entry">
                     <tr>
-                        <td>word: <c:out value="${entry.word}"/></td>
-                        <td>definition: <c:out value="${entry.definition}"/></td>
+                        <td><c:out value="${entry.word}"/></td>
+                        <td><c:out value="${entry.definition}"/></td>
                     </tr>
                 </c:forEach>
             </table>

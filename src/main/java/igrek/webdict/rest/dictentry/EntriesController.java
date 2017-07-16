@@ -23,7 +23,7 @@ import igrek.webdict.model.dto.DictEntryRanksDTO;
 import igrek.webdict.model.dto.parser.DictEntryDTOParser;
 
 @RestController
-@RequestMapping("/entries")
+@RequestMapping("/rest/entries")
 class EntriesController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());

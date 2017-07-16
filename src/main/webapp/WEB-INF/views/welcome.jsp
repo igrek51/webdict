@@ -6,7 +6,7 @@
 <html>
 <head>
     <title>Welcome</title>
-    <link href="<c:url value="/css/style.css" />" rel="stylesheet">
+    <link href="<c:url value="/css/style-hello.css" />" rel="stylesheet">
     <script src="<c:url value="/js/jquery-2.1.4.min.js" />"></script>
     <script src="<c:url value="/js/welcome.js" />"></script>
 </head>
