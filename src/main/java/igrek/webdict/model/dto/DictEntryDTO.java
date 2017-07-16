@@ -10,13 +10,13 @@ public class DictEntryDTO {
 	
 	private String definition;
 	
-	private double rank;
+	private String rank;
 	
 	private String lastUse;
 	
 	public DictEntryDTO() {}
 	
-	public DictEntryDTO(Long id, long dictionaryId, String word, String definition, double rank, String lastUse) {
+	public DictEntryDTO(Long id, long dictionaryId, String word, String definition, String rank, String lastUse) {
 		this.id = id;
 		this.dictionaryId = dictionaryId;
 		this.word = word;
@@ -57,11 +57,11 @@ public class DictEntryDTO {
 		this.definition = definition;
 	}
 	
-	public double getRank() {
+	public String getRank() {
 		return rank;
 	}
 	
-	public void setRank(double rank) {
+	public void setRank(String rank) {
 		this.rank = rank;
 	}
 	

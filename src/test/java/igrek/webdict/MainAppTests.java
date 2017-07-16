@@ -11,6 +11,7 @@ public class MainAppTests {
 
 	@Test
 	public void contextLoads() {
+		//TODO add tests: REST, view, inmemory
 	}
 
 }
