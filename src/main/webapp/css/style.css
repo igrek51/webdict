@@ -23,6 +23,7 @@ body {
 
 #dict-definition {
     min-height: 3em;
+    text-align: center;
 }
 
 .row-form-add-word {

@@ -11,13 +11,14 @@ public class DictEntryDTOParser {
 	private static final DateTimeFormatter LAST_USE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	
 	public static DictEntry parse(DictEntryDTO dto) {
-		LocalDateTime lastUse = LocalDateTime.parse(dto.getLastUse(), LAST_USE_FORMATTER);
+		LocalDateTime lastUse = dto.getLastUse() == null ? null : LocalDateTime.parse(dto.getLastUse(), LAST_USE_FORMATTER);
 		return new DictEntry(dto.getId(), dto.getDictionaryId(), dto.getWord(), dto.getDefinition(), dto
 				.getRank(), lastUse);
 	}
 	
 	public static DictEntryDTO parse(DictEntry dictEntry) {
-		String lastUse = dictEntry.getLastUse().format(LAST_USE_FORMATTER);
+		String lastUse = dictEntry.getLastUse() == null ? null : dictEntry.getLastUse()
+				.format(LAST_USE_FORMATTER);
 		return new DictEntryDTO(dictEntry.getId(), dictEntry.getDictionaryId(), dictEntry.getWord(), dictEntry
 				.getDefinition(), dictEntry.getRank(), lastUse);
 	}

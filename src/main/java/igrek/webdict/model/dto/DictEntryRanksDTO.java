@@ -25,8 +25,10 @@ public class DictEntryRanksDTO {
 		dto.rank = dictEntry.getRank();
 		dto.cooldownPenalty = dictEntry.getCooldownPenalty();
 		dto.effectiveRank = dictEntry.getEffectiveRank();
-		dto.lastUse = dictEntry.getLastUse()
-				.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+		if (dictEntry.getLastUse() != null) {
+			dto.lastUse = dictEntry.getLastUse()
+					.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+		}
 		return dto;
 	}
 }
