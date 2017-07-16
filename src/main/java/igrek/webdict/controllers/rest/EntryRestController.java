@@ -1,4 +1,4 @@
-package igrek.webdict.rest.dictentry;
+package igrek.webdict.controllers.rest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +25,7 @@ import igrek.webdict.model.dto.parser.DictEntryDTOParser;
 
 @RestController
 @RequestMapping("/rest/entry")
-class EntryController {
+class EntryRestController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -34,7 +34,7 @@ class EntryController {
 	private final DictEntryDao dictEntryDao;
 	
 	@Autowired
-	public EntryController(DictionaryDao dictionaryDao, DictEntryDao dictEntryDao) {
+	public EntryRestController(DictionaryDao dictionaryDao, DictEntryDao dictEntryDao) {
 		this.dictionaryDao = dictionaryDao;
 		this.dictEntryDao = dictEntryDao;
 	}

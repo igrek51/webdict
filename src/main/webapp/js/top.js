@@ -40,7 +40,7 @@ function ajaxPutRequest(endpoint, onSuccess) {
 }
 
 function clickedEntryAction(endpointAction) {
-    ajaxPutRequest('/rest/entry/' + dictEntryId + '/' + endpointAction, function () {
+    ajaxPutRequest('../rest/entry/' + dictEntryId + '/' + endpointAction, function () {
         refreshPage();
     });
 }

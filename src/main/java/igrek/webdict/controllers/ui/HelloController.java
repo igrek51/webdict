@@ -1,4 +1,4 @@
-package igrek.webdict.controllers;
+package igrek.webdict.controllers.ui;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/hello")
 public class HelloController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());

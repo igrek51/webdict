@@ -1,4 +1,4 @@
-package igrek.webdict.model.bootstrap.alert;
+package igrek.webdict.ui.alert;
 
 public class BootstrapAlert {
 	

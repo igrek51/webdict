@@ -1,4 +1,4 @@
-package igrek.webdict.controllers;
+package igrek.webdict.controllers.ui;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,16 +18,16 @@ import java.util.stream.Collectors;
 import igrek.webdict.db.dictentry.DictEntryDao;
 import igrek.webdict.db.dictionary.DictionaryDao;
 import igrek.webdict.model.DictEntry;
-import igrek.webdict.model.bootstrap.alert.BootstrapAlert;
-import igrek.webdict.model.bootstrap.alert.BootstrapAlertType;
 import igrek.webdict.model.dto.AddDictEntryDTO;
 import igrek.webdict.model.dto.DictEntryDTO;
 import igrek.webdict.model.dto.parser.DictEntryDTOParser;
+import igrek.webdict.ui.alert.BootstrapAlert;
+import igrek.webdict.ui.alert.BootstrapAlertType;
 
 @Controller
-@RequestMapping("/dict")
+@RequestMapping("/")
 public class DictEntryController {
-	//TODO update endpoints names
+	
 	private static final String VIEW_SUBDIR = "dict/";
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -42,6 +42,18 @@ public class DictEntryController {
 		this.dictEntryDao = dictEntryDao;
 	}
 	
+	@GetMapping({"", "/", "/top"})
+	public String showTop(Map<String, Object> model) {
+		model.put("title", "Top word");
+		
+		DictEntryDTO dictEntry = dictEntryDao.getTop().
+				map(DictEntryDTOParser::parse).
+				orElse(null);
+		model.put("entry", dictEntry);
+		
+		return VIEW_SUBDIR + "top";
+	}
+	
 	@GetMapping("/all")
 	public String listAll(Map<String, Object> model) {
 		model.put("title", "All dictionary entries");
@@ -53,18 +65,6 @@ public class DictEntryController {
 		model.put("entries", entries);
 		
 		return VIEW_SUBDIR + "listAll";
-	}
-	
-	@GetMapping("/top")
-	public String showTop(Map<String, Object> model) {
-		model.put("title", "Top word");
-		
-		DictEntryDTO dictEntry = dictEntryDao.getTop().
-				map(DictEntryDTOParser::parse).
-				orElse(null);
-		model.put("entry", dictEntry);
-		
-		return VIEW_SUBDIR + "top";
 	}
 	
 	@GetMapping("/add")
