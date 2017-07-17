@@ -27,7 +27,7 @@ import igrek.webdict.ui.alert.BootstrapAlertType;
 @Controller
 @RequestMapping("/")
 public class DictEntryController {
-	
+	//TODO search entry by name
 	private static final String VIEW_SUBDIR = "dict/";
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
