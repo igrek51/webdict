@@ -10,18 +10,14 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import igrek.webdict.db.dictionary.DictionaryDao;
 import igrek.webdict.model.DictEntry;
 
 public class InMemoryDictEntryDao implements DictEntryDao {
 	
 	private List<DictEntry> dictEntries = new ArrayList<>();
 	
-	private final DictionaryDao dictionaryDao;
-	
 	@Autowired
-	public InMemoryDictEntryDao(DictionaryDao dictionaryDao) {
-		this.dictionaryDao = dictionaryDao;
+	public InMemoryDictEntryDao() {
 		addSampleEntry("ass", "dupa");
 		addSampleEntry("as", "gdy");
 		addSampleEntry("dick", "dik");
