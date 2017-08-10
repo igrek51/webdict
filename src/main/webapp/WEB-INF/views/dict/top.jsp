@@ -29,9 +29,6 @@
                 <div id="dict-definition"></div>
             </div>
             <div class="panel-footer" id="buttons-panel">
-                <button type="button" id="button-skip" class="btn btn-primary">
-                    <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span> Skip
-                </button>
                 <button type="button" id="button-check" class="btn btn-default">
                     <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Check
                 </button>
@@ -40,6 +37,9 @@
                 </button>
                 <button type="button" id="button-answer-wrong" class="btn btn-danger">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Wrong
+                </button>
+                <button type="button" id="button-skip" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span> Skip
                 </button>
             </div>
         </div>
