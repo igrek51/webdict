@@ -15,9 +15,12 @@ Web application for vocabulary training with dynamic word rankings.
 * Tomcat / Wildfly
 * JavaScript
 * jQuery
+* AJAX
 * Maven
-* CSS
+* REST
 * JSON
+* CSS
+* Bootstrap
 * Git
 * HTML
 
