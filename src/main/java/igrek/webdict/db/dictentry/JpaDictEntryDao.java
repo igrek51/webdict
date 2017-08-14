@@ -5,11 +5,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
 import igrek.webdict.model.DictEntry;
+import igrek.webdict.model.TopEntryComparator;
 
 public class JpaDictEntryDao implements DictEntryDao {
 	
@@ -40,15 +40,10 @@ public class JpaDictEntryDao implements DictEntryDao {
 	@Override
 	public Optional<DictEntry> getTop() {
 		List<DictEntry> entries = findAll();
-		// shuffle list to get random entry when ranks are equal
+		// shuffle list in order to get random entry when ranks are equal
 		Collections.shuffle(entries);
 		
-		Comparator<DictEntry> effectiveRankComparator = (o1, o2) -> {
-			double diff = o1.getEffectiveRank() - o2.getEffectiveRank();
-			return diff < 0 ? -1 : 1;
-		};
-		
-		return entries.stream().max(effectiveRankComparator);
+		return entries.stream().min(new TopEntryComparator());
 	}
 	
 	@Override

@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import igrek.webdict.model.DictEntry;
+import igrek.webdict.model.TopEntryComparator;
 
 public class InMemoryDictEntryDao implements DictEntryDao {
 	
@@ -21,6 +21,7 @@ public class InMemoryDictEntryDao implements DictEntryDao {
 		addSampleEntry("ass", "dupa");
 		addSampleEntry("as", "gdy");
 		addSampleEntry("dick", "dik");
+		addSampleEntry("mock", "próbny");
 	}
 	
 	private void addSampleEntry(String word, String definition) {
@@ -70,13 +71,7 @@ public class InMemoryDictEntryDao implements DictEntryDao {
 	
 	@Override
 	public Optional<DictEntry> getTop() {
-		
-		Comparator<DictEntry> effectiveRankComparator = (o1, o2) -> {
-			double diff = o1.getEffectiveRank() - o2.getEffectiveRank();
-			return diff < 0 ? -1 : 1;
-		};
-		
-		return dictEntries.stream().max(effectiveRankComparator);
+		return dictEntries.stream().min(new TopEntryComparator());
 	}
 	
 	@Override
