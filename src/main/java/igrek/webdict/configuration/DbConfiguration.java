@@ -27,8 +27,8 @@ public class DbConfiguration {
 	@Configuration
 	@Profile("default")
 	@EnableAutoConfiguration
-	@EnableJpaRepositories
-	public static class DefaultDbConfiguration {
+	@EnableJpaRepositories(basePackageClasses = {DictEntryRepository.class})
+	public class DefaultDbConfiguration {
 		@Bean
 		public DictEntryDao provideDictEntryDao(DictEntryRepository dictEntryRepository) {
 			return new JpaDictEntryDao(dictEntryRepository);

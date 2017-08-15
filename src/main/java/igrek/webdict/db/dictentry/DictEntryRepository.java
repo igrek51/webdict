@@ -7,7 +7,7 @@ import java.util.List;
 
 import igrek.webdict.model.DictEntry;
 
-@Transactional()
+@Transactional
 public interface DictEntryRepository extends JpaRepository<DictEntry, Long> {
 	
 	List<DictEntry> findByDictionaryId(Long dictionaryId);
