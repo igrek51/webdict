@@ -1,41 +1,36 @@
 package igrek.webdict.db.dictionary;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
-import igrek.webdict.model.Dictionary;
+import igrek.webdict.db.common.BaseInMemoryDao;
+import igrek.webdict.db.language.LanguageDao;
+import igrek.webdict.model.entity.Dictionary;
+import igrek.webdict.model.entity.Language;
 
-public class InMemoryDictionaryDao implements DictionaryDao {
+public class InMemoryDictionaryDao extends BaseInMemoryDao<Dictionary> implements DictionaryDao {
 	
-	private List<Dictionary> dicts = new ArrayList<>();
+	private LanguageDao languageDao;
 	
-	public InMemoryDictionaryDao() {
-		dicts.add(new Dictionary(1L, "en", "pl"));
+	public InMemoryDictionaryDao(LanguageDao languageDao) {
+		this.languageDao = languageDao;
+		addSampleEntity("en", "pl");
+	}
+	
+	private void addSampleEntity(String sourceLanguageCode, String targetLanguageCode) {
+		Language sourceLang = languageDao.findByCode(sourceLanguageCode).get();
+		Language targetLang = languageDao.findByCode(targetLanguageCode).get();
+		super.addSampleEntity(new Dictionary(sourceLang, targetLang));
 	}
 	
 	@Override
-	public int count() {
-		return dicts.size();
-	}
-	
-	@Override
-	public Optional<Dictionary> findOne(long id) {
-		return dicts.stream().
-				filter(d -> d.getId() == id).
-				findAny();
-	}
-	
-	@Override
-	public List<Dictionary> findAll() {
-		return new ArrayList<>(dicts);
-	}
-	
-	@Override
-	public Optional<Dictionary> findByLangs(String sourceLanguage, String targetLanguage) {
-		return dicts.stream().
-				filter(d -> d.getSourceLanguage().equals(sourceLanguage)).
-				filter(d -> d.getTargetLanguage().equals(targetLanguage)).
+	public Optional<Dictionary> findByLanguages(String sourceLanguage, String targetLanguage) {
+		return entities.stream()
+				.
+						filter(dictionary -> Objects.equals(dictionary.getSourceLanguage(), sourceLanguage))
+				.
+						filter(dictionary -> Objects.equals(dictionary.getTargetLanguage(), targetLanguage))
+				.
 				findAny();
 	}
 }

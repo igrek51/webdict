@@ -23,7 +23,7 @@
 
         <div class="panel panel-primary">
             <div class="panel-heading" id="dict-word">
-                <c:out value="${entry.word}"/>
+                <c:out value="${entry.wordName}"/>
             </div>
             <div class="panel-body">
                 <div id="dict-definition"></div>
@@ -46,7 +46,7 @@
 
         <div class="well">
             <div class="dictentry-row">
-                Rank: <c:out value="${entry.rank}"/>
+                Rank: <c:out value="${entry.rankValue}"/>
             </div>
             <div class="dictentry-row">
                 Last use: <c:out value="${entry.lastUse}"/>
@@ -57,7 +57,7 @@
 </div>
 
 <script>
-    dictEntryId = <c:out value="${entry.id}"/>;
+    dictEntryId = <c:out value="${entry.rankId}"/>;
     dictEntryDefinition = "<c:out value="${entry.definition}"/>";
 </script>
 

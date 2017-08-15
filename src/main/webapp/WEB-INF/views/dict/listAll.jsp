@@ -30,9 +30,9 @@
                     </tr>
                     <c:forEach items="${entries}" var="entry">
                         <tr>
-                            <td><c:out value="${entry.word}"/></td>
+                            <td><c:out value="${entry.wordName}"/></td>
                             <td><c:out value="${entry.definition}"/></td>
-                            <td><c:out value="${entry.rank}"/></td>
+                            <td><c:out value="${entry.rankValue}"/></td>
                         </tr>
                     </c:forEach>
                 </table>

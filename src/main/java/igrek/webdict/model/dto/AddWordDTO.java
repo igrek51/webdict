@@ -1,14 +1,14 @@
 package igrek.webdict.model.dto;
 
-public class AddDictEntryDTO {
+public class AddWordDTO {
 	
 	private String word;
 	
 	private String definition;
 	
-	public AddDictEntryDTO() {}
+	public AddWordDTO() {}
 	
-	public AddDictEntryDTO(String word, String definition) {
+	public AddWordDTO(String word, String definition) {
 		this.word = word;
 		this.definition = definition;
 	}

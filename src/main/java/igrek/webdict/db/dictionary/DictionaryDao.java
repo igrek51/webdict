@@ -1,20 +1,12 @@
 package igrek.webdict.db.dictionary;
 
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
 import java.util.Optional;
 
-import igrek.webdict.model.Dictionary;
+import igrek.webdict.db.common.BaseDao;
+import igrek.webdict.model.entity.Dictionary;
 
-@Repository
-public interface DictionaryDao {
+public interface DictionaryDao extends BaseDao<Dictionary> {
 	
-	int count();
+	Optional<Dictionary> findByLanguages(String sourceLanguage, String targetLanguage);
 	
-	Optional<Dictionary> findOne(long id);
-	
-	Optional<Dictionary> findByLangs(String sourceLanguage, String targetLanguage);
-	
-	List<Dictionary> findAll();
 }

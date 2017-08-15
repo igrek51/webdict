@@ -31,7 +31,7 @@
                 </div>
             </c:forEach>
 
-            <form action="?" method="POST" modelAttribute="addDictEntryDTO">
+            <form action="?" method="POST" modelAttribute="addWordDTO">
 
                 <div class="input-group row-form-add-word">
                     <span class="input-group-addon" id="basic-addon1">Word</span>

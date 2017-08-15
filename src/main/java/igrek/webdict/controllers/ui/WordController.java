@@ -13,82 +13,101 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-import igrek.webdict.db.dictentry.DictEntryDao;
 import igrek.webdict.db.dictionary.DictionaryDao;
-import igrek.webdict.model.DictEntry;
-import igrek.webdict.model.dto.AddDictEntryDTO;
-import igrek.webdict.model.dto.DictEntryDTO;
-import igrek.webdict.model.dto.parser.DictEntryDTOParser;
+import igrek.webdict.db.rank.RankDao;
+import igrek.webdict.db.user.UserDao;
+import igrek.webdict.db.word.WordDao;
+import igrek.webdict.model.dto.AddWordDTO;
+import igrek.webdict.model.dto.WordRankDTO;
+import igrek.webdict.model.dto.parser.WordRankDTOParser;
+import igrek.webdict.model.entity.Dictionary;
+import igrek.webdict.model.entity.User;
+import igrek.webdict.model.entity.Word;
 import igrek.webdict.ui.alert.BootstrapAlert;
 import igrek.webdict.ui.alert.BootstrapAlertType;
 
 @Controller
 @RequestMapping("/")
-public class DictEntryController {
+public class WordController {
 	//TODO search entry by name
 	private static final String VIEW_SUBDIR = "dict/";
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	private final DictionaryDao dictionaryDao;
-	
-	private final DictEntryDao dictEntryDao;
+	private DictionaryDao dictionaryDao;
+	private WordDao wordDao;
+	private RankDao rankDao;
+	private UserDao userDao;
 	
 	@Autowired
-	public DictEntryController(DictionaryDao dictionaryDao, DictEntryDao dictEntryDao) {
+	public WordController(DictionaryDao dictionaryDao, WordDao wordDao, RankDao rankDao, UserDao userDao) {
 		this.dictionaryDao = dictionaryDao;
-		this.dictEntryDao = dictEntryDao;
+		this.wordDao = wordDao;
+		this.rankDao = rankDao;
+		this.userDao = userDao;
+	}
+	
+	private String view(String viewName) {
+		return VIEW_SUBDIR + viewName;
 	}
 	
 	@GetMapping({"", "/", "/top"})
 	public String showTop(Map<String, Object> model) {
 		model.put("title", "Top word");
 		
-		DictEntryDTO dictEntry = dictEntryDao.getTop().
-				map(DictEntryDTOParser::parse).
+		// TODO select dictionary and user from session or address
+		Dictionary dictionary = dictionaryDao.findAll().get(0);
+		User user = userDao.findAll().get(0);
+		boolean reversed = false;
+		
+		WordRankDTO dictEntry = rankDao.getTop(dictionary, reversed, user).
+				map(WordRankDTOParser::parse).
 				orElse(null);
 		model.put("entry", dictEntry);
 		
-		return VIEW_SUBDIR + "top";
+		return view("top");
 	}
 	
 	@GetMapping("/all")
 	public String listAll(Map<String, Object> model) {
 		model.put("title", "All dictionary entries");
 		
-		List<DictEntryDTO> entries = dictEntryDao.findAll()
-				.stream()
-				.map(DictEntryDTOParser::parse)
+		List<WordRankDTO> entries = rankDao.findAll()
+				.stream().map(WordRankDTOParser::parse)
 				.collect(Collectors.toList());
 		model.put("entries", entries);
 		
-		return VIEW_SUBDIR + "listAll";
+		return view("listAll");
 	}
 	
 	@GetMapping("/add")
 	public String addNew(Map<String, Object> model) {
 		model.put("title", "Add new word");
 		
-		return VIEW_SUBDIR + "add";
+		return view("add");
 	}
 	
 	@PostMapping("/add")
-	public String addNew(@ModelAttribute("addDictEntryDTO") AddDictEntryDTO addDictEntryDTO, Map<String, Object> model) {
+	public String addNew(@ModelAttribute("addWordDTO") AddWordDTO addWordDTO, Map<String, Object> model) {
 		model.put("title", "Add new word");
-		String view = VIEW_SUBDIR + "add";
+		String view = view("add");
 		List<BootstrapAlert> alerts = new ArrayList<>();
 		model.put("alerts", alerts);
 		
 		LocalDateTime lastUse = LocalDateTime.now();
 		double rank = 0;
 		// TODO select dictionary id from dropdown
-		long dictionaryId = 1;
-		String word = addDictEntryDTO.getWord();
-		String definition = addDictEntryDTO.getDefinition();
+		Optional<Dictionary> dictionary = dictionaryDao.findByLanguages("en", "pl");
+		User user = userDao.findAll().get(0);
+		boolean reversed = false;
 		
-		if (word == null || word.isEmpty()) {
+		String name = addWordDTO.getWord();
+		String definition = addWordDTO.getDefinition();
+		
+		if (name == null || name.isEmpty()) {
 			addAlert(alerts, "word is empty", BootstrapAlertType.ERROR);
 			return view;
 		}
@@ -99,17 +118,16 @@ public class DictEntryController {
 		}
 		
 		// TODO filter also by dictionary id
-		if (dictEntryDao.findByWord(word).isPresent()) {
-			addAlert(alerts, "word '" + word + "' already exists", BootstrapAlertType.ERROR);
+		if (wordDao.findByName(name).isPresent()) {
+			addAlert(alerts, "word '" + name + "' already exists", BootstrapAlertType.ERROR);
 			return view;
 		}
 		
-		DictEntry dictEntry = new DictEntry(null, dictionaryId, word, definition, rank, lastUse);
-		
-		dictEntryDao.save(dictEntry);
+		Word dictEntry = new Word(dictionary.get(), user, name, definition);
+		wordDao.save(dictEntry);
 		model.put("entry", dictEntry);
 		
-		addAlert(alerts, "Word '" + word + "' has been added successfully.", BootstrapAlertType.SUCCESS);
+		addAlert(alerts, "Word '" + name + "' has been added successfully.", BootstrapAlertType.SUCCESS);
 		return view;
 	}
 	

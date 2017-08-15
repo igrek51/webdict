@@ -2,12 +2,14 @@ package igrek.webdict.model;
 
 import java.util.Comparator;
 
-public class TopEntryComparator implements Comparator<DictEntry> {
+import igrek.webdict.model.entity.Rank;
+
+public class TopWordComparator implements Comparator<Rank> {
 	
 	@Override
-	public int compare(DictEntry o1, DictEntry o2) {
+	public int compare(Rank o1, Rank o2) {
 		// first - entries with highest effective rank
-		double diff = o2.getEffectiveRank() - o1.getEffectiveRank();
+		double diff = o2.getEffectiveRankValue() - o1.getEffectiveRankValue();
 		if (diff != 0)
 			return diff < 0 ? -1 : 1;
 		
