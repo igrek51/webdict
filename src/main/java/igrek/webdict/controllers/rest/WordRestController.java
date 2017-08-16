@@ -37,9 +37,7 @@ class WordRestController {
 	
 	@GetMapping({"", "all"})
 	public List<WordDTO> getAll() {
-		return wordDao.findAll()
-				.stream().map(WordDTO::createDTO)
-				.collect(Collectors.toList());
+		return wordDao.findAll().stream().map(WordDTO::createDTO).collect(Collectors.toList());
 	}
 	
 	@GetMapping("/{id}")
