@@ -33,13 +33,12 @@ License: Beerware
 mvn package
 ```
 
-### Run:
+### Run with Hibernate DB (MySQL):
 ```
 mvn spring-boot:run
 ```
 
 ### Run with in-memory DB:
 ```
-mvn spring-boot:run -Dspring.profiles.active=memdb
 mvn spring-boot:run -P memdb
 ```
