@@ -1,0 +1,98 @@
+package igrek.webdict.controllers.ui;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.context.annotation.SessionScope;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import igrek.webdict.db.dictionary.DictionaryDao;
+import igrek.webdict.db.user.UserDao;
+import igrek.webdict.model.DictionaryCode;
+import igrek.webdict.model.dto.SettingsDTO;
+import igrek.webdict.model.entity.Dictionary;
+import igrek.webdict.model.entity.User;
+import igrek.webdict.model.session.SessionSettings;
+
+@Controller
+@SessionScope
+@RequestMapping("/settings")
+public class SettingsController {
+	
+	private final SessionSettings sessionSettings;
+	private final UserDao userDao;
+	private final DictionaryDao dictionaryDao;
+	
+	@Autowired
+	public SettingsController(SessionSettings sessionSettings, UserDao userDao, DictionaryDao dictionaryDao) {
+		this.sessionSettings = sessionSettings;
+		this.userDao = userDao;
+		this.dictionaryDao = dictionaryDao;
+	}
+	
+	@GetMapping({"", "/"})
+	public String showSettings(Map<String, Object> model) {
+		model.put("title", "Settings");
+		
+		String userLogin = sessionSettings.getUser() == null ? null : sessionSettings.getUser()
+				.getLogin();
+		String dictionaryCode = sessionSettings.getDictionary() == null ? null : DictionaryCode.toDictionaryCode(sessionSettings
+				.getDictionary(), sessionSettings.isReversedDictionary());
+		SettingsDTO settingsDTO = new SettingsDTO(userLogin, dictionaryCode);
+		model.put("settingsDTO", settingsDTO);
+		
+		List<User> users = userDao.findAll();
+		Map<String, String> usersMap = new LinkedHashMap<>();
+		for (User user : users) {
+			usersMap.put(user.getLogin(), user.getLogin());
+		}
+		model.put("users", usersMap);
+		
+		List<Dictionary> dicts = dictionaryDao.findAll();
+		Map<String, String> dictsMap = new LinkedHashMap<>();
+		for (Dictionary dict : dicts) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(dict.getSourceLanguage().getCode());
+			sb.append(" -> ");
+			sb.append(dict.getTargetLanguage().getCode());
+			dictsMap.put(DictionaryCode.toDictionaryCode(dict, false), sb.toString());
+			//reversed
+			sb = new StringBuilder();
+			sb.append(dict.getSourceLanguage().getCode());
+			sb.append(" <- ");
+			sb.append(dict.getTargetLanguage().getCode());
+			dictsMap.put(DictionaryCode.toDictionaryCode(dict, true), sb.toString());
+		}
+		model.put("dictionaries", dictsMap);
+		
+		return "settings";
+	}
+	
+	@PostMapping({"", "/"})
+	public String showSettings(@ModelAttribute("settingsDTO") SettingsDTO settingsDTO, Map<String, Object> model) {
+		model.put("title", "Settings");
+		
+		// update user
+		Optional<User> oUser = userDao.findByLogin(settingsDTO.getUserLogin());
+		sessionSettings.setUser(oUser.get());
+		
+		// update dictionary and direction
+		DictionaryCode dictionaryCode = DictionaryCode.parse(settingsDTO.getDictionaryCode());
+		sessionSettings.setReversedDictionary(dictionaryCode.isReversedDictionary());
+		
+		Optional<Dictionary> oDictionary = dictionaryDao.findByLanguages(dictionaryCode.getSourceLanguage(), dictionaryCode
+				.getTargetLanguage());
+		sessionSettings.setDictionary(oDictionary.get());
+		
+		return "redirect:/settings";
+	}
+	
+	
+}

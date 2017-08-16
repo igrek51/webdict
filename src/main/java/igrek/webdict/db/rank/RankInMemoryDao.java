@@ -42,7 +42,9 @@ public class RankInMemoryDao extends BaseInMemoryDao<Rank> implements RankDao {
 				.filter(rank -> Objects.equals(rank.getWord()
 						.getDictionary()
 						.getId(), dictionary.getId()))
-				.filter(rank -> Objects.equals(rank.getWord().getUser().getId(), user.getId()))
+				.filter(rank -> rank.getWord().getUser() == null || Objects.equals(rank.getWord()
+						.getUser()
+						.getId(), user.getId()))
 				.collect(Collectors.toList());
 	}
 	
@@ -53,7 +55,9 @@ public class RankInMemoryDao extends BaseInMemoryDao<Rank> implements RankDao {
 				.filter(rank -> Objects.equals(rank.getWord()
 						.getDictionary()
 						.getId(), dictionary.getId()))
-				.filter(rank -> Objects.equals(rank.getWord().getUser().getId(), user.getId()))
+				.filter(rank -> rank.getWord().getUser() == null || Objects.equals(rank.getWord()
+						.getUser()
+						.getId(), user.getId()))
 				.min(new TopWordComparator());
 	}
 }

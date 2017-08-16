@@ -12,7 +12,9 @@ import igrek.webdict.model.entity.User;
 public class UserInMemoryDao extends BaseInMemoryDao<User> implements UserDao {
 	
 	public UserInMemoryDao() {
+		addSampleEntity("igrek", "dupa");
 		addSampleEntity("janusz", "dupa");
+		addSampleEntity("jancio", "dupa");
 	}
 	
 	private void addSampleEntity(String login, String pass) {

@@ -25,9 +25,11 @@ public class RankJpaDao extends BaseJpaDao<Rank> implements RankDao {
 	
 	@Override
 	public List<Rank> findByDictionary(Dictionary dictionary, boolean reversed, User user) {
-		return jpaRepository.findAll();
-		// TODO
-		//		return jpaRepository.findByDictionary(dictionary, reversed, user);
+		if (user == null) { // do not filter by user
+			return jpaRepository.findByDictionaryAndReversed(dictionary, reversed);
+		} else {
+			return jpaRepository.findByDictionaryAndReversedAndUser(dictionary, reversed, user);
+		}
 	}
 	
 	@Override

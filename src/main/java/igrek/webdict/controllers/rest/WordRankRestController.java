@@ -77,7 +77,7 @@ class WordRankRestController {
 		if (!oDictionary.isPresent()) {
 			throw new IllegalArgumentException("dictionary with given languages doesn't exist");
 		}
-		boolean reversed = dictCode.isReversed();
+		boolean reversed = dictCode.isReversedDictionary();
 		
 		return rankDao.getTop(oDictionary.get(), reversed, oUser.get())
 				.map(WordRankDTO::createDTO)

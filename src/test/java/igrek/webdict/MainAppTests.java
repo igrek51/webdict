@@ -13,7 +13,7 @@ public class MainAppTests {
 
 	@Test
 	public void contextLoads() {
-		//TODO add tests: REST, view, inmemory
+		//TODO add tests: REST, mvc view, inmemory
 	}
 
 }
