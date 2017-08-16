@@ -11,7 +11,7 @@ import java.util.Map;
 @RequestMapping("/hello")
 public class HelloController {
 	
-	@GetMapping(value = "/", produces = "text/plain")
+	@GetMapping(value = {"", "/"}, produces = "text/plain")
 	public @ResponseBody
 	String welcome() {
 		return "hello";
