@@ -32,13 +32,17 @@
                             <form:options items="${users}"/>
                         </form:select>
                     </div>
+
                     <div>
                         Dictionary:
                         <form:select path="dictionaryCode" class="form-control" id="dictionaryCode">
                             <form:options items="${dictionaries}"/>
                         </form:select>
                     </div>
-                    <input type="submit" value="save"/>
+
+                    <button type="submit" class="btn btn-success">
+                        Select
+                    </button>
                 </form:form>
 
             </div>
