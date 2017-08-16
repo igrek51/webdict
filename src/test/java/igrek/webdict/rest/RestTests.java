@@ -31,6 +31,5 @@ public class RestTests {
 		String body = this.restTemplate.getForObject("/hello", String.class);
 		assertThat(body).isEqualTo("hello");
 	}
-	//TODO add tests: REST, view, inmemory
 	
 }

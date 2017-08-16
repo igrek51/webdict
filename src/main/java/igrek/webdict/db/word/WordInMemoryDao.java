@@ -24,9 +24,9 @@ public class WordInMemoryDao extends BaseInMemoryDao<Word> implements WordDao {
 		this.dictionaryDao = dictionaryDao;
 		this.userDao = userDao;
 		
-		addSampleEntity("ass", "dupa");
 		addSampleEntity("dick", "dik");
 		addSampleEntity("moby dick", "taki wieloryb");
+		addSampleEntity("ass", "dupa");
 		addSampleEntity("mock", "próbny");
 	}
 	
