@@ -26,8 +26,10 @@ public class DictionaryInMemoryDao extends BaseInMemoryDao<Dictionary> implement
 	@Override
 	public Optional<Dictionary> findByLanguages(String sourceLanguage, String targetLanguage) {
 		return entities.stream()
-				.filter(dictionary -> Objects.equals(dictionary.getSourceLanguage(), sourceLanguage))
-				.filter(dictionary -> Objects.equals(dictionary.getTargetLanguage(), targetLanguage))
+				.filter(dictionary -> Objects.equals(dictionary.getSourceLanguage()
+						.getCode(), sourceLanguage))
+				.filter(dictionary -> Objects.equals(dictionary.getTargetLanguage()
+						.getCode(), targetLanguage))
 				.findAny();
 	}
 }

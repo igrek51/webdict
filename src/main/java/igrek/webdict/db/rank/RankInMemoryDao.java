@@ -2,6 +2,7 @@ package igrek.webdict.db.rank;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -13,6 +14,7 @@ import igrek.webdict.logic.TopWordComparator;
 import igrek.webdict.model.entity.Dictionary;
 import igrek.webdict.model.entity.Rank;
 import igrek.webdict.model.entity.User;
+import igrek.webdict.model.entity.Word;
 
 public class RankInMemoryDao extends BaseInMemoryDao<Rank> implements RankDao {
 	
@@ -21,13 +23,17 @@ public class RankInMemoryDao extends BaseInMemoryDao<Rank> implements RankDao {
 	@Autowired
 	public RankInMemoryDao(WordDao wordDao) {
 		this.wordDao = wordDao;
-		//TODO sample entities
+		
+		addSampleEntity("ass", false, 0);
+		addSampleEntity("dick", false, 0);
+		addSampleEntity("moby dick", false, 0);
+		addSampleEntity("mock", false, 0);
 	}
 	
-	// TODO
-	//	private void addSampleEntity(String word, String definition) {
-	//		super.addSampleEntity(new Word(dictionary, user, word, String definition));
-	//	}
+	private void addSampleEntity(String wordName, boolean reversed, double rankValue) {
+		Optional<Word> oWord = wordDao.findByName(wordName);
+		super.addSampleEntity(new Rank(oWord.get(), reversed, LocalDateTime.now(), rankValue));
+	}
 	
 	@Override
 	public List<Rank> findByDictionary(Dictionary dictionary, boolean reversed, User user) {

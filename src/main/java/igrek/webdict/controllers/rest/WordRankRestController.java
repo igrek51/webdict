@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,7 +46,7 @@ class WordRankRestController {
 	}
 	
 	@GetMapping("/tops")
-	public List<WordRanksDetailsDTO> getAllTop() {
+	public List<WordRanksDetailsDTO> getAllOrderByTop() {
 		List<WordRanksDetailsDTO> dtos = rankDao.findAll()
 				.stream()
 				.sorted(new TopWordComparator())
@@ -84,17 +84,17 @@ class WordRankRestController {
 				.orElse(null);
 	}
 	
-	@PutMapping("/{rankId}/skip")
+	@PostMapping("/{rankId}/skip")
 	public ResponseEntity<WordRankDTO> skipEntry(@PathVariable("rankId") long rankId) {
 		return responseDictEntryOK(updateRankRelative(rankId, 0));
 	}
 	
-	@PutMapping("/{rankId}/answer/correct")
+	@PostMapping("/{rankId}/answer/correct")
 	public ResponseEntity<WordRankDTO> answerCorrect(@PathVariable("rankId") long rankId) {
 		return responseDictEntryOK(updateRankRelative(rankId, -1));
 	}
 	
-	@PutMapping("/{rankId}/answer/wrong")
+	@PostMapping("/{rankId}/answer/wrong")
 	public ResponseEntity<WordRankDTO> answerWrong(@PathVariable("rankId") long rankId) {
 		return responseDictEntryOK(updateRankRelative(rankId, +1));
 	}

@@ -28,7 +28,7 @@ function checkAnswer() {
 
 function ajaxPutRequest(endpoint, onSuccess) {
     $.ajax({
-        type: "PUT",
+        type: "POST",
         url: endpoint,
         success: function (data) {
             onSuccess();

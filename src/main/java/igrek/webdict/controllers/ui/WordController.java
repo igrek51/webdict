@@ -91,8 +91,10 @@ public class WordController {
 		List<BootstrapAlert> alerts = new ArrayList<>();
 		model.put("alerts", alerts);
 		
-		// TODO select dictionary id from dropdown
+		// TODO select dictionary id from dropdown or session
 		Optional<Dictionary> dictionary = dictionaryDao.findByLanguages("en", "pl");
+		if (!dictionary.isPresent())
+			throw new IllegalArgumentException("no such dictionary");
 		User user = userDao.findAll().get(0);
 		
 		String name = addWordDTO.getWord();
