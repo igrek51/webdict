@@ -22,7 +22,7 @@ function checkAnswer() {
     $("#button-check").hide();
     $("#dict-definition")
         .hide()
-        .text(dictEntryDefinition)
+        .text(wordDefinition)
         .fadeIn(fadeTime);
 }
 
@@ -40,12 +40,11 @@ function ajaxPutRequest(endpoint, onSuccess) {
 }
 
 function clickedEntryAction(endpointAction) {
-    ajaxPutRequest(window.location.href + '/../rest/entry/' + dictEntryId + '/' + endpointAction, function () {
+    ajaxPutRequest(window.location.href + '/../rest/rank/' + rankId + '/' + endpointAction, function () {
         refreshPage();
     });
 }
 
 function refreshPage() {
-    // window.location.replace("top");
     location.reload();
 }

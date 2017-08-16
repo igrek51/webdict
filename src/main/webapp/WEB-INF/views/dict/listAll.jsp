@@ -20,7 +20,7 @@
     <div class="panel-body">
 
         <div class="panel panel-primary">
-            <div class="panel-heading" id="dict-word">Dictionary entries</div>
+            <div class="panel-heading" id="dict-word">Dictionary words</div>
             <div class="panel-body">
                 <table class="table">
                     <tr>
@@ -28,11 +28,11 @@
                         <th>Definition</th>
                         <th>Rank</th>
                     </tr>
-                    <c:forEach items="${entries}" var="entry">
+                    <c:forEach items="${wordranks}" var="wordrank">
                         <tr>
-                            <td><c:out value="${entry.wordName}"/></td>
-                            <td><c:out value="${entry.definition}"/></td>
-                            <td><c:out value="${entry.rankValue}"/></td>
+                            <td><c:out value="${wordrank.wordName}"/></td>
+                            <td><c:out value="${wordrank.definition}"/></td>
+                            <td><c:out value="${wordrank.rankValue}"/></td>
                         </tr>
                     </c:forEach>
                 </table>

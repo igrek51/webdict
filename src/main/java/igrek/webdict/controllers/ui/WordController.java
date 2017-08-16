@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,7 @@ import igrek.webdict.db.word.WordDao;
 import igrek.webdict.model.dto.AddWordDTO;
 import igrek.webdict.model.dto.WordRankDTO;
 import igrek.webdict.model.entity.Dictionary;
+import igrek.webdict.model.entity.Rank;
 import igrek.webdict.model.entity.User;
 import igrek.webdict.model.entity.Word;
 import igrek.webdict.ui.alert.BootstrapAlert;
@@ -55,22 +57,22 @@ public class WordController {
 		User user = userDao.findAll().get(0);
 		boolean reversed = false;
 		
-		WordRankDTO dictEntry = rankDao.getTop(dictionary, reversed, user)
+		WordRankDTO wordrank = rankDao.getTop(dictionary, reversed, user)
 				.map(WordRankDTO::createDTO)
 				.orElse(null);
 		
-		model.put("entry", dictEntry);
+		model.put("wordrank", wordrank);
 		
 		return view("top");
 	}
 	
 	@GetMapping("/all")
 	public String listAll(Map<String, Object> model) {
-		model.put("title", "All dictionary entries");
+		model.put("title", "All dictionary words");
 		
 		List<WordRankDTO> entries = rankDao.findAll().stream().map(WordRankDTO::createDTO)
 				.collect(Collectors.toList());
-		model.put("entries", entries);
+		model.put("wordranks", entries);
 		
 		return view("listAll");
 	}
@@ -112,11 +114,21 @@ public class WordController {
 			return view;
 		}
 		
+		// create word
 		Word word = new Word(dictionary.get(), user, name, definition);
 		wordDao.save(word);
 		model.put("word", word);
 		
+		// create initial ranks
+		LocalDateTime lastUse = LocalDateTime.now();
+		double rankValue = 0;
+		boolean reversed = false;
+		Rank rank = new Rank(word, reversed, lastUse, rankValue);
+		rankDao.save(rank);
+		
 		addAlert(alerts, "Word '" + name + "' has been added successfully.", BootstrapAlertType.SUCCESS);
+		logger.info("new word has been added: " + name + ": " + definition);
+		
 		return view;
 	}
 	
