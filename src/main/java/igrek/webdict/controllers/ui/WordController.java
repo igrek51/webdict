@@ -22,7 +22,6 @@ import igrek.webdict.db.user.UserDao;
 import igrek.webdict.db.word.WordDao;
 import igrek.webdict.model.dto.AddWordDTO;
 import igrek.webdict.model.dto.WordRankDTO;
-import igrek.webdict.model.dto.parser.WordRankDTOParser;
 import igrek.webdict.model.entity.Dictionary;
 import igrek.webdict.model.entity.User;
 import igrek.webdict.model.entity.Word;
@@ -32,15 +31,13 @@ import igrek.webdict.ui.alert.BootstrapAlertType;
 @Controller
 @RequestMapping("/")
 public class WordController {
-	//TODO search entry by name
-	private static final String VIEW_SUBDIR = "dict/";
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	private DictionaryDao dictionaryDao;
-	private WordDao wordDao;
-	private RankDao rankDao;
-	private UserDao userDao;
+	private final DictionaryDao dictionaryDao;
+	private final WordDao wordDao;
+	private final RankDao rankDao;
+	private final UserDao userDao;
 	
 	@Autowired
 	public WordController(DictionaryDao dictionaryDao, WordDao wordDao, RankDao rankDao, UserDao userDao) {
@@ -51,7 +48,7 @@ public class WordController {
 	}
 	
 	private String view(String viewName) {
-		return VIEW_SUBDIR + viewName;
+		return "dict/" + viewName;
 	}
 	
 	@GetMapping({"", "/", "/top"})
@@ -64,7 +61,7 @@ public class WordController {
 		boolean reversed = false;
 		
 		WordRankDTO dictEntry = rankDao.getTop(dictionary, reversed, user).
-				map(WordRankDTOParser::parse).
+				map(WordRankDTOConverter::toDTO).
 				orElse(null);
 		model.put("entry", dictEntry);
 		
@@ -75,8 +72,7 @@ public class WordController {
 	public String listAll(Map<String, Object> model) {
 		model.put("title", "All dictionary entries");
 		
-		List<WordRankDTO> entries = rankDao.findAll()
-				.stream().map(WordRankDTOParser::parse)
+		List<WordRankDTO> entries = rankDao.findAll().stream().map(WordRankDTOConverter::toDTO)
 				.collect(Collectors.toList());
 		model.put("entries", entries);
 		

@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 import igrek.webdict.db.common.BaseInMemoryDao;
 import igrek.webdict.db.word.WordDao;
-import igrek.webdict.model.TopWordComparator;
+import igrek.webdict.logic.TopWordComparator;
 import igrek.webdict.model.entity.Dictionary;
 import igrek.webdict.model.entity.Rank;
 import igrek.webdict.model.entity.User;

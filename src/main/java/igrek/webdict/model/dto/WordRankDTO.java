@@ -1,5 +1,11 @@
 package igrek.webdict.model.dto;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.time.format.DateTimeFormatter;
+
+import igrek.webdict.model.entity.Rank;
+
 public class WordRankDTO {
 	
 	private Long rankId;
@@ -29,47 +35,35 @@ public class WordRankDTO {
 		return rankId;
 	}
 	
-	public void setRankId(Long rankId) {
-		this.rankId = rankId;
-	}
-	
 	public long getDictionaryId() {
 		return dictionaryId;
-	}
-	
-	public void setDictionaryId(long dictionaryId) {
-		this.dictionaryId = dictionaryId;
 	}
 	
 	public String getWordName() {
 		return wordName;
 	}
 	
-	public void setWordName(String wordName) {
-		this.wordName = wordName;
-	}
-	
 	public String getDefinition() {
 		return definition;
-	}
-	
-	public void setDefinition(String definition) {
-		this.definition = definition;
 	}
 	
 	public String getRankValue() {
 		return rankValue;
 	}
 	
-	public void setRankValue(String rankValue) {
-		this.rankValue = rankValue;
-	}
-	
 	public String getLastUse() {
 		return lastUse;
 	}
 	
-	public void setLastUse(String lastUse) {
-		this.lastUse = lastUse;
+	private static final DateTimeFormatter LAST_USE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	
+	public static WordRankDTO createDTO(Rank rank) {
+		String lastUse = rank.getLastUse() == null ? null : rank.getLastUse()
+				.format(LAST_USE_FORMATTER);
+		DecimalFormat df = new DecimalFormat("#.#");
+		df.setRoundingMode(RoundingMode.HALF_UP);
+		String rankValue = df.format(rank.getRankValue());
+		return new WordRankDTO(rank.getId(), rank.getWord().getDictionary().getId(), rank.getWord()
+				.getName(), rank.getWord().getDefinition(), rankValue, lastUse);
 	}
 }

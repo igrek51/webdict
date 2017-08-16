@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import igrek.webdict.db.common.BaseJpaDao;
-import igrek.webdict.model.TopWordComparator;
+import igrek.webdict.logic.TopWordComparator;
 import igrek.webdict.model.entity.Dictionary;
 import igrek.webdict.model.entity.Rank;
 import igrek.webdict.model.entity.User;

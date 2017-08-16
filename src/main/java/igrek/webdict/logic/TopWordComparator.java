@@ -1,4 +1,4 @@
-package igrek.webdict.model;
+package igrek.webdict.logic;
 
 import java.util.Comparator;
 

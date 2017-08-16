@@ -19,7 +19,7 @@ public class WordRanksDetailsDTO {
 	
 	public String lastUse;
 	
-	public static WordRanksDetailsDTO createRank(Rank rank) {
+	public static WordRanksDetailsDTO createDTO(Rank rank) {
 		WordRanksDetailsDTO dto = new WordRanksDetailsDTO();
 		Word word = rank.getWord();
 		dto.rankId = rank.getId();
