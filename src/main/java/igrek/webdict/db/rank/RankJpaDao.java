@@ -12,12 +12,12 @@ import igrek.webdict.model.entity.Dictionary;
 import igrek.webdict.model.entity.Rank;
 import igrek.webdict.model.entity.User;
 
-public class JpaRankDao extends BaseJpaDao<Rank> implements RankDao {
+public class RankJpaDao extends BaseJpaDao<Rank> implements RankDao {
 	
 	private final RankJpaRepository jpaRepository;
 	
 	@Autowired
-	public JpaRankDao(RankJpaRepository jpaRepository) {
+	public RankJpaDao(RankJpaRepository jpaRepository) {
 		
 		super(jpaRepository);
 		this.jpaRepository = jpaRepository;

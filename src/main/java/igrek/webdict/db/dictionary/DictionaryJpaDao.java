@@ -9,13 +9,13 @@ import igrek.webdict.db.language.LanguageDao;
 import igrek.webdict.model.entity.Dictionary;
 import igrek.webdict.model.entity.Language;
 
-public class JpaDictionaryDao extends BaseJpaDao<Dictionary> implements DictionaryDao {
+public class DictionaryJpaDao extends BaseJpaDao<Dictionary> implements DictionaryDao {
 	
 	private final DictionaryJpaRepository jpaRepository;
 	private LanguageDao languageDao;
 	
 	@Autowired
-	public JpaDictionaryDao(DictionaryJpaRepository jpaRepository, LanguageDao languageDao) {
+	public DictionaryJpaDao(DictionaryJpaRepository jpaRepository, LanguageDao languageDao) {
 		super(jpaRepository);
 		this.jpaRepository = jpaRepository;
 		this.languageDao = languageDao;

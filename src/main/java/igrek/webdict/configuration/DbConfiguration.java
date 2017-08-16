@@ -10,24 +10,24 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import igrek.webdict.db.dictionary.DictionaryDao;
+import igrek.webdict.db.dictionary.DictionaryInMemoryDao;
+import igrek.webdict.db.dictionary.DictionaryJpaDao;
 import igrek.webdict.db.dictionary.DictionaryJpaRepository;
-import igrek.webdict.db.dictionary.InMemoryDictionaryDao;
-import igrek.webdict.db.dictionary.JpaDictionaryDao;
-import igrek.webdict.db.language.InMemoryLanguageDao;
-import igrek.webdict.db.language.JpaLanguageDao;
 import igrek.webdict.db.language.LanguageDao;
+import igrek.webdict.db.language.LanguageInMemoryDao;
+import igrek.webdict.db.language.LanguageJpaDao;
 import igrek.webdict.db.language.LanguageJpaRepository;
-import igrek.webdict.db.rank.InMemoryRankDao;
-import igrek.webdict.db.rank.JpaRankDao;
 import igrek.webdict.db.rank.RankDao;
+import igrek.webdict.db.rank.RankInMemoryDao;
+import igrek.webdict.db.rank.RankJpaDao;
 import igrek.webdict.db.rank.RankJpaRepository;
-import igrek.webdict.db.user.InMemoryUserDao;
-import igrek.webdict.db.user.JpaUserDao;
 import igrek.webdict.db.user.UserDao;
+import igrek.webdict.db.user.UserInMemoryDao;
+import igrek.webdict.db.user.UserJpaDao;
 import igrek.webdict.db.user.UserJpaRepository;
-import igrek.webdict.db.word.InMemoryWordDao;
-import igrek.webdict.db.word.JpaWordDao;
 import igrek.webdict.db.word.WordDao;
+import igrek.webdict.db.word.WordInMemoryDao;
+import igrek.webdict.db.word.WordJpaDao;
 import igrek.webdict.db.word.WordJpaRepository;
 
 @Configuration
@@ -40,27 +40,27 @@ public class DbConfiguration {
 	public class DefaultDbConfiguration {
 		@Bean
 		public WordDao provideWordDao(WordJpaRepository wordJpaRepository) {
-			return new JpaWordDao(wordJpaRepository);
+			return new WordJpaDao(wordJpaRepository);
 		}
 		
 		@Bean
 		public DictionaryDao provideDictionaryDao(DictionaryJpaRepository jpaRepository, LanguageDao languageDao) {
-			return new JpaDictionaryDao(jpaRepository, languageDao);
+			return new DictionaryJpaDao(jpaRepository, languageDao);
 		}
 		
 		@Bean
 		public UserDao provideUserDao(UserJpaRepository jpaRepository) {
-			return new JpaUserDao(jpaRepository);
+			return new UserJpaDao(jpaRepository);
 		}
 		
 		@Bean
 		public LanguageDao provideLanguageDao(LanguageJpaRepository jpaRepository) {
-			return new JpaLanguageDao(jpaRepository);
+			return new LanguageJpaDao(jpaRepository);
 		}
 		
 		@Bean
 		public RankDao provideRankDao(RankJpaRepository jpaRepository) {
-			return new JpaRankDao(jpaRepository);
+			return new RankJpaDao(jpaRepository);
 		}
 	}
 	
@@ -70,27 +70,27 @@ public class DbConfiguration {
 	public class MemDbConfiguration {
 		@Bean
 		public WordDao provideWordDao(DictionaryDao dictionaryDao, UserDao userDao) {
-			return new InMemoryWordDao(dictionaryDao, userDao);
+			return new WordInMemoryDao(dictionaryDao, userDao);
 		}
 		
 		@Bean
 		public DictionaryDao provideDictionaryDao(LanguageDao languageDao) {
-			return new InMemoryDictionaryDao(languageDao);
+			return new DictionaryInMemoryDao(languageDao);
 		}
 		
 		@Bean
 		public UserDao provideUserDao() {
-			return new InMemoryUserDao();
+			return new UserInMemoryDao();
 		}
 		
 		@Bean
 		public LanguageDao provideLanguageDao() {
-			return new InMemoryLanguageDao();
+			return new LanguageInMemoryDao();
 		}
 		
 		@Bean
 		public RankDao provideRankDao(WordDao wordDao) {
-			return new InMemoryRankDao(wordDao);
+			return new RankInMemoryDao(wordDao);
 		}
 	}
 	

@@ -6,9 +6,9 @@ import java.util.Optional;
 import igrek.webdict.db.common.BaseInMemoryDao;
 import igrek.webdict.model.entity.Language;
 
-public class InMemoryLanguageDao extends BaseInMemoryDao<Language> implements LanguageDao {
+public class LanguageInMemoryDao extends BaseInMemoryDao<Language> implements LanguageDao {
 	
-	public InMemoryLanguageDao() {
+	public LanguageInMemoryDao() {
 		addSampleEntity("en");
 		addSampleEntity("pl");
 	}

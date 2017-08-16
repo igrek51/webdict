@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -47,10 +46,6 @@ public class WordController {
 		this.userDao = userDao;
 	}
 	
-	private String view(String viewName) {
-		return "dict/" + viewName;
-	}
-	
 	@GetMapping({"", "/", "/top"})
 	public String showTop(Map<String, Object> model) {
 		model.put("title", "Top word");
@@ -60,9 +55,10 @@ public class WordController {
 		User user = userDao.findAll().get(0);
 		boolean reversed = false;
 		
-		WordRankDTO dictEntry = rankDao.getTop(dictionary, reversed, user).
-				map(WordRankDTOConverter::toDTO).
-				orElse(null);
+		WordRankDTO dictEntry = rankDao.getTop(dictionary, reversed, user)
+				.map(WordRankDTO::createDTO)
+				.orElse(null);
+		
 		model.put("entry", dictEntry);
 		
 		return view("top");
@@ -72,7 +68,7 @@ public class WordController {
 	public String listAll(Map<String, Object> model) {
 		model.put("title", "All dictionary entries");
 		
-		List<WordRankDTO> entries = rankDao.findAll().stream().map(WordRankDTOConverter::toDTO)
+		List<WordRankDTO> entries = rankDao.findAll().stream().map(WordRankDTO::createDTO)
 				.collect(Collectors.toList());
 		model.put("entries", entries);
 		
@@ -82,7 +78,6 @@ public class WordController {
 	@GetMapping("/add")
 	public String addNew(Map<String, Object> model) {
 		model.put("title", "Add new word");
-		
 		return view("add");
 	}
 	
@@ -90,41 +85,43 @@ public class WordController {
 	public String addNew(@ModelAttribute("addWordDTO") AddWordDTO addWordDTO, Map<String, Object> model) {
 		model.put("title", "Add new word");
 		String view = view("add");
+		// bootstrap alerts
 		List<BootstrapAlert> alerts = new ArrayList<>();
 		model.put("alerts", alerts);
 		
-		LocalDateTime lastUse = LocalDateTime.now();
-		double rank = 0;
 		// TODO select dictionary id from dropdown
 		Optional<Dictionary> dictionary = dictionaryDao.findByLanguages("en", "pl");
 		User user = userDao.findAll().get(0);
-		boolean reversed = false;
 		
 		String name = addWordDTO.getWord();
 		String definition = addWordDTO.getDefinition();
 		
 		if (name == null || name.isEmpty()) {
-			addAlert(alerts, "word is empty", BootstrapAlertType.ERROR);
+			addAlert(alerts, "word field is empty", BootstrapAlertType.ERROR);
 			return view;
 		}
 		
 		if (definition == null || definition.isEmpty()) {
-			addAlert(alerts, "definition is empty", BootstrapAlertType.ERROR);
+			addAlert(alerts, "definition field is empty", BootstrapAlertType.ERROR);
 			return view;
 		}
 		
-		// TODO filter also by dictionary id
+		// TODO filter also by dictionary id and user
 		if (wordDao.findByName(name).isPresent()) {
 			addAlert(alerts, "word '" + name + "' already exists", BootstrapAlertType.ERROR);
 			return view;
 		}
 		
-		Word dictEntry = new Word(dictionary.get(), user, name, definition);
-		wordDao.save(dictEntry);
-		model.put("entry", dictEntry);
+		Word word = new Word(dictionary.get(), user, name, definition);
+		wordDao.save(word);
+		model.put("word", word);
 		
 		addAlert(alerts, "Word '" + name + "' has been added successfully.", BootstrapAlertType.SUCCESS);
 		return view;
+	}
+	
+	private String view(String viewName) {
+		return "dict/" + viewName;
 	}
 	
 	private void addAlert(List<BootstrapAlert> alerts, String message, BootstrapAlertType type) {

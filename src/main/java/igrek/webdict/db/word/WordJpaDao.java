@@ -8,12 +8,12 @@ import java.util.Optional;
 import igrek.webdict.db.common.BaseJpaDao;
 import igrek.webdict.model.entity.Word;
 
-public class JpaWordDao extends BaseJpaDao<Word> implements WordDao {
+public class WordJpaDao extends BaseJpaDao<Word> implements WordDao {
 	
 	private final WordJpaRepository jpaRepository;
 	
 	@Autowired
-	public JpaWordDao(WordJpaRepository jpaRepository) {
+	public WordJpaDao(WordJpaRepository jpaRepository) {
 		super(jpaRepository);
 		this.jpaRepository = jpaRepository;
 	}

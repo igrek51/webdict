@@ -9,9 +9,9 @@ import java.util.Optional;
 import igrek.webdict.db.common.BaseInMemoryDao;
 import igrek.webdict.model.entity.User;
 
-public class InMemoryUserDao extends BaseInMemoryDao<User> implements UserDao {
+public class UserInMemoryDao extends BaseInMemoryDao<User> implements UserDao {
 	
-	public InMemoryUserDao() {
+	public UserInMemoryDao() {
 		addSampleEntity("janusz", "dupa");
 	}
 	

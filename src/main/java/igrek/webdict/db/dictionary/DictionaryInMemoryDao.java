@@ -8,11 +8,11 @@ import igrek.webdict.db.language.LanguageDao;
 import igrek.webdict.model.entity.Dictionary;
 import igrek.webdict.model.entity.Language;
 
-public class InMemoryDictionaryDao extends BaseInMemoryDao<Dictionary> implements DictionaryDao {
+public class DictionaryInMemoryDao extends BaseInMemoryDao<Dictionary> implements DictionaryDao {
 	
 	private LanguageDao languageDao;
 	
-	public InMemoryDictionaryDao(LanguageDao languageDao) {
+	public DictionaryInMemoryDao(LanguageDao languageDao) {
 		this.languageDao = languageDao;
 		addSampleEntity("en", "pl");
 	}
@@ -26,11 +26,8 @@ public class InMemoryDictionaryDao extends BaseInMemoryDao<Dictionary> implement
 	@Override
 	public Optional<Dictionary> findByLanguages(String sourceLanguage, String targetLanguage) {
 		return entities.stream()
-				.
-						filter(dictionary -> Objects.equals(dictionary.getSourceLanguage(), sourceLanguage))
-				.
-						filter(dictionary -> Objects.equals(dictionary.getTargetLanguage(), targetLanguage))
-				.
-				findAny();
+				.filter(dictionary -> Objects.equals(dictionary.getSourceLanguage(), sourceLanguage))
+				.filter(dictionary -> Objects.equals(dictionary.getTargetLanguage(), targetLanguage))
+				.findAny();
 	}
 }

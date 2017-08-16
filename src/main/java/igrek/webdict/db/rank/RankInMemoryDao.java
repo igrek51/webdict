@@ -14,12 +14,12 @@ import igrek.webdict.model.entity.Dictionary;
 import igrek.webdict.model.entity.Rank;
 import igrek.webdict.model.entity.User;
 
-public class InMemoryRankDao extends BaseInMemoryDao<Rank> implements RankDao {
+public class RankInMemoryDao extends BaseInMemoryDao<Rank> implements RankDao {
 	
 	private WordDao wordDao;
 	
 	@Autowired
-	public InMemoryRankDao(WordDao wordDao) {
+	public RankInMemoryDao(WordDao wordDao) {
 		this.wordDao = wordDao;
 		//TODO sample entities
 	}

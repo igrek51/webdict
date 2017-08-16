@@ -14,13 +14,13 @@ import igrek.webdict.model.entity.Dictionary;
 import igrek.webdict.model.entity.User;
 import igrek.webdict.model.entity.Word;
 
-public class InMemoryWordDao extends BaseInMemoryDao<Word> implements WordDao {
+public class WordInMemoryDao extends BaseInMemoryDao<Word> implements WordDao {
 	
 	private DictionaryDao dictionaryDao;
 	private UserDao userDao;
 	
 	@Autowired
-	public InMemoryWordDao(DictionaryDao dictionaryDao, UserDao userDao) {
+	public WordInMemoryDao(DictionaryDao dictionaryDao, UserDao userDao) {
 		this.dictionaryDao = dictionaryDao;
 		this.userDao = userDao;
 		

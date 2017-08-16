@@ -7,12 +7,12 @@ import java.util.Optional;
 import igrek.webdict.db.common.BaseJpaDao;
 import igrek.webdict.model.entity.User;
 
-public class JpaUserDao extends BaseJpaDao<User> implements UserDao {
+public class UserJpaDao extends BaseJpaDao<User> implements UserDao {
 	
 	private final UserJpaRepository jpaRepository;
 	
 	@Autowired
-	public JpaUserDao(UserJpaRepository jpaRepository) {
+	public UserJpaDao(UserJpaRepository jpaRepository) {
 		super(jpaRepository);
 		this.jpaRepository = jpaRepository;
 	}
