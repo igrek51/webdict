@@ -64,7 +64,6 @@ class WordRankRestController {
 	@GetMapping("/top/{userId}/{dictionaryCode}")
 	public WordRankDTO getTop(@PathVariable("userId") long userId, @PathVariable("dictionaryCode") String dictionaryCode) {
 		// user retrieval and validation
-		// TODO check if is logged in
 		Optional<User> oUser = userDao.findOne(userId);
 		if (!oUser.isPresent()) {
 			throw new IllegalArgumentException("user with given id doesn't exist");

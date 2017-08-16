@@ -63,6 +63,7 @@ public class WordController {
 		User user = sessionSettings.getUser();
 		boolean reversed = sessionSettings.isReversedDictionary();
 		
+		// TODO when there's no rank record it should be treated as default rank (0)
 		WordRankDTO wordrank = rankDao.getTop(dictionary, reversed, user)
 				.map(WordRankDTO::createDTO)
 				.orElse(null);
