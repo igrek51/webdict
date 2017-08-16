@@ -17,6 +17,23 @@ public class DictionaryCode {
 		this.reversed = reversed;
 	}
 	
+	public static String toDictionaryCode(Dictionary dictionary, boolean reversed) {
+		return new DictionaryCode(dictionary.getSourceLanguage()
+				.getCode(), dictionary.getTargetLanguage().getCode(), reversed).toString();
+	}
+	
+	public static DictionaryCode parse(String code) {
+		Pattern regex = Pattern.compile("^(\\w{2})-(\\w{2})(-r)?$");
+		Matcher matcher = regex.matcher(code);
+		if (matcher.find()) {
+			String sourceLanguage = matcher.group(1);
+			String targetLanguage = matcher.group(2);
+			boolean reversed = !matcher.group(3).isEmpty();
+			return new DictionaryCode(sourceLanguage, targetLanguage, reversed);
+		}
+		throw new IllegalArgumentException("invalid dictionary code: " + code);
+	}
+	
 	public String getSourceLanguage() {
 		return sourceLanguage;
 	}
@@ -37,22 +54,5 @@ public class DictionaryCode {
 		if (reversed)
 			sb.append("-r");
 		return sb.toString();
-	}
-	
-	public static String toDictionaryCode(Dictionary dictionary, boolean reversed) {
-		return new DictionaryCode(dictionary.getSourceLanguage()
-				.getCode(), dictionary.getTargetLanguage().getCode(), reversed).toString();
-	}
-	
-	public static DictionaryCode parse(String code) {
-		Pattern regex = Pattern.compile("^(\\w{2})-(\\w{2})(-r)?$");
-		Matcher matcher = regex.matcher(code);
-		if (matcher.find()) {
-			String sourceLanguage = matcher.group(1);
-			String targetLanguage = matcher.group(2);
-			boolean reversed = !matcher.group(3).isEmpty();
-			return new DictionaryCode(sourceLanguage, targetLanguage, reversed);
-		}
-		throw new IllegalArgumentException("invalid dictionary code: " + code);
 	}
 }

@@ -27,6 +27,13 @@ public class WordDTO {
 		this.userLogin = userLogin;
 	}
 	
+	public static WordDTO createDTO(Word word) {
+		String sourceLanguage = word.getDictionary().getSourceLanguage().getCode();
+		String targetLanguage = word.getDictionary().getTargetLanguage().getCode();
+		String user = word.getUser() == null ? null : word.getUser().getLogin();
+		return new WordDTO(word.getId(), sourceLanguage, targetLanguage, word.getName(), word.getDefinition(), user);
+	}
+	
 	public Long getWordId() {
 		return wordId;
 	}
@@ -49,12 +56,5 @@ public class WordDTO {
 	
 	public String getUserLogin() {
 		return userLogin;
-	}
-	
-	public static WordDTO createDTO(Word word) {
-		String sourceLanguage = word.getDictionary().getSourceLanguage().getCode();
-		String targetLanguage = word.getDictionary().getTargetLanguage().getCode();
-		String user = word.getUser() == null ? null : word.getUser().getLogin();
-		return new WordDTO(word.getId(), sourceLanguage, targetLanguage, word.getName(), word.getDefinition(), user);
 	}
 }

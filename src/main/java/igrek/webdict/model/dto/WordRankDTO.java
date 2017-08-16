@@ -9,16 +9,13 @@ import igrek.webdict.model.entity.Rank;
 public class WordRankDTO {
 	
 	private Long rankId;
-	
 	private long dictionaryId;
-	
 	private String wordName;
-	
 	private String definition;
-	
 	private String rankValue;
-	
 	private String lastUse;
+	
+	private static final DateTimeFormatter LAST_USE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	
 	public WordRankDTO() {}
 	
@@ -29,6 +26,16 @@ public class WordRankDTO {
 		this.definition = definition;
 		this.rankValue = rankValue;
 		this.lastUse = lastUse;
+	}
+	
+	public static WordRankDTO createDTO(Rank rank) {
+		String lastUse = rank.getLastUse() == null ? null : rank.getLastUse()
+				.format(LAST_USE_FORMATTER);
+		DecimalFormat df = new DecimalFormat("#.#");
+		df.setRoundingMode(RoundingMode.HALF_UP);
+		String rankValue = df.format(rank.getRankValue());
+		return new WordRankDTO(rank.getId(), rank.getWord().getDictionary().getId(), rank.getWord()
+				.getName(), rank.getWord().getDefinition(), rankValue, lastUse);
 	}
 	
 	public Long getRankId() {
@@ -53,17 +60,5 @@ public class WordRankDTO {
 	
 	public String getLastUse() {
 		return lastUse;
-	}
-	
-	private static final DateTimeFormatter LAST_USE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-	
-	public static WordRankDTO createDTO(Rank rank) {
-		String lastUse = rank.getLastUse() == null ? null : rank.getLastUse()
-				.format(LAST_USE_FORMATTER);
-		DecimalFormat df = new DecimalFormat("#.#");
-		df.setRoundingMode(RoundingMode.HALF_UP);
-		String rankValue = df.format(rank.getRankValue());
-		return new WordRankDTO(rank.getId(), rank.getWord().getDictionary().getId(), rank.getWord()
-				.getName(), rank.getWord().getDefinition(), rankValue, lastUse);
 	}
 }
