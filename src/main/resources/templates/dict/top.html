@@ -11,8 +11,8 @@
 <th:block layout:fragment="content">
 
     <div class="panel panel-primary">
-        <div class="panel-heading" id="dict-word">
-            <span th:text="${wordrank?.wordName}"></span>
+        <div class="panel-heading">
+            <div id="dict-word">&nbsp;</div>
         </div>
         <div class="panel-body">
             <div id="dict-definition"></div>
@@ -47,7 +47,9 @@
 <th:block layout:fragment="endScripts">
     <script th:inline="javascript">
         rankId = [[${wordrank?.rankId}]];
+        wordName = [[${wordrank?.wordName}]];
         wordDefinition = [[${wordrank?.definition}]];
+        reversedDictionary = [[${wordrank?.reversedDictionary}]];
     </script>
 </th:block>
 

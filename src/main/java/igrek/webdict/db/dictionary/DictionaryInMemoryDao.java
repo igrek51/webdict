@@ -15,6 +15,7 @@ public class DictionaryInMemoryDao extends BaseInMemoryDao<Dictionary> implement
 	public DictionaryInMemoryDao(LanguageDao languageDao) {
 		this.languageDao = languageDao;
 		addSampleEntity("en", "pl");
+		addSampleEntity("pl", "en");
 	}
 	
 	private void addSampleEntity(String sourceLanguageCode, String targetLanguageCode) {

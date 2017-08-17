@@ -5,25 +5,45 @@ $(document).ready(function () {
     });
 
     $("#button-skip").click(function () {
-        clickedEntryAction('skip');
+        clickedWordAction('skip');
     });
     $("#button-answer-correct").click(function () {
-        clickedEntryAction('answer/correct');
+        clickedWordAction('answer/correct');
     });
     $("#button-answer-wrong").click(function () {
-        clickedEntryAction('answer/wrong');
+        clickedWordAction('answer/wrong');
     });
+
+    startUp();
 });
+
+function startUp() {
+    if (!reversedDictionary) {
+        $("#dict-word")
+            .text(wordName)
+    } else {
+        $("#dict-definition")
+            .text(wordDefinition)
+    }
+}
 
 function checkAnswer() {
     var fadeTime = 500;
     $("#button-answer-correct").fadeIn(fadeTime);
     $("#button-answer-wrong").fadeIn(fadeTime);
     $("#button-check").hide();
-    $("#dict-definition")
-        .hide()
-        .text(wordDefinition)
-        .fadeIn(fadeTime);
+
+    if (!reversedDictionary) {
+        $("#dict-definition")
+            .hide()
+            .text(wordDefinition)
+            .fadeIn(fadeTime);
+    } else {
+        $("#dict-word")
+            .hide()
+            .text(wordName)
+            .fadeIn(fadeTime);
+    }
 }
 
 function ajaxPutRequest(endpoint, onSuccess) {
@@ -39,7 +59,7 @@ function ajaxPutRequest(endpoint, onSuccess) {
     });
 }
 
-function clickedEntryAction(endpointAction) {
+function clickedWordAction(endpointAction) {
     ajaxPutRequest(window.location.href + '/../rest/rank/' + rankId + '/' + endpointAction, function () {
         refreshPage();
     });

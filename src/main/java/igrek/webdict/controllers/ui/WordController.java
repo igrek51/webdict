@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.annotation.SessionScope;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +23,6 @@ import igrek.webdict.db.word.WordDao;
 import igrek.webdict.model.dto.AddWordDTO;
 import igrek.webdict.model.dto.WordRankDTO;
 import igrek.webdict.model.entity.Dictionary;
-import igrek.webdict.model.entity.Rank;
 import igrek.webdict.model.entity.User;
 import igrek.webdict.model.entity.Word;
 import igrek.webdict.model.session.NotLoggedInException;
@@ -107,7 +105,6 @@ public class WordController {
 		
 		Dictionary dictionary = sessionSettings.getDictionary();
 		User user = sessionSettings.getUser();
-		boolean reversedDictionary = sessionSettings.isReversedDictionary();
 		
 		String name = addWordDTO.getWord();
 		String definition = addWordDTO.getDefinition();
@@ -132,12 +129,6 @@ public class WordController {
 		Word word = new Word(dictionary, user, name, definition);
 		wordDao.save(word);
 		model.put("word", word);
-		
-		// create initial ranks
-		LocalDateTime lastUse = LocalDateTime.now();
-		double rankValue = 0;
-		Rank rank = new Rank(word, reversedDictionary, lastUse, rankValue);
-		rankDao.save(rank);
 		
 		addAlert(alerts, "Word '" + name + "' has been added successfully.", BootstrapAlertType.SUCCESS);
 		logger.info("new word has been added: " + name + ": " + definition);
