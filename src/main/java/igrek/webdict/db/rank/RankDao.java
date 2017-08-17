@@ -10,7 +10,7 @@ import igrek.webdict.model.entity.User;
 
 public interface RankDao extends BaseDao<Rank> {
 	
-	List<Rank> findByDictionary(Dictionary dictionary, boolean reversed, User user);
+	List<Rank> findByDictionaryAndUser(Dictionary dictionary, boolean reversed, User user);
 	
 	Optional<Rank> getTop(Dictionary dictionary, boolean reversed, User user);
 	

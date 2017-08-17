@@ -59,8 +59,8 @@ public class DbConfiguration {
 		}
 		
 		@Bean
-		public RankDao provideRankDao(RankJpaRepository jpaRepository) {
-			return new RankJpaDao(jpaRepository);
+		public RankDao provideRankDao(RankJpaRepository jpaRepository, WordDao wordDao) {
+			return new RankJpaDao(jpaRepository, wordDao);
 		}
 	}
 	

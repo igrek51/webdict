@@ -14,6 +14,8 @@ public interface WordJpaRepository extends JpaRepository<Word, Long> {
 	
 	List<Word> findByDictionaryIdAndUserId(Long dictionaryId, Long userId);
 	
-	List<Word> findByName(String name);
+	List<Word> findByNameAndDictionaryId(String name, Long dictionaryId);
+	
+	List<Word> findByNameAndDictionaryIdAndUserId(String name, Long dictionaryId, Long userId);
 	
 }

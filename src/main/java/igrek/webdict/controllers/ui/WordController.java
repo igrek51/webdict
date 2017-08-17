@@ -63,8 +63,6 @@ public class WordController {
 		User user = sessionSettings.getUser();
 		boolean reversed = sessionSettings.isReversedDictionary();
 		
-		// TODO when there's no rank record it should be treated as default rank (0)
-		// TODO handling reverse dictionary
 		WordRankDTO wordrank = rankDao.getTop(dictionary, reversed, user)
 				.map(WordRankDTO::createDTO)
 				.orElse(null);
@@ -82,7 +80,7 @@ public class WordController {
 		User user = sessionSettings.getUser();
 		boolean reversed = sessionSettings.isReversedDictionary();
 		
-		List<WordRankDTO> entries = rankDao.findByDictionary(dictionary, reversed, user)
+		List<WordRankDTO> entries = rankDao.findByDictionaryAndUser(dictionary, reversed, user)
 				.stream()
 				.map(WordRankDTO::createDTO)
 				.collect(Collectors.toList());
@@ -124,8 +122,8 @@ public class WordController {
 			return view;
 		}
 		
-		// TODO filter also by dictionary id and user
-		if (wordDao.findByName(name).isPresent()) {
+		Long userId = user == null ? null : user.getId();
+		if (wordDao.findByName(name, dictionary.getId(), userId).isPresent()) {
 			addAlert(alerts, "word '" + name + "' already exists", BootstrapAlertType.ERROR);
 			return view;
 		}

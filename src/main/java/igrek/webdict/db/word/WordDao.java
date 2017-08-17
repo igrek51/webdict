@@ -10,6 +10,6 @@ public interface WordDao extends BaseDao<Word> {
 	
 	List<Word> findByDictionaryAndUser(Long dictionaryId, Long userId);
 	
-	Optional<Word> findByName(String name);
+	Optional<Word> findByName(String wordName, Long dictionaryId, Long userId);
 	
 }

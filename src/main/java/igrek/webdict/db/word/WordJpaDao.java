@@ -28,8 +28,16 @@ public class WordJpaDao extends BaseJpaDao<Word> implements WordDao {
 	}
 	
 	@Override
-	public Optional<Word> findByName(String name) {
-		return jpaRepository.findByName(name).stream().findAny();
+	public Optional<Word> findByName(String wordName, Long dictionaryId, Long userId) {
+		if (userId == null) {
+			return jpaRepository.findByNameAndDictionaryId(wordName, dictionaryId)
+					.stream()
+					.findAny();
+		} else {
+			return jpaRepository.findByNameAndDictionaryIdAndUserId(wordName, dictionaryId, userId)
+					.stream()
+					.findAny();
+		}
 	}
 	
 }

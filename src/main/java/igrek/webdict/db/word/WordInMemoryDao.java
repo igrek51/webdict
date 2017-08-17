@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import igrek.webdict.db.common.BaseInMemoryDao;
 import igrek.webdict.db.dictionary.DictionaryDao;
@@ -51,9 +52,13 @@ public class WordInMemoryDao extends BaseInMemoryDao<Word> implements WordDao {
 	}
 	
 	@Override
-	public Optional<Word> findByName(String name) {
-		return entities.stream().
-				filter(word -> Objects.equals(word.getName(), name)).
-				findAny();
+	public Optional<Word> findByName(String wordName, Long dictionaryId, Long userId) {
+		Stream<Word> wordStream = entities.stream()
+				.filter(word -> Objects.equals(word.getName(), wordName))
+				.filter(word -> Objects.equals(word.getDictionary().getId(), dictionaryId));
+		if (userId != null) { // filtering by user is optional
+			wordStream = wordStream.filter(word -> Objects.equals(word.getUser().getId(), userId));
+		}
+		return wordStream.findAny();
 	}
 }
