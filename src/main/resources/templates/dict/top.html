@@ -1,66 +1,55 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main-layout}">
 <head>
-    <title>Welcome</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-
-    <script type="text/javascript" th:src="@{/js/jquery-2.1.4.min.js}"></script>
-    <!--Bootstrap-->
-    <link th:href="@{/bootstrap/css/bootstrap.min.css}"
-          rel="stylesheet"/>
-    <link th:href="@{/bootstrap/css/bootstrap-theme.min.css}"
-          rel="stylesheet"/>
-    <script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
-
-    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <title th:text="${title}">Top word</title>
     <script type="text/javascript" th:src="@{/js/top.js}"></script>
 </head>
-
 <body>
 
-<div id="container" class="panel panel-default">
-    <div class="panel-body">
+<th:block layout:fragment="content">
 
-        <div class="panel panel-primary">
-            <div class="panel-heading" id="dict-word">
-                <span th:text="${wordrank.wordName}"></span>
-            </div>
-            <div class="panel-body">
-                <div id="dict-definition"></div>
-            </div>
-            <div class="panel-footer" id="buttons-panel">
-                <button type="button" id="button-check" class="btn btn-default">
-                    <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Check
-                </button>
-                <button type="button" id="button-answer-correct" class="btn btn-success">
-                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Correct
-                </button>
-                <button type="button" id="button-answer-wrong" class="btn btn-danger">
-                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Wrong
-                </button>
-                <button type="button" id="button-skip" class="btn btn-primary">
-                    <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span> Skip
-                </button>
-            </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading" id="dict-word">
+            <span th:text="${wordrank.wordName}"></span>
         </div>
-
-        <div class="well">
-            <div class="dictentry-row">
-                Rank: <span th:text="${wordrank.rankValue}"></span>
-            </div>
-            <div class="dictentry-row">
-                Last use: <span th:text="${wordrank.lastUse}"></span>
-            </div>
+        <div class="panel-body">
+            <div id="dict-definition"></div>
         </div>
-
+        <div class="panel-footer" id="buttons-panel">
+            <button type="button" id="button-check" class="btn btn-default">
+                <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Check
+            </button>
+            <button type="button" id="button-answer-correct" class="btn btn-success">
+                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Correct
+            </button>
+            <button type="button" id="button-answer-wrong" class="btn btn-danger">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Wrong
+            </button>
+            <button type="button" id="button-skip" class="btn btn-primary">
+                <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span> Skip
+            </button>
+        </div>
     </div>
-</div>
 
-<script th:inline="javascript">
-    rankId = [[${wordrank.rankId}]];
-    wordDefinition = [[${wordrank.definition}]];
-</script>
+    <div class="well">
+        <div class="dictentry-row">
+            Rank: <span th:text="${wordrank.rankValue}"></span>
+        </div>
+        <div class="dictentry-row">
+            Last use: <span th:text="${wordrank.lastUse}"></span>
+        </div>
+    </div>
+
+</th:block>
+
+<th:block layout:fragment="endScripts">
+    <script th:inline="javascript">
+        rankId = [[${wordrank.rankId}]];
+        wordDefinition = [[${wordrank.definition}]];
+    </script>
+</th:block>
 
 </body>
 </html>

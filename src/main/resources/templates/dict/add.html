@@ -1,24 +1,13 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main-layout}">
 <head>
-    <title>Welcome</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-
-    <script type="text/javascript" th:src="@{/js/jquery-2.1.4.min.js}"></script>
-    <!--Bootstrap-->
-    <link th:href="@{/bootstrap/css/bootstrap.min.css}"
-          rel="stylesheet"/>
-    <link th:href="@{/bootstrap/css/bootstrap-theme.min.css}"
-          rel="stylesheet"/>
-    <script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
-
-    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <title>Add new word</title>
 </head>
-
 <body>
 
-<div id="container">
+<th:block layout:fragment="content">
 
     <div class="panel panel-primary">
         <div class="panel-heading" id="dict-word">Add new word</div>
@@ -58,7 +47,6 @@
         </div>
     </div>
 
-</div>
-
+</th:block>
 </body>
 </html>
