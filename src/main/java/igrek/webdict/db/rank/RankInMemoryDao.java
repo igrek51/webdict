@@ -40,7 +40,7 @@ public class RankInMemoryDao extends BaseInMemoryDao<Rank> implements RankDao {
 	public List<Rank> findByDictionaryAndUser(Dictionary dictionary, boolean reversed, User user) {
 		// get existing ranks (which have been used at least once)
 		Stream<Rank> rankStream = entities.stream()
-				.filter(rank -> Objects.equals(rank.isReversed(), reversed))
+				.filter(rank -> Objects.equals(rank.isReversedDictionary(), reversed))
 				.filter(rank -> Objects.equals(rank.getWord()
 						.getDictionary().getId(), dictionary.getId()));
 		if (user != null) { // filter by user
@@ -61,6 +61,7 @@ public class RankInMemoryDao extends BaseInMemoryDao<Rank> implements RankDao {
 		// create default ranks for words without ranks
 		for (Word word : allWords) {
 			Rank newRank = new Rank(word, reversed, null, 0.0);
+			save(newRank);
 			existingRanks.add(newRank);
 		}
 		return existingRanks;

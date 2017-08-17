@@ -10,6 +10,7 @@ public class WordRankDTO {
 	
 	private Long rankId;
 	private long dictionaryId;
+	private boolean reversedDictionary;
 	private String wordName;
 	private String definition;
 	private String rankValue;
@@ -19,9 +20,10 @@ public class WordRankDTO {
 	
 	public WordRankDTO() {}
 	
-	public WordRankDTO(Long rankId, long dictionaryId, String wordName, String definition, String rankValue, String lastUse) {
+	public WordRankDTO(Long rankId, long dictionaryId, boolean reversedDictionary, String wordName, String definition, String rankValue, String lastUse) {
 		this.rankId = rankId;
 		this.dictionaryId = dictionaryId;
+		this.reversedDictionary = reversedDictionary;
 		this.wordName = wordName;
 		this.definition = definition;
 		this.rankValue = rankValue;
@@ -34,7 +36,9 @@ public class WordRankDTO {
 		DecimalFormat df = new DecimalFormat("#.#");
 		df.setRoundingMode(RoundingMode.HALF_UP);
 		String rankValue = df.format(rank.getRankValue());
-		return new WordRankDTO(rank.getId(), rank.getWord().getDictionary().getId(), rank.getWord()
+		return new WordRankDTO(rank.getId(), rank.getWord()
+				.getDictionary()
+				.getId(), rank.isReversedDictionary(), rank.getWord()
 				.getName(), rank.getWord().getDefinition(), rankValue, lastUse);
 	}
 	
@@ -60,5 +64,9 @@ public class WordRankDTO {
 	
 	public String getLastUse() {
 		return lastUse;
+	}
+	
+	public boolean isReversedDictionary() {
+		return reversedDictionary;
 	}
 }

@@ -22,7 +22,7 @@ public class Rank implements HasId {
 	@ManyToOne
 	private Word word;
 	
-	private boolean reversed;
+	private boolean reversedDictionary;
 	
 	private LocalDateTime lastUse;
 	
@@ -34,9 +34,9 @@ public class Rank implements HasId {
 	public Rank() {
 	}
 	
-	public Rank(Word word, boolean reversed, LocalDateTime lastUse, double rankValue) {
+	public Rank(Word word, boolean reversedDictionary, LocalDateTime lastUse, double rankValue) {
 		this.word = word;
-		this.reversed = reversed;
+		this.reversedDictionary = reversedDictionary;
 		this.lastUse = lastUse;
 		this.rankValue = rankValue;
 	}
@@ -55,8 +55,8 @@ public class Rank implements HasId {
 		return word;
 	}
 	
-	public boolean isReversed() {
-		return reversed;
+	public boolean isReversedDictionary() {
+		return reversedDictionary;
 	}
 	
 	public LocalDateTime getLastUse() {

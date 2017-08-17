@@ -49,6 +49,7 @@ public class RankJpaDao extends BaseJpaDao<Rank> implements RankDao {
 		// create default ranks for words without ranks
 		for (Word word : allWords) {
 			Rank newRank = new Rank(word, reversed, null, 0.0);
+			save(newRank);
 			existingRanks.add(newRank);
 		}
 		return existingRanks;
