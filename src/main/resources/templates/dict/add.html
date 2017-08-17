@@ -1,19 +1,21 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
 
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<html>
 <head>
-    <title>${title}</title>
-    <script src="<c:url value="/js/jquery-2.1.4.min.js" />"></script>
-    <%-- Bootstrap --%>
-    <link href="<c:url value="/bootstrap/css/bootstrap.min.css" />" rel="stylesheet">
-    <link href="<c:url value="/bootstrap/css/bootstrap-theme.min.css" />" rel="stylesheet">
-    <script src="<c:url value="/bootstrap/js/bootstrap.min.js" />"></script>
+    <title>Welcome</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-    <link href="<c:url value="/css/style.css" />" rel="stylesheet">
+    <script type="text/javascript" th:src="@{/js/jquery-2.1.4.min.js}"></script>
+    <!--Bootstrap-->
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}"
+          rel="stylesheet"/>
+    <link th:href="@{/bootstrap/css/bootstrap-theme.min.css}"
+          rel="stylesheet"/>
+    <script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
 </head>
+
 <body>
 
 <div id="container">
@@ -22,14 +24,14 @@
         <div class="panel-heading" id="dict-word">Add new word</div>
         <div class="panel-body">
 
-            <c:forEach items="${alerts}" var="alert">
-                <div class="alert alert-<c:out value="${alert.getBootstrapStyle()}"/> alert-dismissible"
-                     role="alert">
+            <th:block th:each="alert : ${alerts}">
+                <div class="alert alert-dismissible"
+                     role="alert" th:classappend="${'alert-' + alert.getBootstrapStyle()}">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span></button>
-                    <c:out value="${alert.getMessage()}"/>
+                    <span th:text="${alert.getMessage()}" th:remove="tag"></span>
                 </div>
-            </c:forEach>
+            </th:block>
 
             <form action="?" method="POST" modelAttribute="addWordDTO">
 

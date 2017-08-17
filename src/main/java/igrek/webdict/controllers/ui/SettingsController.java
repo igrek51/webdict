@@ -41,19 +41,14 @@ public class SettingsController {
 	public String showSettings(Map<String, Object> model) {
 		model.put("title", "Settings");
 		
-		String userLogin = sessionSettings.getUser() == null ? null : sessionSettings.getUser()
-				.getLogin();
+		Long userId = sessionSettings.getUser() == null ? null : sessionSettings.getUser().getId();
 		String dictionaryCode = sessionSettings.getDictionary() == null ? null : DictionaryCode.toDictionaryCode(sessionSettings
 				.getDictionary(), sessionSettings.isReversedDictionary());
-		SettingsDTO settingsDTO = new SettingsDTO(userLogin, dictionaryCode);
+		SettingsDTO settingsDTO = new SettingsDTO(userId, dictionaryCode);
 		model.put("settingsDTO", settingsDTO);
 		
 		List<User> users = userDao.findAll();
-		Map<String, String> usersMap = new LinkedHashMap<>();
-		for (User user : users) {
-			usersMap.put(user.getLogin(), user.getLogin());
-		}
-		model.put("users", usersMap);
+		model.put("users", users);
 		
 		List<Dictionary> dicts = dictionaryDao.findAll();
 		Map<String, String> dictsMap = new LinkedHashMap<>();
@@ -80,7 +75,7 @@ public class SettingsController {
 		model.put("title", "Settings");
 		
 		// update user
-		Optional<User> oUser = userDao.findByLogin(settingsDTO.getUserLogin());
+		Optional<User> oUser = userDao.findOne(settingsDTO.getUserId());
 		sessionSettings.setUser(oUser.get());
 		
 		// update dictionary and direction

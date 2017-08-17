@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Welcome</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <script type="text/javascript" th:src="@{/js/jquery-2.1.4.min.js}"></script>
+    <!--Bootstrap-->
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}"
+          rel="stylesheet"/>
+    <link th:href="@{/bootstrap/css/bootstrap-theme.min.css}"
+          rel="stylesheet"/>
+    <script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+</head>
+
+<body>
+
+<div id="container" class="panel panel-default">
+    <div class="panel-body">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading" id="dict-word">Dictionary words</div>
+            <div class="panel-body">
+                <table class="table">
+                    <tr>
+                        <th>Word</th>
+                        <th>Definition</th>
+                        <th>Rank</th>
+                    </tr>
+
+                    <th:block th:each="wordrank : ${wordranks}">
+                        <tr>
+                            <td th:text="${wordrank.wordName}"></td>
+                            <td th:text="${wordrank.definition}"></td>
+                            <td th:text="${wordrank.rankValue}"></td>
+                        </tr>
+                    </th:block>
+
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

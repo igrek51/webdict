@@ -2,22 +2,22 @@ package igrek.webdict.model.dto;
 
 public class SettingsDTO {
 	
-	private String userLogin;
+	private Long userId;
 	private String dictionaryCode;
 	
 	public SettingsDTO() {}
 	
-	public SettingsDTO(String userLogin, String dictionaryCode) {
-		this.userLogin = userLogin;
+	public SettingsDTO(Long userId, String dictionaryCode) {
+		this.userId = userId;
 		this.dictionaryCode = dictionaryCode;
 	}
 	
-	public String getUserLogin() {
-		return userLogin;
+	public Long getUserId() {
+		return userId;
 	}
 	
-	public void setUserLogin(String userLogin) {
-		this.userLogin = userLogin;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 	
 	public String getDictionaryCode() {
