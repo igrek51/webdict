@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+
+<th:block th:fragment="navbar">
+
+    <nav class="navbar navbar-inverse bg-inverse no-rounding">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">WebDict</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+
+                    <li th:class="${activeTab == 'home'} ? 'active' : null"><a
+                            th:href="@{/settings}">Settings</a>
+                    </li>
+                    <li th:class="${activeTab == 'home'} ? 'active' : null"><a
+                            th:href="@{/top}">Top</a>
+                    </li>
+                    <li th:class="${activeTab == 'home'} ? 'active' : null"><a
+                            th:href="@{/all}">All words</a>
+                    </li>
+                    <li th:class="${activeTab == 'home'} ? 'active' : null"><a
+                            th:href="@{/add}">Add word</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+</th:block>
+
+</body>
+</html>

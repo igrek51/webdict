@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
@@ -19,6 +19,8 @@
 
 <body>
 
+<th:block th:replace="fragments/navbar :: navbar"></th:block>
+
 <div id="container" class="panel panel-default">
     <div class="panel-body">
 
@@ -27,10 +29,7 @@
     </div>
 </div>
 
-<footer class="footer">
-    <span class="text-muted"
-          th:text="|Webdict v${@environment.getProperty('info.build.version')}|"></span>
-</footer>
+<th:block th:replace="fragments/footer :: footer"></th:block>
 
 <th:block layout:fragment="endScripts"></th:block>
 

@@ -65,3 +65,7 @@ body {
     padding: 0 10px;
     text-align: center;
 }
+
+.no-rounding {
+    border-radius: 0px;
+}
