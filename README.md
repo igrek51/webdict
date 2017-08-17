@@ -2,7 +2,7 @@
 
 Web application for vocabulary training with dynamic word rankings.
 
-### Technologies used
+### Technologies used:
 
 * Java 8
 * Spring Core
@@ -11,7 +11,7 @@ Web application for vocabulary training with dynamic word rankings.
 * Spring Data JPA
 * Hibernate
 * MySQL
-* JSP
+* Thymeleaf
 * Tomcat / Wildfly
 * JavaScript
 * jQuery
