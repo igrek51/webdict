@@ -30,3 +30,14 @@ body {
     text-align: center;
     margin-top: 10px;
 }
+
+.row-form-center {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.row-form-center > label {
+    text-align: left;
+    margin-top: 10px;
+    width: 100%;
+}

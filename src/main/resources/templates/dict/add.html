@@ -26,7 +26,7 @@
 
             <th:block th:each="alert : ${alerts}">
                 <div class="alert alert-dismissible"
-                     role="alert" th:classappend="${'alert-' + alert.getBootstrapStyle()}">
+                     role="alert" th:classappend="|alert-${alert.getBootstrapStyle()}|">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span></button>
                     <span th:text="${alert.getMessage()}" th:remove="tag"></span>
