@@ -28,14 +28,14 @@ public class RankJpaDao extends BaseJpaDao<Rank> implements RankDao {
 	}
 	
 	@Override
-	public List<Rank> findByDictionaryAndUser(Dictionary dictionary, boolean reversed, User user) {
+	public List<Rank> findByDictionaryAndUser(Dictionary dictionary, boolean reversedDictionary, User user) {
 		// TODO needs optimization
 		// get existing ranks (which have been used at least once)
 		List<Rank> existingRanks;
 		if (user == null) { // do not filter by user
-			existingRanks = jpaRepository.findByDictionaryAndReversed(dictionary, reversed);
+			existingRanks = jpaRepository.findByDictionaryAndReversed(dictionary, reversedDictionary);
 		} else {
-			existingRanks = jpaRepository.findByDictionaryAndReversedAndUser(dictionary, reversed, user);
+			existingRanks = jpaRepository.findByDictionaryAndReversedAndUser(dictionary, reversedDictionary, user);
 		}
 		
 		// get words without ranks
@@ -48,7 +48,7 @@ public class RankJpaDao extends BaseJpaDao<Rank> implements RankDao {
 		}
 		// create default ranks for words without ranks
 		for (Word word : allWords) {
-			Rank newRank = new Rank(word, reversed, null, 0.0);
+			Rank newRank = new Rank(word, reversedDictionary, null, 0.0);
 			save(newRank);
 			existingRanks.add(newRank);
 		}
@@ -56,8 +56,8 @@ public class RankJpaDao extends BaseJpaDao<Rank> implements RankDao {
 	}
 	
 	@Override
-	public Optional<Rank> getTop(Dictionary dictionary, boolean reversed, User user) {
-		List<Rank> ranks = findByDictionaryAndUser(dictionary, reversed, user);
+	public Optional<Rank> getTop(Dictionary dictionary, boolean reversedDictionary, User user) {
+		List<Rank> ranks = findByDictionaryAndUser(dictionary, reversedDictionary, user);
 		// shuffle list in order to get random entry when ranks are equal
 		Collections.shuffle(ranks);
 		return ranks.stream().min(new TopWordComparator());

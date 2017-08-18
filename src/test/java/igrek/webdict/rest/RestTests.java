@@ -26,10 +26,10 @@ public class RestTests {
 	@Test
 	public void testHelloRest() {
 		assertThat(helloController).isNotNull();
-		assertThat(helloController.welcome()).isEqualTo("hello");
+		assertThat(helloController.welcome()).startsWith("Hello Dupa");
 		
 		String body = this.restTemplate.getForObject("/hello", String.class);
-		assertThat(body).isEqualTo("hello");
+		assertThat(body).startsWith("Hello Dupa");
 	}
 	
 }

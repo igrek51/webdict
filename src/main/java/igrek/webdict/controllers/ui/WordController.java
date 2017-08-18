@@ -56,6 +56,7 @@ public class WordController {
 	public String showTop(Map<String, Object> model) {
 		checkSessionValid();
 		model.put("title", "Top word");
+		setActiveTab(model, "top");
 		
 		Dictionary dictionary = sessionSettings.getDictionary();
 		User user = sessionSettings.getUser();
@@ -73,6 +74,7 @@ public class WordController {
 	public String listAll(Map<String, Object> model) {
 		checkSessionValid();
 		model.put("title", "All dictionary words");
+		setActiveTab(model, "all");
 		
 		Dictionary dictionary = sessionSettings.getDictionary();
 		User user = sessionSettings.getUser();
@@ -91,6 +93,7 @@ public class WordController {
 	public String addNew(Map<String, Object> model) {
 		checkSessionValid();
 		model.put("title", "Add new word");
+		setActiveTab(model, "add");
 		return view("add");
 	}
 	
@@ -98,6 +101,7 @@ public class WordController {
 	public String addNew(@ModelAttribute("addWordDTO") AddWordDTO addWordDTO, Map<String, Object> model) {
 		checkSessionValid();
 		model.put("title", "Add new word");
+		setActiveTab(model, "add");
 		String view = view("add");
 		// bootstrap alerts
 		List<BootstrapAlert> alerts = new ArrayList<>();
@@ -137,7 +141,11 @@ public class WordController {
 	}
 	
 	private String view(String viewName) {
-		return "dict/" + viewName;
+		return "word/" + viewName;
+	}
+	
+	private void setActiveTab(Map<String, Object> model, String activeTab) {
+		model.put("activeTab", activeTab);
 	}
 	
 	private void addAlert(List<BootstrapAlert> alerts, String message, BootstrapAlertType type) {

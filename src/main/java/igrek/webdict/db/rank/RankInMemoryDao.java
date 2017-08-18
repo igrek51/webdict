@@ -32,15 +32,15 @@ public class RankInMemoryDao extends BaseInMemoryDao<Rank> implements RankDao {
 		}
 	}
 	
-	private void addSampleEntity(Word word, boolean reversed, double rankValue) {
-		super.addSampleEntity(new Rank(word, reversed, LocalDateTime.now(), rankValue));
+	private void addSampleEntity(Word word, boolean reversedDictionary, double rankValue) {
+		super.addSampleEntity(new Rank(word, reversedDictionary, LocalDateTime.now(), rankValue));
 	}
 	
 	@Override
-	public List<Rank> findByDictionaryAndUser(Dictionary dictionary, boolean reversed, User user) {
+	public List<Rank> findByDictionaryAndUser(Dictionary dictionary, boolean reversedDictionary, User user) {
 		// get existing ranks (which have been used at least once)
 		Stream<Rank> rankStream = entities.stream()
-				.filter(rank -> Objects.equals(rank.isReversedDictionary(), reversed))
+				.filter(rank -> Objects.equals(rank.isReversedDictionary(), reversedDictionary))
 				.filter(rank -> Objects.equals(rank.getWord()
 						.getDictionary().getId(), dictionary.getId()));
 		if (user != null) { // filter by user
@@ -60,7 +60,7 @@ public class RankInMemoryDao extends BaseInMemoryDao<Rank> implements RankDao {
 		}
 		// create default ranks for words without ranks
 		for (Word word : allWords) {
-			Rank newRank = new Rank(word, reversed, null, 0.0);
+			Rank newRank = new Rank(word, reversedDictionary, null, 0.0);
 			save(newRank);
 			existingRanks.add(newRank);
 		}
@@ -68,8 +68,8 @@ public class RankInMemoryDao extends BaseInMemoryDao<Rank> implements RankDao {
 	}
 	
 	@Override
-	public Optional<Rank> getTop(Dictionary dictionary, boolean reversed, User user) {
-		List<Rank> ranks = findByDictionaryAndUser(dictionary, reversed, user);
+	public Optional<Rank> getTop(Dictionary dictionary, boolean reversedDictionary, User user) {
+		List<Rank> ranks = findByDictionaryAndUser(dictionary, reversedDictionary, user);
 		// shuffle list in order to get random entry when ranks are equal
 		Collections.shuffle(ranks);
 		return ranks.stream().min(new TopWordComparator());

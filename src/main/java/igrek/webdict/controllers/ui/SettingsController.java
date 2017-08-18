@@ -40,6 +40,7 @@ public class SettingsController {
 	@GetMapping({"", "/"})
 	public String showSettings(Map<String, Object> model) {
 		model.put("title", "Settings");
+		setActiveTab(model, "settings");
 		
 		Long userId = sessionSettings.getUser() == null ? null : sessionSettings.getUser().getId();
 		String dictionaryCode = sessionSettings.getDictionary() == null ? null : DictionaryCode.toDictionaryCode(sessionSettings
@@ -73,6 +74,7 @@ public class SettingsController {
 	@PostMapping({"", "/"})
 	public String showSettings(@ModelAttribute("settingsDTO") SettingsDTO settingsDTO, Map<String, Object> model) {
 		model.put("title", "Settings");
+		setActiveTab(model, "settings");
 		
 		// update user
 		Optional<User> oUser = userDao.findOne(settingsDTO.getUserId());
@@ -89,5 +91,8 @@ public class SettingsController {
 		return "redirect:/settings";
 	}
 	
+	private void setActiveTab(Map<String, Object> model, String activeTab) {
+		model.put("activeTab", activeTab);
+	}
 	
 }

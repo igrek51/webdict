@@ -17,7 +17,7 @@ public class HelloController {
 	@GetMapping(value = {"", "/"}, produces = "text/plain")
 	public @ResponseBody
 	String welcome() {
-		return "hello Dupa v" + buildVersion;
+		return "Hello Dupa v" + buildVersion;
 	}
 	
 	@GetMapping("/thymeleaf")
