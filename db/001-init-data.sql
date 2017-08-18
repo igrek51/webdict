@@ -1,3 +1,12 @@
+SET FOREIGN_KEY_CHECKS = 0; 
+DELETE FROM `rank`; 
+DELETE FROM `word`; 
+DELETE FROM `dictionary`; 
+DELETE FROM `language`; 
+DELETE FROM `user`; 
+SET FOREIGN_KEY_CHECKS = 1;
+
+
 INSERT INTO `language` (`id`, `code`) VALUES
 (1, 'en'),
 (2, 'pl');
@@ -9,7 +18,6 @@ INSERT INTO `user` (`id`, `login`, `pass`) VALUES
 (1, 'igrek', 'dupa');
 
 
-TRUNCATE `word`;
 INSERT INTO `word` (`id`, `dictionary_id`, `user_id`, `name`, `definition`) VALUES
 (1, 1, 1, 'associate', 'wspólnik, kojarzyć'),
 (2, 1, 1, 'assess', 'oceniać'),
@@ -227,8 +235,6 @@ INSERT INTO `word` (`id`, `dictionary_id`, `user_id`, `name`, `definition`) VALU
 (214, 1, 1, 'thyme', 'tymianek'),
 (215, 1, 1, 'prior to', 'przed');
 
-
-TRUNCATE `rank`;
 INSERT INTO `rank` (`id`, `word_id`, `reversed_dictionary`, `last_use`, `rank_value`) VALUES
 (1, 1, false, NULL, 1),
 (2, 2, false, NULL, 0),
