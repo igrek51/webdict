@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.annotation.SessionScope;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,8 @@ import igrek.webdict.model.dto.SettingsDTO;
 import igrek.webdict.model.entity.Dictionary;
 import igrek.webdict.model.entity.User;
 import igrek.webdict.model.session.SessionSettings;
+import igrek.webdict.ui.alert.BootstrapAlert;
+import igrek.webdict.ui.alert.BootstrapAlertType;
 
 @Controller
 @SessionScope
@@ -73,8 +76,9 @@ public class SettingsController {
 	
 	@PostMapping({"", "/"})
 	public String showSettings(@ModelAttribute("settingsDTO") SettingsDTO settingsDTO, Map<String, Object> model) {
-		model.put("title", "Settings");
-		setActiveTab(model, "settings");
+		// bootstrap alerts
+		List<BootstrapAlert> alerts = new ArrayList<>();
+		model.put("alerts", alerts);
 		
 		// update user
 		Optional<User> oUser = userDao.findOne(settingsDTO.getUserId());
@@ -88,11 +92,18 @@ public class SettingsController {
 				.getTargetLanguage());
 		sessionSettings.setDictionary(oDictionary.get());
 		
-		return "redirect:/settings";
+		addAlert(alerts, "Settings have been updated successfully.", BootstrapAlertType.SUCCESS);
+		
+		return showSettings(model);
 	}
 	
 	private void setActiveTab(Map<String, Object> model, String activeTab) {
 		model.put("activeTab", activeTab);
+	}
+	
+	private void addAlert(List<BootstrapAlert> alerts, String message, BootstrapAlertType type) {
+		BootstrapAlert alert = new BootstrapAlert(message, type);
+		alerts.add(alert);
 	}
 	
 }
