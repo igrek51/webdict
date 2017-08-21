@@ -6,7 +6,7 @@
 
     <groupId>igrek.webdict</groupId>
     <artifactId>webdict</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.3-SNAPSHOT</version>
 
     <packaging>war</packaging>
 
@@ -91,7 +91,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-java8</artifactId>
-            <version>5.1.0.Final</version>
+            <version>5.1.1.Final</version>
         </dependency>
 
         <!-- for Tomcat -->
@@ -105,7 +105,7 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
+            <version>3.0-alpha-1</version>
             <scope>provided</scope>
         </dependency>
 
@@ -113,17 +113,17 @@
         <dependency>
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf</artifactId>
-            <version>3.0.0.RELEASE</version>
+            <version>3.0.1.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf-spring4</artifactId>
-            <version>3.0.0.RELEASE</version>
+            <version>3.0.1.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>nz.net.ultraq.thymeleaf</groupId>
             <artifactId>thymeleaf-layout-dialect</artifactId>
-            <version>2.2.0</version>
+            <version>2.2.1</version>
         </dependency>
 
         <!-- JSON Mapper -->
