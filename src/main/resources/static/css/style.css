@@ -2,9 +2,8 @@ body {
     font-family: Arial, sans-serif;
 }
 
-#container {
-    width: 40%;
-    margin: 10px auto 0;
+.container {
+    max-width: 80rem;
 }
 
 #button-answer-correct, #button-answer-wrong {
@@ -17,12 +16,12 @@ body {
     font-size: 1.2em;
 }
 
-#buttons-panel {
+#dict-definition {
+    min-height: 3em;
     text-align: center;
 }
 
-#dict-definition {
-    min-height: 3em;
+#buttons-panel {
     text-align: center;
 }
 
