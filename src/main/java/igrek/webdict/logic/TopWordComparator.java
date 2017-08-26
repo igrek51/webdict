@@ -13,6 +13,10 @@ public class TopWordComparator implements Comparator<Rank> {
 		if (diff != 0)
 			return diff < 0 ? -1 : 1;
 		
+		// first - entries which were used less
+		if (o1.getTriesCount() != o2.getTriesCount())
+			return o1.getTriesCount() - o2.getTriesCount();
+		
 		// first - entries which were never used (no last use)
 		if (o1.getLastUse() == null)
 			return -1;

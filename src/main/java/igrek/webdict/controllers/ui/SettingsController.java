@@ -92,7 +92,7 @@ public class SettingsController extends BaseUIController {
 				.getTargetLanguage());
 		sessionSettings.setDictionary(oDictionary.get());
 		
-		addAlert(alerts, "Settings have been updated successfully.", BootstrapAlertType.SUCCESS);
+		addAlert(alerts, "Settings have been saved successfully.", BootstrapAlertType.SUCCESS);
 		
 		return showSettings(model);
 	}

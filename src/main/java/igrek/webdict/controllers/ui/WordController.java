@@ -21,6 +21,7 @@ import igrek.webdict.db.dictionary.DictionaryDao;
 import igrek.webdict.db.rank.RankDao;
 import igrek.webdict.db.user.UserDao;
 import igrek.webdict.db.word.WordDao;
+import igrek.webdict.logic.TopWordComparator;
 import igrek.webdict.model.dto.AddWordDTO;
 import igrek.webdict.model.dto.WordRankDTO;
 import igrek.webdict.model.entity.Dictionary;
@@ -80,7 +81,7 @@ public class WordController extends BaseUIController {
 		boolean reversed = sessionSettings.isReversedDictionary();
 		
 		List<WordRankDTO> entries = rankDao.findByDictionaryAndUser(dictionary, reversed, user)
-				.stream()
+				.stream().sorted(new TopWordComparator())
 				.map(WordRankDTO::createDTO)
 				.collect(Collectors.toList());
 		model.put("wordranks", entries);
