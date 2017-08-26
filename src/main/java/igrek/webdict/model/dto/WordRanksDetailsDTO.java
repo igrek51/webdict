@@ -17,6 +17,8 @@ public class WordRanksDetailsDTO {
 	
 	public double effectiveRank;
 	
+	public int triesCount;
+	
 	public String lastUse;
 	
 	public static WordRanksDetailsDTO createDTO(Rank rank) {
@@ -27,6 +29,7 @@ public class WordRanksDetailsDTO {
 		dto.rankValue = rank.getRankValue();
 		dto.cooldownPenalty = rank.getCooldownPenalty();
 		dto.effectiveRank = rank.getEffectiveRankValue();
+		dto.triesCount = rank.getTriesCount();
 		if (rank.getLastUse() != null) {
 			dto.lastUse = rank.getLastUse()
 					.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));

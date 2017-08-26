@@ -28,17 +28,20 @@ public class Rank implements HasId {
 	
 	private double rankValue;
 	
+	private int triesCount;
+	
 	private final transient Duration COOLDOWN_TIME = Duration.ofMinutes(10);
 	private final transient double COOLDOWN_MAX_PENALTY = 20;
 	
 	public Rank() {
 	}
 	
-	public Rank(Word word, boolean reversedDictionary, LocalDateTime lastUse, double rankValue) {
+	public Rank(Word word, boolean reversedDictionary, LocalDateTime lastUse, double rankValue, int triesCount) {
 		this.word = word;
 		this.reversedDictionary = reversedDictionary;
 		this.lastUse = lastUse;
 		this.rankValue = rankValue;
+		this.triesCount = triesCount;
 	}
 	
 	@Override
@@ -73,6 +76,14 @@ public class Rank implements HasId {
 	
 	public void setRankValue(double rankValue) {
 		this.rankValue = rankValue;
+	}
+	
+	public int getTriesCount() {
+		return triesCount;
+	}
+	
+	public void setTriesCount(int triesCount) {
+		this.triesCount = triesCount;
 	}
 	
 	public double getCooldownPenalty() {

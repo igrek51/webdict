@@ -29,12 +29,12 @@ public class RankInMemoryDao extends BaseInMemoryDao<Rank> implements RankDao {
 		
 		List<Word> words = wordDao.findAll();
 		for (Word word : words) {
-			addSampleEntity(word, false, 0);
+			addSampleEntity(word, false, 0, 0);
 		}
 	}
 	
-	private void addSampleEntity(Word word, boolean reversedDictionary, double rankValue) {
-		super.addSampleEntity(new Rank(word, reversedDictionary, LocalDateTime.now(), rankValue));
+	private void addSampleEntity(Word word, boolean reversedDictionary, double rankValue, int triesCount) {
+		super.addSampleEntity(new Rank(word, reversedDictionary, LocalDateTime.now(), rankValue, triesCount));
 	}
 	
 	@Override
@@ -97,7 +97,7 @@ public class RankInMemoryDao extends BaseInMemoryDao<Rank> implements RankDao {
 			List<Rank> newRanks = new ArrayList<>();
 			// create default ranks for words without ranks
 			for (Word word : wordsWithout) {
-				Rank newRank = new Rank(word, reversedDictionary, null, 0.0);
+				Rank newRank = new Rank(word, reversedDictionary, null, 0.0, 0);
 				newRanks.add(newRank);
 			}
 			logger.info(String.format("creating missing ranks for %d words", newRanks.size()));

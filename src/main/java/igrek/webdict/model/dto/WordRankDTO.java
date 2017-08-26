@@ -14,19 +14,21 @@ public class WordRankDTO {
 	private String wordName;
 	private String definition;
 	private String rankValue;
+	private int triesCount;
 	private String lastUse;
 	
 	private static final DateTimeFormatter LAST_USE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	
 	public WordRankDTO() {}
 	
-	public WordRankDTO(Long rankId, long dictionaryId, boolean reversedDictionary, String wordName, String definition, String rankValue, String lastUse) {
+	public WordRankDTO(Long rankId, long dictionaryId, boolean reversedDictionary, String wordName, String definition, String rankValue, int triesCount, String lastUse) {
 		this.rankId = rankId;
 		this.dictionaryId = dictionaryId;
 		this.reversedDictionary = reversedDictionary;
 		this.wordName = wordName;
 		this.definition = definition;
 		this.rankValue = rankValue;
+		this.triesCount = triesCount;
 		this.lastUse = lastUse;
 	}
 	
@@ -37,9 +39,9 @@ public class WordRankDTO {
 		df.setRoundingMode(RoundingMode.HALF_UP);
 		String rankValue = df.format(rank.getRankValue());
 		return new WordRankDTO(rank.getId(), rank.getWord()
-				.getDictionary()
-				.getId(), rank.isReversedDictionary(), rank.getWord()
-				.getName(), rank.getWord().getDefinition(), rankValue, lastUse);
+				.getDictionary().getId(), rank.isReversedDictionary(), rank.getWord()
+				.getName(), rank.getWord()
+				.getDefinition(), rankValue, rank.getTriesCount(), lastUse);
 	}
 	
 	public Long getRankId() {
@@ -68,5 +70,9 @@ public class WordRankDTO {
 	
 	public boolean isReversedDictionary() {
 		return reversedDictionary;
+	}
+	
+	public int getTriesCount() {
+		return triesCount;
 	}
 }

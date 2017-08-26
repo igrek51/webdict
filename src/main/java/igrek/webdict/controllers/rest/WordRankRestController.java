@@ -47,12 +47,11 @@ class WordRankRestController {
 	
 	@GetMapping("/tops")
 	public List<WordRanksDetailsDTO> getAllOrderByTop() {
-		List<WordRanksDetailsDTO> dtos = rankDao.findAll()
+		return rankDao.findAll()
 				.stream()
 				.sorted(new TopWordComparator())
 				.map(WordRanksDetailsDTO::createDTO)
 				.collect(Collectors.toList());
-		return dtos;
 	}
 	
 	@GetMapping("/{rankId}")
@@ -108,6 +107,8 @@ class WordRankRestController {
 	private Rank updateRankRelative(long rankId, double relativeRank) {
 		Rank rank = findWordRank(rankId);
 		rank.setRankValue(rank.getRankValue() + relativeRank);
+		// increment tries count
+		rank.setTriesCount(rank.getTriesCount() + 1);
 		// update last use
 		rank.setLastUse(LocalDateTime.now());
 		rankDao.save(rank);

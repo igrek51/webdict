@@ -58,7 +58,7 @@ public class RankJpaDao extends BaseJpaDao<Rank> implements RankDao {
 			List<Rank> newRanks = new ArrayList<>();
 			// create default ranks for words without ranks
 			for (Word word : wordsWithout) {
-				Rank newRank = new Rank(word, reversedDictionary, null, 0.0);
+				Rank newRank = new Rank(word, reversedDictionary, null, 0.0, 0);
 				newRanks.add(newRank);
 			}
 			logger.info(String.format("creating missing ranks for %d words", newRanks.size()));

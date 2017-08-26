@@ -159,7 +159,7 @@ public class WordController {
 	}
 	
 	@ExceptionHandler(NotLoggedInException.class)
-	public String handleException(final Exception e) {
+	public String handleException() {
 		return "redirect:/settings";
 	}
 	
