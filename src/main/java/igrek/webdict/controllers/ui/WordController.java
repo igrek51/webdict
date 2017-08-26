@@ -81,7 +81,8 @@ public class WordController extends BaseUIController {
 		boolean reversed = sessionSettings.isReversedDictionary();
 		
 		List<WordRankDTO> entries = rankDao.findByDictionaryAndUser(dictionary, reversed, user)
-				.stream().sorted(new TopWordComparator())
+				.stream()
+				.sorted(new TopWordComparator())
 				.map(WordRankDTO::createDTO)
 				.collect(Collectors.toList());
 		model.put("wordranks", entries);
@@ -156,7 +157,7 @@ public class WordController extends BaseUIController {
 		redir.addFlashAttribute("alerts", alerts);
 		addAlert(alerts, "Choose an user and dictionary first.", BootstrapAlertType.WARNING);
 		
-		return new RedirectView("/settings");
+		return new RedirectView("/settings", true);
 	}
 	
 }
