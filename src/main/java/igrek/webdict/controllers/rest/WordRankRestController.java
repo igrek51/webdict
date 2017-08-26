@@ -45,11 +45,45 @@ class WordRankRestController {
 		return rankDao.findAll().stream().map(WordRankDTO::createDTO).collect(Collectors.toList());
 	}
 	
-	@GetMapping("/tops")
-	public List<WordRanksDetailsDTO> getAllOrderByTop() {
-		return rankDao.findAll()
+	@GetMapping("/tops/{userId}/{dictionaryCode}")
+	public List<WordRanksDetailsDTO> getAllOrderByTop(@PathVariable("userId") long userId, @PathVariable("dictionaryCode") String dictionaryCode) {
+		// user retrieval and validation
+		Optional<User> oUser = userDao.findOne(userId);
+		if (!oUser.isPresent())
+			throw new IllegalArgumentException("user with given id doesn't exist");
+		
+		// dictionary retrieval and validation
+		DictionaryCode dictCode = DictionaryCode.parse(dictionaryCode);
+		Optional<Dictionary> oDictionary = dictionaryDao.findByLanguages(dictCode.getSourceLanguage(), dictCode
+				.getTargetLanguage());
+		if (!oDictionary.isPresent())
+			throw new IllegalArgumentException("dictionary with given languages doesn't exist");
+		boolean reversedDictionary = dictCode.isReversedDictionary();
+		
+		return rankDao.findByDictionaryAndUser(oDictionary.get(), reversedDictionary, oUser.get())
 				.stream()
 				.sorted(new TopWordComparator())
+				.map(WordRanksDetailsDTO::createDTO)
+				.collect(Collectors.toList());
+	}
+	
+	@GetMapping("/all/{userId}/{dictionaryCode}")
+	public List<WordRanksDetailsDTO> getAll(@PathVariable("userId") long userId, @PathVariable("dictionaryCode") String dictionaryCode) {
+		// user retrieval and validation
+		Optional<User> oUser = userDao.findOne(userId);
+		if (!oUser.isPresent())
+			throw new IllegalArgumentException("user with given id doesn't exist");
+		
+		// dictionary retrieval and validation
+		DictionaryCode dictCode = DictionaryCode.parse(dictionaryCode);
+		Optional<Dictionary> oDictionary = dictionaryDao.findByLanguages(dictCode.getSourceLanguage(), dictCode
+				.getTargetLanguage());
+		if (!oDictionary.isPresent())
+			throw new IllegalArgumentException("dictionary with given languages doesn't exist");
+		boolean reversedDictionary = dictCode.isReversedDictionary();
+		
+		return rankDao.findByDictionaryAndUser(oDictionary.get(), reversedDictionary, oUser.get())
+				.stream()
 				.map(WordRanksDetailsDTO::createDTO)
 				.collect(Collectors.toList());
 	}
@@ -75,9 +109,9 @@ class WordRankRestController {
 		if (!oDictionary.isPresent()) {
 			throw new IllegalArgumentException("dictionary with given languages doesn't exist");
 		}
-		boolean reversed = dictCode.isReversedDictionary();
+		boolean reversedDictionary = dictCode.isReversedDictionary();
 		
-		return rankDao.getTop(oDictionary.get(), reversed, oUser.get())
+		return rankDao.getTop(oDictionary.get(), reversedDictionary, oUser.get())
 				.map(WordRankDTO::createDTO)
 				.orElse(null);
 	}

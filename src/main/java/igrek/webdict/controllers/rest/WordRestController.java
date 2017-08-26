@@ -14,9 +14,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import igrek.webdict.db.dictionary.DictionaryDao;
+import igrek.webdict.db.rank.RankDao;
 import igrek.webdict.db.user.UserDao;
 import igrek.webdict.db.word.WordDao;
+import igrek.webdict.model.DictionaryCode;
 import igrek.webdict.model.dto.WordDTO;
+import igrek.webdict.model.entity.Dictionary;
 import igrek.webdict.model.entity.User;
 import igrek.webdict.model.entity.Word;
 
@@ -24,20 +28,45 @@ import igrek.webdict.model.entity.Word;
 @RequestMapping("/rest/word")
 class WordRestController {
 	
-	// TODO search by name
-	
 	private final WordDao wordDao;
 	private final UserDao userDao;
+	private final RankDao rankDao;
+	private final DictionaryDao dictionaryDao;
 	
 	@Autowired
-	public WordRestController(WordDao wordDao, UserDao userDao) {
+	public WordRestController(WordDao wordDao, UserDao userDao, RankDao rankDao, DictionaryDao dictionaryDao) {
 		this.wordDao = wordDao;
 		this.userDao = userDao;
+		this.rankDao = rankDao;
+		this.dictionaryDao = dictionaryDao;
 	}
 	
 	@GetMapping({"", "all"})
 	public List<WordDTO> getAll() {
 		return wordDao.findAll().stream().map(WordDTO::createDTO).collect(Collectors.toList());
+	}
+	
+	@GetMapping("/withoutRank/{userId}/{dictionaryCode}")
+	public List<WordDTO> findWordsWithoutRank(@PathVariable("userId") long userId, @PathVariable("dictionaryCode") String dictionaryCode) {
+		// user retrieval and validation
+		Optional<User> oUser = userDao.findOne(userId);
+		if (!oUser.isPresent()) {
+			throw new IllegalArgumentException("user with given id doesn't exist");
+		}
+		
+		// dictionary retrieval and validation
+		DictionaryCode dictCode = DictionaryCode.parse(dictionaryCode);
+		Optional<Dictionary> oDictionary = dictionaryDao.findByLanguages(dictCode.getSourceLanguage(), dictCode
+				.getTargetLanguage());
+		if (!oDictionary.isPresent()) {
+			throw new IllegalArgumentException("dictionary with given languages doesn't exist");
+		}
+		boolean reversedDictionary = dictCode.isReversedDictionary();
+		
+		return rankDao.findWordsWithoutRank(oDictionary.get(), reversedDictionary, oUser.get())
+				.stream()
+				.map(WordDTO::createDTO)
+				.collect(Collectors.toList());
 	}
 	
 	@GetMapping("/{id}")
