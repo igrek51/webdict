@@ -33,6 +33,10 @@ public abstract class BaseJpaDao<T> {
 		jpaRepository.save(entity);
 	}
 	
+	public void save(Iterable<T> entities) {
+		jpaRepository.save(entities);
+	}
+	
 	public boolean exists(Long id) {
 		return jpaRepository.exists(id);
 	}

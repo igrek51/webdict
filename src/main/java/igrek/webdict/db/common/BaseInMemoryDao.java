@@ -38,6 +38,12 @@ public abstract class BaseInMemoryDao<T extends HasId> {
 		entities.add(entity);
 	}
 	
+	public void save(Iterable<T> newEntities) {
+		for (T newEntity : newEntities) {
+			save(newEntity);
+		}
+	}
+	
 	public boolean exists(Long id) {
 		return entities.stream().anyMatch(d -> Objects.equals(d.getId(), id));
 	}
