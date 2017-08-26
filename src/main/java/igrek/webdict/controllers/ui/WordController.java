@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.annotation.SessionScope;
+import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -159,8 +162,13 @@ public class WordController {
 	}
 	
 	@ExceptionHandler(NotLoggedInException.class)
-	public String handleException() {
-		return "redirect:/settings";
+	public View handleException(RedirectAttributes redir) {
+		// bootstrap alerts
+		List<BootstrapAlert> alerts = new ArrayList<>();
+		redir.addFlashAttribute("alerts", alerts);
+		addAlert(alerts, "Choose user and dictionary.", BootstrapAlertType.INFO);
+		
+		return new RedirectView("/settings");
 	}
 	
 }
