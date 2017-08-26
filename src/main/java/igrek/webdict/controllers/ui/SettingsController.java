@@ -27,7 +27,7 @@ import igrek.webdict.ui.alert.BootstrapAlertType;
 @Controller
 @SessionScope
 @RequestMapping("/settings")
-public class SettingsController {
+public class SettingsController extends BaseUIController {
 	
 	private final SessionSettings sessionSettings;
 	private final UserDao userDao;
@@ -95,15 +95,6 @@ public class SettingsController {
 		addAlert(alerts, "Settings have been updated successfully.", BootstrapAlertType.SUCCESS);
 		
 		return showSettings(model);
-	}
-	
-	private void setActiveTab(Map<String, Object> model, String activeTab) {
-		model.put("activeTab", activeTab);
-	}
-	
-	private void addAlert(List<BootstrapAlert> alerts, String message, BootstrapAlertType type) {
-		BootstrapAlert alert = new BootstrapAlert(message, type);
-		alerts.add(alert);
 	}
 	
 }

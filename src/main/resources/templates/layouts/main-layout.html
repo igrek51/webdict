@@ -25,6 +25,8 @@
 <div class="container panel panel-default">
     <div class="panel-body">
 
+        <th:block th:replace="fragments/alerts :: alerts"></th:block>
+
         <th:block layout:fragment="content"></th:block>
 
     </div>

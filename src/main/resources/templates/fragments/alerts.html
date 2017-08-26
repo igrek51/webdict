@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+
+<th:block th:fragment="alerts">
+
+    <th:block th:each="alert : ${alerts}">
+        <div class="alert alert-dismissible"
+             role="alert" th:classappend="|alert-${alert.getBootstrapStyle()}|">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+            <span th:text="${alert.getMessage()}" th:remove="tag"></span>
+        </div>
+    </th:block>
+
+</th:block>
+
+</body>
+</html>

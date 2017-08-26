@@ -1,7 +1,5 @@
 package igrek.webdict.controllers.ui;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -36,9 +34,7 @@ import igrek.webdict.ui.alert.BootstrapAlertType;
 @Controller
 @SessionScope
 @RequestMapping("/")
-public class WordController {
-	
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+public class WordController extends BaseUIController {
 	
 	private final SessionSettings sessionSettings;
 	private final DictionaryDao dictionaryDao;
@@ -147,15 +143,6 @@ public class WordController {
 		return "word/" + viewName;
 	}
 	
-	private void setActiveTab(Map<String, Object> model, String activeTab) {
-		model.put("activeTab", activeTab);
-	}
-	
-	private void addAlert(List<BootstrapAlert> alerts, String message, BootstrapAlertType type) {
-		BootstrapAlert alert = new BootstrapAlert(message, type);
-		alerts.add(alert);
-	}
-	
 	private void checkSessionValid() throws NotLoggedInException {
 		if (sessionSettings.getUser() == null || sessionSettings.getDictionary() == null)
 			throw new NotLoggedInException();
@@ -163,10 +150,10 @@ public class WordController {
 	
 	@ExceptionHandler(NotLoggedInException.class)
 	public View handleException(RedirectAttributes redir) {
-		// bootstrap alerts
+		// show alert
 		List<BootstrapAlert> alerts = new ArrayList<>();
 		redir.addFlashAttribute("alerts", alerts);
-		addAlert(alerts, "Choose user and dictionary.", BootstrapAlertType.INFO);
+		addAlert(alerts, "Choose an user and dictionary first.", BootstrapAlertType.WARNING);
 		
 		return new RedirectView("/settings");
 	}

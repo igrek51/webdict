@@ -8,7 +8,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import igrek.webdict.controllers.ui.HelloController;
+import igrek.webdict.controllers.ui.hello.HelloController;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
