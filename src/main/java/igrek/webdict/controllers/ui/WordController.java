@@ -152,7 +152,9 @@ public class WordController extends BaseUIController {
 	
 	@ExceptionHandler(NotLoggedInException.class)
 	public View handleException(RedirectAttributes redir) {
-		// TODO hide stack trace in log for that exception
+		
+		logger.debug("Not logged in - redirecting to settings page.");
+		
 		// show alert
 		List<BootstrapAlert> alerts = new ArrayList<>();
 		redir.addFlashAttribute("alerts", alerts);
