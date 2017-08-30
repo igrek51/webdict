@@ -23,3 +23,5 @@ public class MainApp extends SpringBootServletInitializer {
 		return application.sources(MainApp.class);
 	}
 }
+
+//TODO db updates scripts, dbVersion
