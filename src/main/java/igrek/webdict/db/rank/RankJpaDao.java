@@ -10,6 +10,7 @@ import java.util.Optional;
 import igrek.webdict.db.common.BaseJpaDao;
 import igrek.webdict.db.word.WordDao;
 import igrek.webdict.logic.TopWordComparator;
+import igrek.webdict.model.DictionaryCode;
 import igrek.webdict.model.entity.Dictionary;
 import igrek.webdict.model.entity.Rank;
 import igrek.webdict.model.entity.User;
@@ -61,7 +62,9 @@ public class RankJpaDao extends BaseJpaDao<Rank> implements RankDao {
 				Rank newRank = new Rank(word, reversedDictionary, null, 0.0, 0);
 				newRanks.add(newRank);
 			}
-			logger.info(String.format("creating missing ranks for %d words", newRanks.size()));
+			String dictionaryCode = DictionaryCode.toDictionaryCode(dictionary, reversedDictionary);
+			logger.info(String.format("Creating missing ranks for %d words, user: %s, dictionary: %s", newRanks
+					.size(), user, dictionaryCode));
 			save(newRanks);
 		}
 	}

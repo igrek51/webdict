@@ -17,9 +17,10 @@ public class DictionaryCode {
 		this.reversedDictionary = reversedDictionary;
 	}
 	
-	public static String toDictionaryCode(Dictionary dictionary, boolean reversed) {
+	public static String toDictionaryCode(Dictionary dictionary, boolean reversedDictionary) {
 		return new DictionaryCode(dictionary.getSourceLanguage()
-				.getCode(), dictionary.getTargetLanguage().getCode(), reversed).toString();
+				.getCode(), dictionary.getTargetLanguage()
+				.getCode(), reversedDictionary).toString();
 	}
 	
 	public static DictionaryCode parse(String code) {

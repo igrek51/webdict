@@ -20,7 +20,7 @@ public interface RankJpaRepository extends JpaRepository<Rank, Long> {
 	@Query("select rank from Rank rank where rank.word.dictionary = ?1 and rank.reversedDictionary = ?2 and rank.word.user = ?3")
 	List<Rank> findByDictionaryAndReversedAndUser(Dictionary dictionary, boolean reversedDictionary, User user);
 	
-	@Query("select word from Word word where word.id not in (select rank.word.id from Rank rank where rank.word.dictionary = ?1 and rank.reversedDictionary = ?2 and rank.word.user = ?3)")
+	@Query("select word from Word word where word.id not in (select rank.word.id from Rank rank where rank.reversedDictionary = ?2) and word.dictionary = ?1 and word.user = ?3")
 	List<Word> findWordsWithoutRank(Dictionary dictionary, boolean reversedDictionary, User user);
 	
 }

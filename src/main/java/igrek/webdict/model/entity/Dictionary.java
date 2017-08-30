@@ -46,4 +46,5 @@ public class Dictionary implements HasId {
 	public Language getTargetLanguage() {
 		return targetLanguage;
 	}
+	
 }

@@ -51,4 +51,9 @@ public class User implements HasId {
 	public void setPass(String pass) {
 		this.pass = pass;
 	}
+	
+	@Override
+	public String toString() {
+		return login;
+	}
 }
