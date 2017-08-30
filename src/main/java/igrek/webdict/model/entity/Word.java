@@ -19,9 +19,6 @@ public class Word implements HasId {
 	@ManyToOne(optional = false)
 	private Dictionary dictionary;
 	
-	@ManyToOne
-	private User user;
-	
 	@Column(nullable = false)
 	private String name;
 	
@@ -31,9 +28,8 @@ public class Word implements HasId {
 	public Word() {
 	}
 	
-	public Word(Dictionary dictionary, User user, String name, String definition) {
+	public Word(Dictionary dictionary, String name, String definition) {
 		this.dictionary = dictionary;
-		this.user = user;
 		this.name = name;
 		this.definition = definition;
 	}
@@ -50,14 +46,6 @@ public class Word implements HasId {
 	
 	public Dictionary getDictionary() {
 		return dictionary;
-	}
-	
-	public User getUser() {
-		return user;
-	}
-	
-	public void setUser(User user) {
-		this.user = user;
 	}
 	
 	public String getName() {

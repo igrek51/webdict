@@ -8,35 +8,28 @@ import java.util.List;
 import java.util.Optional;
 
 import igrek.webdict.db.common.BaseJpaDao;
-import igrek.webdict.db.word.WordDao;
 import igrek.webdict.logic.TopWordComparator;
 import igrek.webdict.model.DictionaryCode;
 import igrek.webdict.model.entity.Dictionary;
 import igrek.webdict.model.entity.Rank;
 import igrek.webdict.model.entity.User;
-import igrek.webdict.model.entity.Word;
+import igrek.webdict.model.entity.UserWord;
 
 public class RankJpaDao extends BaseJpaDao<Rank> implements RankDao {
 	
 	private final RankJpaRepository jpaRepository;
-	private final WordDao wordDao;
 	
 	@Autowired
-	public RankJpaDao(RankJpaRepository jpaRepository, WordDao wordDao) {
+	public RankJpaDao(RankJpaRepository jpaRepository) {
 		super(jpaRepository);
 		this.jpaRepository = jpaRepository;
-		this.wordDao = wordDao;
 	}
 	
 	@Override
 	public List<Rank> findByDictionaryAndUser(Dictionary dictionary, boolean reversedDictionary, User user) {
 		createMissingRanks(dictionary, reversedDictionary, user);
 		// get existing ranks (which have been used at least once) and new ranks
-		if (user == null) { // do not filter by user
-			return jpaRepository.findByDictionaryAndReversed(dictionary, reversedDictionary);
-		} else {
-			return jpaRepository.findByDictionaryAndReversedAndUser(dictionary, reversedDictionary, user);
-		}
+		return jpaRepository.findByDictionaryAndReversedAndUser(dictionary, reversedDictionary, user);
 	}
 	
 	@Override
@@ -48,18 +41,18 @@ public class RankJpaDao extends BaseJpaDao<Rank> implements RankDao {
 	}
 	
 	@Override
-	public List<Word> findWordsWithoutRank(Dictionary dictionary, boolean reversedDictionary, User user) {
-		return jpaRepository.findWordsWithoutRank(dictionary, reversedDictionary, user);
+	public List<UserWord> findUserWordsWithoutRank(Dictionary dictionary, boolean reversedDictionary, User user) {
+		return jpaRepository.findUserWordsWithoutRank(dictionary, reversedDictionary, user);
 	}
 	
 	@Override
 	public void createMissingRanks(Dictionary dictionary, boolean reversedDictionary, User user) {
-		List<Word> wordsWithout = findWordsWithoutRank(dictionary, reversedDictionary, user);
-		if (!wordsWithout.isEmpty()) {
+		List<UserWord> userWordsWithout = findUserWordsWithoutRank(dictionary, reversedDictionary, user);
+		if (!userWordsWithout.isEmpty()) {
 			List<Rank> newRanks = new ArrayList<>();
 			// create default ranks for words without ranks
-			for (Word word : wordsWithout) {
-				Rank newRank = new Rank(word, reversedDictionary, null, 0.0, 0);
+			for (UserWord userWord : userWordsWithout) {
+				Rank newRank = new Rank(userWord, reversedDictionary, null, 0.0, 0);
 				newRanks.add(newRank);
 			}
 			String dictionaryCode = DictionaryCode.toDictionaryCode(dictionary, reversedDictionary);

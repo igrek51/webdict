@@ -9,51 +9,48 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import igrek.webdict.db.common.BaseInMemoryDao;
-import igrek.webdict.db.word.WordDao;
+import igrek.webdict.db.userword.UserWordDao;
 import igrek.webdict.logic.TopWordComparator;
 import igrek.webdict.model.DictionaryCode;
 import igrek.webdict.model.entity.Dictionary;
 import igrek.webdict.model.entity.Rank;
 import igrek.webdict.model.entity.User;
-import igrek.webdict.model.entity.Word;
+import igrek.webdict.model.entity.UserWord;
 
 public class RankInMemoryDao extends BaseInMemoryDao<Rank> implements RankDao {
 	
-	private WordDao wordDao;
+	private UserWordDao userWordDao;
 	
 	@Autowired
-	public RankInMemoryDao(WordDao wordDao) {
-		this.wordDao = wordDao;
+	public RankInMemoryDao(UserWordDao userWordDao) {
+		this.userWordDao = userWordDao;
 		
-		List<Word> words = wordDao.findAll();
-		for (Word word : words) {
-			addSampleEntity(word, false, 0, 0);
+		List<UserWord> userWords = userWordDao.findByUserId(1L);
+		for (UserWord userWord : userWords) {
+			addSampleEntity(userWord, false, 0, 0);
 		}
 	}
 	
-	private void addSampleEntity(Word word, boolean reversedDictionary, double rankValue, int triesCount) {
-		super.addSampleEntity(new Rank(word, reversedDictionary, LocalDateTime.now(), rankValue, triesCount));
+	private void addSampleEntity(UserWord userWord, boolean reversedDictionary, double rankValue, int triesCount) {
+		super.addSampleEntity(new Rank(userWord, reversedDictionary, LocalDateTime.now(), rankValue, triesCount));
 	}
 	
 	@Override
 	public List<Rank> findByDictionaryAndUser(Dictionary dictionary, boolean reversedDictionary, User user) {
 		createMissingRanks(dictionary, reversedDictionary, user);
-		// get existing ranks (which have been used at least once)
-		Stream<Rank> rankStream = entities.stream()
+		// get already existing ranks
+		return getOnlyExistingRanks(dictionary, reversedDictionary, user);
+	}
+	
+	private List<Rank> getOnlyExistingRanks(Dictionary dictionary, boolean reversedDictionary, User user) {
+		return entities.stream()
 				.filter(rank -> Objects.equals(rank.isReversedDictionary(), reversedDictionary))
-				.filter(rank -> Objects.equals(rank.getWord()
-						.getDictionary()
-						.getId(), dictionary.getId()));
-		if (user != null) { // filter by user
-			rankStream = rankStream.filter(rank -> Objects.equals(rank.getWord()
-					.getUser()
-					.getId(), user.getId()));
-		}
-		List<Rank> ranks = rankStream.collect(Collectors.toList());
-		return ranks;
+				.filter(rank -> Objects.equals(rank.getUserWord().getWord()
+						.getDictionary().getId(), dictionary.getId()))
+				.filter(rank -> Objects.equals(rank.getUserWord().getUser().getId(), user.getId()))
+				.collect(Collectors.toList());
 	}
 	
 	@Override
@@ -65,40 +62,30 @@ public class RankInMemoryDao extends BaseInMemoryDao<Rank> implements RankDao {
 	}
 	
 	@Override
-	public List<Word> findWordsWithoutRank(Dictionary dictionary, boolean reversedDictionary, User user) {
+	public List<UserWord> findUserWordsWithoutRank(Dictionary dictionary, boolean reversedDictionary, User user) {
 		// get existing ranks (which have been used at least once)
-		Stream<Rank> rankStream = entities.stream()
-				.filter(rank -> Objects.equals(rank.isReversedDictionary(), reversedDictionary))
-				.filter(rank -> Objects.equals(rank.getWord()
-						.getDictionary()
-						.getId(), dictionary.getId()));
-		if (user != null) { // filter by user
-			rankStream = rankStream.filter(rank -> Objects.equals(rank.getWord()
-					.getUser()
-					.getId(), user.getId()));
-		}
-		List<Rank> existingRanks = rankStream.collect(Collectors.toList());
+		List<Rank> existingRanks = getOnlyExistingRanks(dictionary, reversedDictionary, user);
 		
-		// get words without ranks
-		Long userId = user == null ? null : user.getId();
-		List<Word> allWords = wordDao.findByDictionaryAndUser(dictionary.getId(), userId);
+		// get all words of user and dictionary
+		List<UserWord> allUserDictionaryWords = userWordDao.findByUserIdAndDictionaryId(user.getId(), dictionary
+				.getId());
 		// remove words that have been took into consideration already
 		for (Rank rank : existingRanks) {
-			Long wordId = rank.getWord().getId();
-			allWords.removeIf(word -> Objects.equals(word.getId(), wordId));
+			Long userWordId = rank.getUserWord().getId();
+			allUserDictionaryWords.removeIf(userWord -> Objects.equals(userWord.getId(), userWordId));
 		}
 		
-		return allWords;
+		return allUserDictionaryWords;
 	}
 	
 	@Override
 	public void createMissingRanks(Dictionary dictionary, boolean reversedDictionary, User user) {
-		List<Word> wordsWithout = findWordsWithoutRank(dictionary, reversedDictionary, user);
-		if (!wordsWithout.isEmpty()) {
+		List<UserWord> userWordsWithout = findUserWordsWithoutRank(dictionary, reversedDictionary, user);
+		if (!userWordsWithout.isEmpty()) {
 			List<Rank> newRanks = new ArrayList<>();
 			// create default ranks for words without ranks
-			for (Word word : wordsWithout) {
-				Rank newRank = new Rank(word, reversedDictionary, null, 0.0, 0);
+			for (UserWord userWord : userWordsWithout) {
+				Rank newRank = new Rank(userWord, reversedDictionary, null, 0.0, 0);
 				newRanks.add(newRank);
 			}
 			String dictionaryCode = DictionaryCode.toDictionaryCode(dictionary, reversedDictionary);

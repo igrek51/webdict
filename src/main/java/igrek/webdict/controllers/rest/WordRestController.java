@@ -1,12 +1,8 @@
 package igrek.webdict.controllers.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,7 +18,7 @@ import igrek.webdict.model.DictionaryCode;
 import igrek.webdict.model.dto.WordDTO;
 import igrek.webdict.model.entity.Dictionary;
 import igrek.webdict.model.entity.User;
-import igrek.webdict.model.entity.Word;
+import igrek.webdict.model.entity.UserWord;
 
 @RestController
 @RequestMapping("/rest/word")
@@ -63,8 +59,8 @@ class WordRestController {
 		}
 		boolean reversedDictionary = dictCode.isReversedDictionary();
 		
-		return rankDao.findWordsWithoutRank(oDictionary.get(), reversedDictionary, oUser.get())
-				.stream()
+		return rankDao.findUserWordsWithoutRank(oDictionary.get(), reversedDictionary, oUser.get())
+				.stream().map(UserWord::getWord)
 				.map(WordDTO::createDTO)
 				.collect(Collectors.toList());
 	}
@@ -76,27 +72,4 @@ class WordRestController {
 				orElse(null);
 	}
 	
-	@PutMapping("/{id}")
-	public ResponseEntity<WordDTO> update(@PathVariable("id") long id, @RequestBody WordDTO wordDTO) {
-		
-		Optional<Word> oWord = wordDao.findOne(id);
-		
-		if (!oWord.isPresent())
-			throw new IllegalArgumentException("object with given id doesn't exist");
-		
-		//update fields
-		Word word = oWord.get();
-		word.setDefinition(wordDTO.getDefinition());
-		word.setName(wordDTO.getName());
-		
-		Optional<User> oUser = userDao.findByLogin(wordDTO.getUserLogin());
-		word.setUser(oUser.orElse(null));
-		
-		wordDao.save(word);
-		return responseDictEntryOK(word);
-	}
-	
-	private ResponseEntity<WordDTO> responseDictEntryOK(Word word) {
-		return new ResponseEntity<>(WordDTO.createDTO(word), HttpStatus.OK);
-	}
 }

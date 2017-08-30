@@ -20,12 +20,14 @@ import java.util.stream.Collectors;
 import igrek.webdict.db.dictionary.DictionaryDao;
 import igrek.webdict.db.rank.RankDao;
 import igrek.webdict.db.user.UserDao;
+import igrek.webdict.db.userword.UserWordDao;
 import igrek.webdict.db.word.WordDao;
 import igrek.webdict.logic.TopWordComparator;
 import igrek.webdict.model.dto.AddWordDTO;
 import igrek.webdict.model.dto.WordRankDTO;
 import igrek.webdict.model.entity.Dictionary;
 import igrek.webdict.model.entity.User;
+import igrek.webdict.model.entity.UserWord;
 import igrek.webdict.model.entity.Word;
 import igrek.webdict.model.session.NotLoggedInException;
 import igrek.webdict.model.session.SessionSettings;
@@ -42,14 +44,16 @@ public class WordController extends BaseUIController {
 	private final WordDao wordDao;
 	private final RankDao rankDao;
 	private final UserDao userDao;
+	private final UserWordDao userWordDao;
 	
 	@Autowired
-	public WordController(DictionaryDao dictionaryDao, WordDao wordDao, RankDao rankDao, UserDao userDao, SessionSettings sessionSettings) {
+	public WordController(DictionaryDao dictionaryDao, WordDao wordDao, RankDao rankDao, UserDao userDao, SessionSettings sessionSettings, UserWordDao userWordDao) {
 		this.dictionaryDao = dictionaryDao;
 		this.wordDao = wordDao;
 		this.rankDao = rankDao;
 		this.userDao = userDao;
 		this.sessionSettings = sessionSettings;
+		this.userWordDao = userWordDao;
 	}
 	
 	@GetMapping({"", "/", "/top"})
@@ -125,15 +129,19 @@ public class WordController extends BaseUIController {
 		}
 		
 		Long userId = user == null ? null : user.getId();
-		if (wordDao.findByName(name, dictionary.getId(), userId).isPresent()) {
+		if (userWordDao.findByName(name, dictionary.getId(), userId).isPresent()) {
 			addAlert(alerts, "word '" + name + "' already exists", BootstrapAlertType.ERROR);
 			return view;
 		}
 		
 		// create word
-		Word word = new Word(dictionary, user, name, definition);
+		Word word = new Word(dictionary, name, definition);
 		wordDao.save(word);
 		model.put("word", word);
+		
+		// and user word
+		UserWord userWord = new UserWord(user, word);
+		userWordDao.save(userWord);
 		
 		addAlert(alerts, "Word '" + name + "' has been added successfully.", BootstrapAlertType.SUCCESS);
 		logger.info("new word has been added: " + name + ": " + definition);

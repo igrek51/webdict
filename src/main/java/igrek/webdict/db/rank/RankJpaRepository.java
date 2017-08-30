@@ -9,18 +9,15 @@ import java.util.List;
 import igrek.webdict.model.entity.Dictionary;
 import igrek.webdict.model.entity.Rank;
 import igrek.webdict.model.entity.User;
-import igrek.webdict.model.entity.Word;
+import igrek.webdict.model.entity.UserWord;
 
 @Transactional
 public interface RankJpaRepository extends JpaRepository<Rank, Long> {
 	
-	@Query("select rank from Rank rank where rank.word.dictionary = ?1 and rank.reversedDictionary = ?2")
-	List<Rank> findByDictionaryAndReversed(Dictionary dictionary, boolean reversedDictionary);
-	
-	@Query("select rank from Rank rank where rank.word.dictionary = ?1 and rank.reversedDictionary = ?2 and rank.word.user = ?3")
+	@Query("select rank from Rank rank where rank.reversedDictionary = ?2 and rank.userWord.word.dictionary = ?1 and rank.userWord.user = ?3")
 	List<Rank> findByDictionaryAndReversedAndUser(Dictionary dictionary, boolean reversedDictionary, User user);
 	
-	@Query("select word from Word word where word.id not in (select rank.word.id from Rank rank where rank.reversedDictionary = ?2) and word.dictionary = ?1 and word.user = ?3")
-	List<Word> findWordsWithoutRank(Dictionary dictionary, boolean reversedDictionary, User user);
+	@Query("select userWord from UserWord userWord where userWord.user = ?3 and userWord.word.dictionary = ?1 and userWord.id not in (select rank.userWord.id from Rank rank where rank.reversedDictionary = ?2)")
+	List<UserWord> findUserWordsWithoutRank(Dictionary dictionary, boolean reversedDictionary, User user);
 	
 }

@@ -23,7 +23,7 @@ public class WordRanksDetailsDTO {
 	
 	public static WordRanksDetailsDTO createDTO(Rank rank) {
 		WordRanksDetailsDTO dto = new WordRanksDetailsDTO();
-		Word word = rank.getWord();
+		Word word = rank.getUserWord().getWord();
 		dto.rankId = rank.getId();
 		dto.word = word.getName();
 		dto.rankValue = rank.getRankValue();
