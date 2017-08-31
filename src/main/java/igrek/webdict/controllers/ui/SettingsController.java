@@ -59,16 +59,9 @@ public class SettingsController extends BaseUIController {
 		Map<String, String> dictsMap = new LinkedHashMap<>();
 		for (Dictionary dict : dicts) {
 			StringBuilder sb = new StringBuilder();
-			sb.append(dict.getSourceLanguage().getCode());
-			sb.append(" -> ");
-			sb.append(dict.getTargetLanguage().getCode());
-			dictsMap.put(DictionaryCode.toDictionaryCode(dict, false), sb.toString());
+			dictsMap.put(DictionaryCode.toDictionaryCode(dict, false), DictionaryCode.toDictionaryDisplayName(dict, false));
 			//reversed
-			sb = new StringBuilder();
-			sb.append(dict.getSourceLanguage().getCode());
-			sb.append(" <- ");
-			sb.append(dict.getTargetLanguage().getCode());
-			dictsMap.put(DictionaryCode.toDictionaryCode(dict, true), sb.toString());
+			dictsMap.put(DictionaryCode.toDictionaryCode(dict, true), DictionaryCode.toDictionaryDisplayName(dict, true));
 		}
 		model.put("dictionaries", dictsMap);
 		

@@ -23,6 +23,18 @@ public class DictionaryCode {
 				.getCode(), reversedDictionary).toString();
 	}
 	
+	public static String toDictionaryDisplayName(Dictionary dictionary, boolean reversedDictionary) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(dictionary.getSourceLanguage().getCode());
+		if (!reversedDictionary){
+			sb.append(" -> ");
+		} else {
+			sb.append(" <- ");
+		}
+		sb.append(dictionary.getTargetLanguage().getCode());
+		return sb.toString();
+	}
+	
 	public static DictionaryCode parse(String code) {
 		Pattern regex = Pattern.compile("^(\\w{2})-(\\w{2})(-r)?$");
 		Matcher matcher = regex.matcher(code);

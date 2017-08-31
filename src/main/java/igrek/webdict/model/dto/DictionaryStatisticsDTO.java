@@ -9,4 +9,9 @@ public class DictionaryStatisticsDTO {
 	
 	public Map<String, Object> stats = new HashMap<>();
 	
+	
+	public static class ProgressBarData {
+		
+		long count
+	}
 }

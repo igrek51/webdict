@@ -16,6 +16,7 @@ import igrek.webdict.controllers.ui.common.BaseUIController;
 import igrek.webdict.db.rank.RankDao;
 import igrek.webdict.db.userword.UserWordDao;
 import igrek.webdict.db.word.WordDao;
+import igrek.webdict.model.DictionaryCode;
 import igrek.webdict.model.dto.DictionaryStatisticsDTO;
 import igrek.webdict.model.entity.Dictionary;
 import igrek.webdict.model.entity.Rank;
@@ -51,23 +52,24 @@ public class StatisticsController extends BaseUIController {
 		User user = sessionSettings.getUser();
 		
 		List<DictionaryStatisticsDTO> dictStats = new ArrayList<>();
-		dictStats.add(generateDictStats(dictionary, user, false, "en -> pl"));
-		dictStats.add(generateDictStats(dictionary, user, true, "en <- pl"));
+		dictStats.add(generateDictStats(dictionary, user, false));
+		dictStats.add(generateDictStats(dictionary, user, true));
 		model.put("dictStats", dictStats);
 		
 		return "statistics";
 	}
 	
-	private DictionaryStatisticsDTO generateDictStats(Dictionary dictionary, User user, boolean reversed, String dictDisplayName) {
+	private DictionaryStatisticsDTO generateDictStats(Dictionary dictionary, User user, boolean reversedDictionary) {
 		
 		DictionaryStatisticsDTO dto = new DictionaryStatisticsDTO();
 		
 		// dictionary display name
+		String dictDisplayName = DictionaryCode.toDictionaryDisplayName(dictionary, reversedDictionary);
 		dto.dictDisplayName = dictDisplayName;
 		Map<String, Object> stats = dto.stats;
 		
 		// all user dictionary ranks
-		List<Rank> ranks = rankDao.findByDictionaryAndUser(dictionary, reversed, user);
+		List<Rank> ranks = rankDao.findByDictionaryAndUser(dictionary, reversedDictionary, user);
 		long all = ranks.size();
 		stats.put("allWordsCount", all);
 		
