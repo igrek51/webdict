@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,15 +20,19 @@ public class Rank implements HasId {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@ManyToOne
+	@ManyToOne(optional = false)
 	private UserWord userWord;
 	
+	@Column(nullable = false)
 	private boolean reversedDictionary;
 	
+	@Column(nullable = true)
 	private LocalDateTime lastUse;
 	
+	@Column(nullable = false)
 	private double rankValue;
 	
+	@Column(nullable = false)
 	private int triesCount;
 	
 	private final transient Duration COOLDOWN_TIME = Duration.ofMinutes(10);

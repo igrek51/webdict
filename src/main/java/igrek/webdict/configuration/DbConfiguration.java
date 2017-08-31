@@ -40,7 +40,7 @@ public class DbConfiguration {
 	@Configuration
 	@Profile("default")
 	@EnableAutoConfiguration
-	@EnableJpaRepositories(basePackageClasses = {WordJpaRepository.class, UserJpaRepository.class, DictionaryJpaRepository.class, RankJpaRepository.class, LanguageJpaRepository.class})
+	@EnableJpaRepositories(basePackageClasses = {WordJpaRepository.class, UserJpaRepository.class, DictionaryJpaRepository.class, RankJpaRepository.class, LanguageJpaRepository.class, UserWordJpaRepository.class})
 	public class DefaultDbConfiguration {
 		
 		@Bean

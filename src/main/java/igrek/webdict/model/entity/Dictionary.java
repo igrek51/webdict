@@ -15,10 +15,10 @@ public class Dictionary implements HasId {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@ManyToOne
+	@ManyToOne(optional = false)
 	private Language sourceLanguage;
 	
-	@ManyToOne
+	@ManyToOne(optional = false)
 	private Language targetLanguage;
 	
 	public Dictionary() {
