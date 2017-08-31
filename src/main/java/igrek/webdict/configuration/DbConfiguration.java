@@ -25,6 +25,10 @@ import igrek.webdict.db.user.UserDao;
 import igrek.webdict.db.user.UserInMemoryDao;
 import igrek.webdict.db.user.UserJpaDao;
 import igrek.webdict.db.user.UserJpaRepository;
+import igrek.webdict.db.userword.UserWordDao;
+import igrek.webdict.db.userword.UserWordInMemoryDao;
+import igrek.webdict.db.userword.UserWordJpaDao;
+import igrek.webdict.db.userword.UserWordJpaRepository;
 import igrek.webdict.db.word.WordDao;
 import igrek.webdict.db.word.WordInMemoryDao;
 import igrek.webdict.db.word.WordJpaDao;
@@ -38,6 +42,7 @@ public class DbConfiguration {
 	@EnableAutoConfiguration
 	@EnableJpaRepositories(basePackageClasses = {WordJpaRepository.class, UserJpaRepository.class, DictionaryJpaRepository.class, RankJpaRepository.class, LanguageJpaRepository.class})
 	public class DefaultDbConfiguration {
+		
 		@Bean
 		public WordDao provideWordDao(WordJpaRepository wordJpaRepository) {
 			return new WordJpaDao(wordJpaRepository);
@@ -59,8 +64,13 @@ public class DbConfiguration {
 		}
 		
 		@Bean
-		public RankDao provideRankDao(RankJpaRepository jpaRepository, WordDao wordDao) {
-			return new RankJpaDao(jpaRepository, wordDao);
+		public RankDao provideRankDao(RankJpaRepository jpaRepository) {
+			return new RankJpaDao(jpaRepository);
+		}
+		
+		@Bean
+		public UserWordDao provideUserWordDao(UserWordJpaRepository jpaRepository) {
+			return new UserWordJpaDao(jpaRepository);
 		}
 	}
 	
@@ -68,9 +78,10 @@ public class DbConfiguration {
 	@Profile("memdb")
 	@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 	public class MemDbConfiguration {
+		
 		@Bean
-		public WordDao provideWordDao(DictionaryDao dictionaryDao, UserDao userDao) {
-			return new WordInMemoryDao(dictionaryDao, userDao);
+		public WordDao provideWordDao(DictionaryDao dictionaryDao) {
+			return new WordInMemoryDao(dictionaryDao);
 		}
 		
 		@Bean
@@ -89,8 +100,13 @@ public class DbConfiguration {
 		}
 		
 		@Bean
-		public RankDao provideRankDao(WordDao wordDao) {
-			return new RankInMemoryDao(wordDao);
+		public RankDao provideRankDao(UserWordDao userWordDao) {
+			return new RankInMemoryDao(userWordDao);
+		}
+		
+		@Bean
+		public UserWordDao provideUserWordDao(DictionaryDao dictionaryDao, UserDao userDao, WordDao wordDao) {
+			return new UserWordInMemoryDao(dictionaryDao, userDao, wordDao);
 		}
 	}
 	

@@ -2,29 +2,26 @@ package igrek.webdict.db.word;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import igrek.webdict.db.common.BaseInMemoryDao;
 import igrek.webdict.db.dictionary.DictionaryDao;
-import igrek.webdict.db.user.UserDao;
 import igrek.webdict.model.entity.Dictionary;
-import igrek.webdict.model.entity.User;
 import igrek.webdict.model.entity.Word;
 
 public class WordInMemoryDao extends BaseInMemoryDao<Word> implements WordDao {
 	
 	private DictionaryDao dictionaryDao;
-	private UserDao userDao;
 	
 	@Autowired
-	public WordInMemoryDao(DictionaryDao dictionaryDao, UserDao userDao) {
+	public WordInMemoryDao(DictionaryDao dictionaryDao) {
 		this.dictionaryDao = dictionaryDao;
-		this.userDao = userDao;
 		
+		addSampleEntities();
+	}
+	
+	private void addSampleEntities() {
 		addSampleEntity("dick", "dik");
 		addSampleEntity("moby dick", "taki wieloryb");
 		addSampleEntity("ass", "dupa");
@@ -32,33 +29,15 @@ public class WordInMemoryDao extends BaseInMemoryDao<Word> implements WordDao {
 	}
 	
 	private void addSampleEntity(String word, String definition) {
-		Dictionary dictionary = dictionaryDao.findAll().get(0);
-		User user = userDao.findAll().get(0);
-		super.addSampleEntity(new Word(dictionary, user, word, definition));
+		Optional<Dictionary> oDictionary = dictionaryDao.findByLanguages("en", "pl");
+		super.addSampleEntity(new Word(oDictionary.get(), word, definition));
 	}
 	
 	@Override
-	public List<Word> findByDictionaryAndUser(Long dictionaryId, Long userId) {
-		if (userId == null) {
-			return entities.stream()
-					.filter(word -> Objects.equals(word.getDictionary().getId(), dictionaryId))
-					.collect(Collectors.toList());
-		} else {
-			return entities.stream()
-					.filter(word -> Objects.equals(word.getDictionary().getId(), dictionaryId))
-					.filter(word -> Objects.equals(word.getUser().getId(), userId))
-					.collect(Collectors.toList());
-		}
-	}
-	
-	@Override
-	public Optional<Word> findByName(String wordName, Long dictionaryId, Long userId) {
-		Stream<Word> wordStream = entities.stream()
+	public Optional<Word> findByName(String wordName, Long dictionaryId) {
+		return entities.stream()
 				.filter(word -> Objects.equals(word.getName(), wordName))
-				.filter(word -> Objects.equals(word.getDictionary().getId(), dictionaryId));
-		if (userId != null) { // filtering by user is optional
-			wordStream = wordStream.filter(word -> Objects.equals(word.getUser().getId(), userId));
-		}
-		return wordStream.findAny();
+				.filter(word -> Objects.equals(word.getDictionary().getId(), dictionaryId))
+				.findAny();
 	}
 }

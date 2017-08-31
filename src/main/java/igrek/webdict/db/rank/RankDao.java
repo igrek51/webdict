@@ -7,7 +7,7 @@ import igrek.webdict.db.common.BaseDao;
 import igrek.webdict.model.entity.Dictionary;
 import igrek.webdict.model.entity.Rank;
 import igrek.webdict.model.entity.User;
-import igrek.webdict.model.entity.Word;
+import igrek.webdict.model.entity.UserWord;
 
 public interface RankDao extends BaseDao<Rank> {
 	
@@ -15,7 +15,7 @@ public interface RankDao extends BaseDao<Rank> {
 	
 	Optional<Rank> getTop(Dictionary dictionary, boolean reversedDictionary, User user);
 	
-	List<Word> findWordsWithoutRank(Dictionary dictionary, boolean reversedDictionary, User user);
+	List<UserWord> findUserWordsWithoutRank(Dictionary dictionary, boolean reversedDictionary, User user);
 	
 	void createMissingRanks(Dictionary dictionary, boolean reversedDictionary, User user);
 	

@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 
 import igrek.webdict.model.entity.Rank;
+import igrek.webdict.model.entity.Word;
 
 public class WordRankDTO {
 	
@@ -38,10 +39,10 @@ public class WordRankDTO {
 		DecimalFormat df = new DecimalFormat("#.#");
 		df.setRoundingMode(RoundingMode.HALF_UP);
 		String rankValue = df.format(rank.getRankValue());
-		return new WordRankDTO(rank.getId(), rank.getWord()
-				.getDictionary().getId(), rank.isReversedDictionary(), rank.getWord()
-				.getName(), rank.getWord()
-				.getDefinition(), rankValue, rank.getTriesCount(), lastUse);
+		Word word = rank.getUserWord().getWord();
+		return new WordRankDTO(rank.getId(), word.getDictionary()
+				.getId(), rank.isReversedDictionary(), word.getName(), word.getDefinition(), rankValue, rank
+				.getTriesCount(), lastUse);
 	}
 	
 	public Long getRankId() {
