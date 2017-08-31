@@ -2,24 +2,19 @@ package igrek.webdict.controllers.ui;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.annotation.SessionScope;
-import org.springframework.web.servlet.View;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import igrek.webdict.db.dictionary.DictionaryDao;
+import igrek.webdict.controllers.ui.common.BaseUIController;
 import igrek.webdict.db.rank.RankDao;
-import igrek.webdict.db.user.UserDao;
 import igrek.webdict.db.userword.UserWordDao;
 import igrek.webdict.db.word.WordDao;
 import igrek.webdict.logic.TopWordComparator;
@@ -29,7 +24,6 @@ import igrek.webdict.model.entity.Dictionary;
 import igrek.webdict.model.entity.User;
 import igrek.webdict.model.entity.UserWord;
 import igrek.webdict.model.entity.Word;
-import igrek.webdict.model.session.NotLoggedInException;
 import igrek.webdict.model.session.SessionSettings;
 import igrek.webdict.ui.alert.BootstrapAlert;
 import igrek.webdict.ui.alert.BootstrapAlertType;
@@ -39,19 +33,15 @@ import igrek.webdict.ui.alert.BootstrapAlertType;
 @RequestMapping("/")
 public class WordController extends BaseUIController {
 	
-	private final SessionSettings sessionSettings;
-	private final DictionaryDao dictionaryDao;
 	private final WordDao wordDao;
 	private final RankDao rankDao;
-	private final UserDao userDao;
 	private final UserWordDao userWordDao;
 	
 	@Autowired
-	public WordController(DictionaryDao dictionaryDao, WordDao wordDao, RankDao rankDao, UserDao userDao, SessionSettings sessionSettings, UserWordDao userWordDao) {
-		this.dictionaryDao = dictionaryDao;
+	public WordController(WordDao wordDao, RankDao rankDao, SessionSettings sessionSettings, UserWordDao userWordDao) {
+		super(sessionSettings);
 		this.wordDao = wordDao;
 		this.rankDao = rankDao;
-		this.userDao = userDao;
 		this.sessionSettings = sessionSettings;
 		this.userWordDao = userWordDao;
 	}
@@ -59,7 +49,7 @@ public class WordController extends BaseUIController {
 	@GetMapping({"", "/", "/top"})
 	public String showTop(Map<String, Object> model) {
 		checkSessionValid();
-		model.put("title", "Top word");
+		setTitle(model, "Top word");
 		setActiveTab(model, "top");
 		
 		Dictionary dictionary = sessionSettings.getDictionary();
@@ -71,13 +61,13 @@ public class WordController extends BaseUIController {
 				.orElse(null);
 		model.put("wordrank", wordrank);
 		
-		return view("top");
+		return "top";
 	}
 	
 	@GetMapping("/all")
 	public String listAll(Map<String, Object> model) {
 		checkSessionValid();
-		model.put("title", "All dictionary words");
+		setTitle(model, "All dictionary words");
 		setActiveTab(model, "all");
 		
 		Dictionary dictionary = sessionSettings.getDictionary();
@@ -91,23 +81,23 @@ public class WordController extends BaseUIController {
 				.collect(Collectors.toList());
 		model.put("wordranks", entries);
 		
-		return view("listAll");
+		return "listAll";
 	}
 	
 	@GetMapping("/add")
 	public String addNew(Map<String, Object> model) {
 		checkSessionValid();
-		model.put("title", "Add new word");
+		setTitle(model, "Add new word");
 		setActiveTab(model, "add");
-		return view("add");
+		return "add";
 	}
 	
 	@PostMapping("/add")
 	public String addNew(@ModelAttribute("addWordDTO") AddWordDTO addWordDTO, Map<String, Object> model) {
 		checkSessionValid();
-		model.put("title", "Add new word");
+		setTitle(model, "Add new word");
 		setActiveTab(model, "add");
-		String view = view("add");
+		String view = "add";
 		// bootstrap alerts
 		List<BootstrapAlert> alerts = new ArrayList<>();
 		model.put("alerts", alerts);
@@ -147,28 +137,6 @@ public class WordController extends BaseUIController {
 		logger.info("new word has been added: " + name + ": " + definition);
 		
 		return view;
-	}
-	
-	private String view(String viewName) {
-		return "word/" + viewName;
-	}
-	
-	private void checkSessionValid() throws NotLoggedInException {
-		if (sessionSettings.getUser() == null || sessionSettings.getDictionary() == null)
-			throw new NotLoggedInException();
-	}
-	
-	@ExceptionHandler(NotLoggedInException.class)
-	public View handleException(RedirectAttributes redir) {
-		
-		logger.debug("Not logged in - redirecting to settings page.");
-		
-		// show alert
-		List<BootstrapAlert> alerts = new ArrayList<>();
-		redir.addFlashAttribute("alerts", alerts);
-		addAlert(alerts, "Choose an user and dictionary first.", BootstrapAlertType.WARNING);
-		
-		return new RedirectView("/settings", true);
 	}
 	
 }

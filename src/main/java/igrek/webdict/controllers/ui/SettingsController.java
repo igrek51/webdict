@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import igrek.webdict.controllers.ui.common.BaseUIController;
 import igrek.webdict.db.dictionary.DictionaryDao;
 import igrek.webdict.db.user.UserDao;
 import igrek.webdict.model.DictionaryCode;
@@ -29,12 +30,12 @@ import igrek.webdict.ui.alert.BootstrapAlertType;
 @RequestMapping("/settings")
 public class SettingsController extends BaseUIController {
 	
-	private final SessionSettings sessionSettings;
 	private final UserDao userDao;
 	private final DictionaryDao dictionaryDao;
 	
 	@Autowired
 	public SettingsController(SessionSettings sessionSettings, UserDao userDao, DictionaryDao dictionaryDao) {
+		super(sessionSettings);
 		this.sessionSettings = sessionSettings;
 		this.userDao = userDao;
 		this.dictionaryDao = dictionaryDao;
@@ -42,7 +43,7 @@ public class SettingsController extends BaseUIController {
 	
 	@GetMapping({"", "/"})
 	public String showSettings(Map<String, Object> model) {
-		model.put("title", "Settings");
+		setTitle(model, "Settings");
 		setActiveTab(model, "settings");
 		
 		Long userId = sessionSettings.getUser() == null ? null : sessionSettings.getUser().getId();

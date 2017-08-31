@@ -1,0 +1,25 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main-layout}">
+<head>
+    <title>Statistics</title>
+</head>
+<body>
+
+<th:block layout:fragment="content">
+
+    <div class="panel panel-primary">
+        <div class="panel-heading" id="dict-word">Statistics</div>
+        <div class="panel-body">
+
+            All words: <span th:text="${allWordsCount}"></span>
+            <br/>
+
+
+        </div>
+    </div>
+
+</th:block>
+</body>
+</html>
