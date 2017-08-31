@@ -1,13 +1,5 @@
-target/
-log/
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
+/target/
+/log/
 
 ### IntelliJ IDEA ###
 .idea
@@ -15,10 +7,3 @@ log/
 *.iml
 *.ipr
 
-### NetBeans ###
-nbproject/private/
-build/
-nbbuild/
-dist/
-nbdist/
-.nb-gradle/
