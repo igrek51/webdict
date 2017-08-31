@@ -52,7 +52,29 @@ public class StatisticsController extends BaseUIController {
 		model.put("allWordsCount", ranks.size());
 		
 		if (!ranks.isEmpty()) {
-		
+			
+			// trained words
+			long trainedCount = ranks.stream()
+					.filter(rank -> rank.getRankValue() < 0 && rank.getTriesCount() > 0)
+					.count();
+			model.put("trainedCount", trainedCount);
+			
+			// touched words
+			long touchedCount = ranks.stream().filter(rank -> rank.getTriesCount() > 0).count();
+			model.put("touchedCount", touchedCount);
+			
+			// cooling down words
+			long coolingDownCount = ranks.stream()
+					.filter(rank -> rank.getCooldownPenalty() > 0.0)
+					.count();
+			model.put("coolingDownCount", coolingDownCount);
+			
+			// training in progress words
+			long trainingInProgressCount = ranks.stream()
+					.filter(rank -> rank.getRankValue() > 0)
+					.count();
+			model.put("trainingInProgressCount", trainingInProgressCount);
+			
 		}
 		
 		return "statistics";
