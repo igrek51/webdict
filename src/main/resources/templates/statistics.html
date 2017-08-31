@@ -13,16 +13,75 @@
         <div class="panel-heading" id="dict-word">Statistics</div>
         <div class="panel-body">
 
-            All words: <span th:text="${allWordsCount}"></span>
-            <br/>
-            Trained words: <span th:text="${trainedCount}"></span>
-            <br/>
-            Touched words: <span th:text="${touchedCount}"></span>
-            <br/>
-            Cooling down words: <span th:text="${coolingDownCount}"></span>
-            <br/>
-            Training in progress words: <span th:text="${trainingInProgressCount}"></span>
-            <br/>
+            <th:block th:each="dictStat : ${dictStats}">
+                <div class="panel panel-default">
+                    <div class="panel-heading"
+                         th:text="${'Dictionary: ' + dictStat.dictDisplayName}"></div>
+                    <div class="panel-body">
+
+                        <h5>Trained words:</h5>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success progress-bar-striped"
+                                 role="progressbar"
+                                 th:attr="aria-valuenow=${dictStat.stats.trainedPercentage}"
+                                 aria-valuemin="0" aria-valuemax="100"
+                                 th:style="'width:'+${dictStat.stats.trainedPercentage}+'%;'">
+                            <span class="progress-centered">
+                                <span th:text="${dictStat.stats.trainedCount}"></span>
+                                /
+                                <span th:text="${dictStat.stats.allWordsCount}"></span>
+                            </span>
+                            </div>
+                        </div>
+
+                        <h5>Training in progress:</h5>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-warning progress-bar-striped"
+                                 role="progressbar"
+                                 th:attr="aria-valuenow=${dictStat.stats.trainingInProgressPercentage}"
+                                 aria-valuemin="0" aria-valuemax="100"
+                                 th:style="'width:'+${dictStat.stats.trainingInProgressPercentage}+'%;'">
+                            <span class="progress-centered">
+                                <span th:text="${dictStat.stats.trainingInProgressCount}"></span>
+                                /
+                                <span th:text="${dictStat.stats.allWordsCount}"></span>
+                            </span>
+                            </div>
+                        </div>
+
+                        <h5>Touched words:</h5>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped" role="progressbar"
+                                 th:attr="aria-valuenow=${dictStat.stats.touchedPercentage}"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100"
+                                 th:style="'width:'+${dictStat.stats.touchedPercentage}+'%;'">
+                            <span class="progress-centered">
+                                <span th:text="${dictStat.stats.touchedCount}"></span>
+                                /
+                                <span th:text="${dictStat.stats.allWordsCount}"></span>
+                            </span>
+                            </div>
+                        </div>
+
+                        <h5>Cooling down:</h5>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-danger progress-bar-striped"
+                                 role="progressbar"
+                                 th:attr="aria-valuenow=${dictStat.stats.coolingDownPercentage}"
+                                 aria-valuemin="0" aria-valuemax="100"
+                                 th:style="'width:'+${dictStat.stats.coolingDownPercentage}+'%;'">
+                            <span class="progress-centered">
+                                <span th:text="${dictStat.stats.coolingDownCount}"></span>
+                                /
+                                <span th:text="${dictStat.stats.allWordsCount}"></span>
+                            </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </th:block>
 
         </div>
     </div>

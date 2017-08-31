@@ -68,3 +68,16 @@ body {
 .no-rounding {
     border-radius: 0px;
 }
+
+/* progress bars with centered text */
+.progress {
+    position: relative;
+}
+
+.progress span.progress-centered {
+    position: absolute;
+    display: block;
+    width: 100%;
+    color: #000;
+    font-weight: bold;
+}
