@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.annotation.SessionScope;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -61,17 +59,14 @@ public class StatisticsController extends BaseUIController {
 	
 	private DictionaryStatisticsDTO generateDictStats(Dictionary dictionary, User user, boolean reversedDictionary) {
 		
-		DictionaryStatisticsDTO dto = new DictionaryStatisticsDTO();
-		
 		// dictionary display name
 		String dictDisplayName = DictionaryCode.toDictionaryDisplayName(dictionary, reversedDictionary);
-		dto.dictDisplayName = dictDisplayName;
-		Map<String, Object> stats = dto.stats;
 		
 		// all user dictionary ranks
 		List<Rank> ranks = rankDao.findByDictionaryAndUser(dictionary, reversedDictionary, user);
 		long all = ranks.size();
-		stats.put("allWordsCount", all);
+		
+		DictionaryStatisticsDTO statsDto = new DictionaryStatisticsDTO(dictDisplayName, all);
 		
 		if (!ranks.isEmpty()) {
 			
@@ -79,37 +74,27 @@ public class StatisticsController extends BaseUIController {
 			long trainedCount = ranks.stream()
 					.filter(rank -> rank.getRankValue() < 0 && rank.getTriesCount() > 0)
 					.count();
-			putCounAndPercentage(stats, "trained", trainedCount, all);
+			statsDto.trained = statsDto.new ProgressBarData(trainedCount);
 			
 			// training in progress words
 			long trainingInProgressCount = ranks.stream()
 					.filter(rank -> rank.getRankValue() > 0)
 					.count();
-			putCounAndPercentage(stats, "trainingInProgress", trainingInProgressCount, all);
+			statsDto.trainingInProgress = statsDto.new ProgressBarData(trainingInProgressCount);
 			
 			// touched words
 			long touchedCount = ranks.stream().filter(rank -> rank.getTriesCount() > 0).count();
-			putCounAndPercentage(stats, "touched", touchedCount, all);
+			statsDto.touched = statsDto.new ProgressBarData(touchedCount);
 			
 			// cooling down words
 			long coolingDownCount = ranks.stream()
 					.filter(rank -> rank.getCooldownPenalty() > 0.0)
 					.count();
-			putCounAndPercentage(stats, "coolingDown", coolingDownCount, all);
+			statsDto.coolingDown = statsDto.new ProgressBarData(coolingDownCount);
 			
 		}
 		
-		return dto;
-	}
-	
-	private void putCounAndPercentage(Map<String, Object> model, String name, long count, long all) {
-		model.put(name + "Count", count);
-		double percentage = ((double) count * 100) / all;
-		// converting to string always with dot format
-		DecimalFormatSymbols decimalSymbols = DecimalFormatSymbols.getInstance();
-		decimalSymbols.setDecimalSeparator('.');
-		DecimalFormat format = new DecimalFormat("#.##", decimalSymbols);
-		model.put(name + "Percentage", format.format(percentage));
+		return statsDto;
 	}
 	
 }
