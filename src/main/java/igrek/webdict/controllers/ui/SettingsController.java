@@ -45,6 +45,7 @@ public class SettingsController extends BaseUIController {
 	public String showSettings(Map<String, Object> model) {
 		setTitle(model, "Settings");
 		setActiveTab(model, "settings");
+		setSettingsData(model);
 		
 		Long userId = sessionSettings.getUser() == null ? null : sessionSettings.getUser().getId();
 		String dictionaryCode = sessionSettings.getDictionary() == null ? null : DictionaryCode.toDictionaryCode(sessionSettings

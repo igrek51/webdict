@@ -18,7 +18,6 @@
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-
                     <li th:class="${activeTab == 'settings'} ? 'active' : null"><a
                             th:href="@{/settings}">Settings</a>
                     </li>
@@ -34,7 +33,22 @@
                     <li th:class="${activeTab == 'statistics'} ? 'active' : null"><a
                             th:href="@{/statistics}">Statistics</a>
                     </li>
+                </ul>
 
+                <ul class="nav navbar-nav navbar-right"
+                    th:if="${settings_user != null && settings_dictionary != null}">
+                    <li>
+                        <a th:href="@{/settings}">
+                            <span class="glyphicon glyphicon-user"></span>
+                            <span th:text="${settings_user}" th:remove="tag"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/settings}">
+                            <span class="glyphicon glyphicon-book"></span>
+                            <span th:text="${settings_dictionary}" th:remove="tag"></span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

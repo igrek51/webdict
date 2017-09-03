@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import igrek.webdict.model.DictionaryCode;
+import igrek.webdict.model.entity.Dictionary;
+import igrek.webdict.model.entity.User;
 import igrek.webdict.model.session.NotLoggedInException;
 import igrek.webdict.model.session.SessionSettings;
 import igrek.webdict.ui.alert.BootstrapAlert;
@@ -32,6 +35,18 @@ public abstract class BaseUIController {
 	
 	protected void setTitle(Map<String, Object> model, String title) {
 		model.put("title", title);
+	}
+	
+	protected void setSettingsData(Map<String, Object> model) {
+		User user = sessionSettings.getUser();
+		if (user != null) {
+			model.put("settings_user", user.getLogin());
+		}
+		Dictionary dictionary = sessionSettings.getDictionary();
+		if (dictionary != null) {
+			boolean reversedDictionary = sessionSettings.isReversedDictionary();
+			model.put("settings_dictionary", DictionaryCode.toDictionaryDisplayName(dictionary, reversedDictionary));
+		}
 	}
 	
 	protected void addAlert(List<BootstrapAlert> alerts, String message, BootstrapAlertType type) {

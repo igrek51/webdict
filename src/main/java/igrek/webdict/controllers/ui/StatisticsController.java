@@ -44,6 +44,7 @@ public class StatisticsController extends BaseUIController {
 		checkSessionValid();
 		model.put("title", "Statistics");
 		setActiveTab(model, "statistics");
+		setSettingsData(model);
 		
 		// get session settings
 		Dictionary dictionary = sessionSettings.getDictionary();

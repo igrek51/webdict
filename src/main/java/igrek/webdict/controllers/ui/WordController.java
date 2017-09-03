@@ -51,6 +51,7 @@ public class WordController extends BaseUIController {
 		checkSessionValid();
 		setTitle(model, "Top word");
 		setActiveTab(model, "top");
+		setSettingsData(model);
 		
 		Dictionary dictionary = sessionSettings.getDictionary();
 		User user = sessionSettings.getUser();
@@ -69,6 +70,7 @@ public class WordController extends BaseUIController {
 		checkSessionValid();
 		setTitle(model, "All dictionary words");
 		setActiveTab(model, "all");
+		setSettingsData(model);
 		
 		Dictionary dictionary = sessionSettings.getDictionary();
 		User user = sessionSettings.getUser();
@@ -89,15 +91,14 @@ public class WordController extends BaseUIController {
 		checkSessionValid();
 		setTitle(model, "Add new word");
 		setActiveTab(model, "add");
+		setSettingsData(model);
 		return "add";
 	}
 	
 	@PostMapping("/add")
 	public String addNew(@ModelAttribute("addWordDTO") AddWordDTO addWordDTO, Map<String, Object> model) {
 		checkSessionValid();
-		setTitle(model, "Add new word");
-		setActiveTab(model, "add");
-		String view = "add";
+		
 		// bootstrap alerts
 		List<BootstrapAlert> alerts = new ArrayList<>();
 		model.put("alerts", alerts);
@@ -110,18 +111,18 @@ public class WordController extends BaseUIController {
 		
 		if (name == null || name.isEmpty()) {
 			addAlert(alerts, "word field is empty", BootstrapAlertType.ERROR);
-			return view;
+			return addNew(model);
 		}
 		
 		if (definition == null || definition.isEmpty()) {
 			addAlert(alerts, "definition field is empty", BootstrapAlertType.ERROR);
-			return view;
+			return addNew(model);
 		}
 		
 		Long userId = user == null ? null : user.getId();
 		if (userWordDao.findByName(name, dictionary.getId(), userId).isPresent()) {
 			addAlert(alerts, "word '" + name + "' already exists", BootstrapAlertType.ERROR);
-			return view;
+			return addNew(model);
 		}
 		
 		// create word
@@ -136,7 +137,7 @@ public class WordController extends BaseUIController {
 		addAlert(alerts, "Word '" + name + "' has been added successfully.", BootstrapAlertType.SUCCESS);
 		logger.info("new word has been added: " + name + ": " + definition);
 		
-		return view;
+		return addNew(model);
 	}
 	
 }
