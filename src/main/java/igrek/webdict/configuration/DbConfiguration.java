@@ -38,7 +38,7 @@ import igrek.webdict.db.word.WordJpaRepository;
 public class DbConfiguration {
 	
 	@Configuration
-	@Profile("default")
+	@Profile("!memdb")
 	@EnableAutoConfiguration
 	@EnableJpaRepositories(basePackageClasses = {WordJpaRepository.class, UserJpaRepository.class, DictionaryJpaRepository.class, RankJpaRepository.class, LanguageJpaRepository.class, UserWordJpaRepository.class})
 	public class DefaultDbConfiguration {

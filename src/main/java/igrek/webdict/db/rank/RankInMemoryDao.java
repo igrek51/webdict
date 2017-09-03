@@ -2,7 +2,6 @@ package igrek.webdict.db.rank;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,7 +33,7 @@ public class RankInMemoryDao extends BaseInMemoryDao<Rank> implements RankDao {
 	}
 	
 	private void addSampleEntity(UserWord userWord, boolean reversedDictionary, double rankValue, int triesCount) {
-		super.addSampleEntity(new Rank(userWord, reversedDictionary, LocalDateTime.now(), rankValue, triesCount));
+		super.addSampleEntity(new Rank(userWord, reversedDictionary, null, rankValue, triesCount));
 	}
 	
 	@Override
