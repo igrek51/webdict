@@ -1,4 +1,4 @@
-package igrek.webdict.model.dto;
+package igrek.webdict.logic.statistics;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
