@@ -3,7 +3,9 @@ body {
 }
 
 .container {
-    max-width: 80rem;
+    max-width: 75rem;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 #button-answer-correct, #button-answer-wrong {
@@ -43,6 +45,7 @@ body {
 
 .row-form-add-word > .input-group-addon {
     min-width: 8em;
+    text-align: right;
 }
 
 .statistics-dictionary-name {

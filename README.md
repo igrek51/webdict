@@ -12,7 +12,7 @@ Web application for vocabulary training with dynamic word rankings.
 * Hibernate
 * MySQL
 * Thymeleaf
-* Tomcat / Wildfly
+* Tomcat
 * JavaScript
 * jQuery
 * AJAX
@@ -23,8 +23,6 @@ Web application for vocabulary training with dynamic word rankings.
 * Bootstrap
 * Git
 * HTML
-
-Application is compatible with Wildfly application server but also can be run under Tomcat.
 
 License: Beerware
 
