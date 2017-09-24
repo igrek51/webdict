@@ -4,6 +4,9 @@ body {
 
 .container {
     max-width: 75rem;
+}
+
+#main-container {
     padding-left: 0;
     padding-right: 0;
 }
