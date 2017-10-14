@@ -17,6 +17,7 @@ import igrek.webdict.db.userword.UserWordDao;
 import igrek.webdict.db.word.WordDao;
 import igrek.webdict.logic.statistics.BidirectionalRank;
 import igrek.webdict.logic.statistics.DictionaryStatisticsDTO;
+import igrek.webdict.logic.statistics.WordStatisticsLogic;
 import igrek.webdict.model.DictionaryCode;
 import igrek.webdict.model.entity.Dictionary;
 import igrek.webdict.model.entity.Rank;
@@ -74,24 +75,21 @@ public class StatisticsController extends BaseUIController {
 		
 		if (!ranks.isEmpty()) {
 			// trained words
-			long trainedCount = ranks.stream()
-					.filter(rank -> rank.getRankValue() < 0 && rank.getTriesCount() > 0)
-					.count();
+			long trainedCount = ranks.stream().filter(WordStatisticsLogic::isWordTrained).count();
 			statsDto.trained = statsDto.new ProgressBarData(trainedCount);
 			
 			// training in progress words
 			long trainingInProgressCount = ranks.stream()
-					.filter(rank -> rank.getRankValue() > 0)
+					.filter(WordStatisticsLogic::isWordInProgess)
 					.count();
 			statsDto.trainingInProgress = statsDto.new ProgressBarData(trainingInProgressCount);
 			
 			// touched words
-			long touchedCount = ranks.stream().filter(rank -> rank.getTriesCount() > 0).count();
+			long touchedCount = ranks.stream().filter(WordStatisticsLogic::isWordTouched).count();
 			statsDto.touched = statsDto.new ProgressBarData(touchedCount);
 			
 			// cooling down words
-			long coolingDownCount = ranks.stream()
-					.filter(rank -> rank.getCooldownPenalty() > 0.0)
+			long coolingDownCount = ranks.stream().filter(WordStatisticsLogic::isWordCoolingDown)
 					.count();
 			statsDto.coolingDown = statsDto.new ProgressBarData(coolingDownCount);
 		}
@@ -118,31 +116,29 @@ public class StatisticsController extends BaseUIController {
 		if (!bidirectionalRanks.isEmpty()) {
 			// trained words
 			long trainedCount = bidirectionalRanks.stream()
-					.filter(bRank -> bRank.getSimpleRank()
-							.getRankValue() < 0 && bRank.getSimpleRank().getTriesCount() > 0)
-					.filter(bRank -> bRank.getReversedRank()
-							.getRankValue() < 0 && bRank.getReversedRank().getTriesCount() > 0)
+					.filter(bRank -> WordStatisticsLogic.isWordTrained(bRank.getSimpleRank()))
+					.filter(bRank -> WordStatisticsLogic.isWordTrained(bRank.getReversedRank()))
 					.count();
 			statsDto.trained = statsDto.new ProgressBarData(trainedCount);
 			
 			// training in progress words
 			long trainingInProgressCount = bidirectionalRanks.stream()
-					.filter(bRank -> bRank.getSimpleRank().getRankValue() > 0)
-					.filter(bRank -> bRank.getReversedRank().getRankValue() > 0)
+					.filter(bRank -> WordStatisticsLogic.isWordInProgess(bRank.getSimpleRank()))
+					.filter(bRank -> WordStatisticsLogic.isWordInProgess(bRank.getReversedRank()))
 					.count();
 			statsDto.trainingInProgress = statsDto.new ProgressBarData(trainingInProgressCount);
 			
 			// touched words
 			long touchedCount = bidirectionalRanks.stream()
-					.filter(bRank -> bRank.getSimpleRank().getTriesCount() > 0)
-					.filter(bRank -> bRank.getReversedRank().getTriesCount() > 0)
+					.filter(bRank -> WordStatisticsLogic.isWordTouched(bRank.getSimpleRank()))
+					.filter(bRank -> WordStatisticsLogic.isWordTouched(bRank.getReversedRank()))
 					.count();
 			statsDto.touched = statsDto.new ProgressBarData(touchedCount);
 			
 			// cooling down words
 			long coolingDownCount = bidirectionalRanks.stream()
-					.filter(bRank -> bRank.getSimpleRank().getCooldownPenalty() > 0.0)
-					.filter(bRank -> bRank.getReversedRank().getCooldownPenalty() > 0.0)
+					.filter(bRank -> WordStatisticsLogic.isWordCoolingDown(bRank.getSimpleRank()))
+					.filter(bRank -> WordStatisticsLogic.isWordCoolingDown(bRank.getReversedRank()))
 					.count();
 			statsDto.coolingDown = statsDto.new ProgressBarData(coolingDownCount);
 		}
