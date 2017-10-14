@@ -6,7 +6,7 @@
 
     <groupId>igrek.webdict</groupId>
     <artifactId>webdict</artifactId>
-    <version>1.1.5-SNAPSHOT</version>
+    <version>1.1.6-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>webdict</name>
 
