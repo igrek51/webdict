@@ -1,5 +1,6 @@
 package igrek.webdict.logic.statistics;
 
+import igrek.webdict.logic.TopWordComparator;
 import igrek.webdict.model.entity.Rank;
 
 public class WordStatisticsLogic {
@@ -17,7 +18,7 @@ public class WordStatisticsLogic {
 	}
 	
 	public static boolean isWordCoolingDown(Rank rank) {
-		return rank.getCooldownPenalty() > 0.0;
+		return TopWordComparator.getCooldownPenalty(rank) > 0.0;
 	}
 	
 }

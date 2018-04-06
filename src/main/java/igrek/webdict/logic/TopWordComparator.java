@@ -1,5 +1,8 @@
 package igrek.webdict.logic;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,6 +13,9 @@ public class TopWordComparator implements Comparator<Rank> {
 	
 	private Map<Rank, Double> effectiveRankValueCache = new HashMap<>();
 	
+	private final static transient Duration COOLDOWN_TIME = Duration.ofMinutes(10);
+	private final static transient double COOLDOWN_MAX_PENALTY = 20;
+	
 	@Override
 	public int compare(Rank o1, Rank o2) {
 		// prior - entries with highest effective rank
@@ -18,10 +24,6 @@ public class TopWordComparator implements Comparator<Rank> {
 		if (f1.compareTo(f2) != 0)
 			return -f1.compareTo(f2) * 20;
 		
-		// prior - entries which were used less
-		if (o1.getTriesCount() != o2.getTriesCount())
-			return o1.getTriesCount() - o2.getTriesCount();
-		
 		// prior - entries which were never used (no last use)
 		if (o1.getLastUse() == null && o2.getLastUse() == null)
 			return 0;
@@ -29,6 +31,10 @@ public class TopWordComparator implements Comparator<Rank> {
 			return -10;
 		if (o2.getLastUse() == null)
 			return 10;
+		
+		// prior - entries which were used more times (more difficult)
+		if (o1.getTriesCount() != o2.getTriesCount())
+			return o2.getTriesCount() - o1.getTriesCount();
 
 		return 0;
 	}
@@ -39,9 +45,27 @@ public class TopWordComparator implements Comparator<Rank> {
 		if (cached != null)
 			return cached;
 		// store value in cache due to time dependent value
-		double value = rank.getEffectiveRankValue();
+		double value = getEffectiveRankValue(rank);
 		effectiveRankValueCache.put(rank, value);
 		return value;
+	}
+	
+	public static double getCooldownPenalty(Rank rank) {
+		if (rank.getLastUse() == null)
+			return 0;
+		
+		long elapsedSeconds = LocalDateTime.from(rank.getLastUse())
+				.until(LocalDateTime.now(), ChronoUnit.SECONDS);
+		long cooldownSeconds = COOLDOWN_TIME.getSeconds();
+		
+		if (elapsedSeconds >= cooldownSeconds)
+			return 0;
+		
+		return (cooldownSeconds - elapsedSeconds) * COOLDOWN_MAX_PENALTY / cooldownSeconds;
+	}
+	
+	public static double getEffectiveRankValue(Rank rank) {
+		return rank.getRankValue() - getCooldownPenalty(rank);
 	}
 	
 }

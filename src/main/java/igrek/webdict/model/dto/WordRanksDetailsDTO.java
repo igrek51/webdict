@@ -2,6 +2,7 @@ package igrek.webdict.model.dto;
 
 import java.time.format.DateTimeFormatter;
 
+import igrek.webdict.logic.TopWordComparator;
 import igrek.webdict.model.entity.Rank;
 import igrek.webdict.model.entity.Word;
 
@@ -27,8 +28,8 @@ public class WordRanksDetailsDTO {
 		dto.rankId = rank.getId();
 		dto.word = word.getName();
 		dto.rankValue = rank.getRankValue();
-		dto.cooldownPenalty = rank.getCooldownPenalty();
-		dto.effectiveRank = rank.getEffectiveRankValue();
+		dto.cooldownPenalty = TopWordComparator.getCooldownPenalty(rank);
+		dto.effectiveRank = TopWordComparator.getEffectiveRankValue(rank);
 		dto.triesCount = rank.getTriesCount();
 		if (rank.getLastUse() != null) {
 			dto.lastUse = rank.getLastUse()

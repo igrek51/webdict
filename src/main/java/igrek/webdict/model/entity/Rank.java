@@ -1,8 +1,6 @@
 package igrek.webdict.model.entity;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,9 +32,6 @@ public class Rank implements HasId {
 	
 	@Column(nullable = false)
 	private int triesCount;
-	
-	private final transient Duration COOLDOWN_TIME = Duration.ofMinutes(10);
-	private final transient double COOLDOWN_MAX_PENALTY = 20;
 	
 	public Rank() {
 	}
@@ -91,21 +86,4 @@ public class Rank implements HasId {
 		this.triesCount = triesCount;
 	}
 	
-	public double getCooldownPenalty() {
-		if (getLastUse() == null)
-			return 0;
-		
-		long elapsedSeconds = LocalDateTime.from(getLastUse())
-				.until(LocalDateTime.now(), ChronoUnit.SECONDS);
-		long cooldownSeconds = COOLDOWN_TIME.getSeconds();
-		
-		if (elapsedSeconds >= cooldownSeconds)
-			return 0;
-		
-		return (cooldownSeconds - elapsedSeconds) * COOLDOWN_MAX_PENALTY / cooldownSeconds;
-	}
-	
-	public double getEffectiveRankValue() {
-		return getRankValue() - getCooldownPenalty();
-	}
 }
