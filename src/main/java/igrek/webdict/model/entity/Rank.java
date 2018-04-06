@@ -1,6 +1,7 @@
 package igrek.webdict.model.entity;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,6 +33,8 @@ public class Rank implements HasId {
 	
 	@Column(nullable = false)
 	private int triesCount;
+	
+	private transient Optional<Rank> reversedRank = Optional.empty();
 	
 	public Rank() {
 	}
@@ -86,4 +89,11 @@ public class Rank implements HasId {
 		this.triesCount = triesCount;
 	}
 	
+	public Optional<Rank> getReversedRank() {
+		return reversedRank;
+	}
+	
+	public void setReversedRank(Optional<Rank> reversedRank) {
+		this.reversedRank = reversedRank;
+	}
 }

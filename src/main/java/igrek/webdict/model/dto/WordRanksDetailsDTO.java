@@ -28,7 +28,7 @@ public class WordRanksDetailsDTO {
 		dto.rankId = rank.getId();
 		dto.word = word.getName();
 		dto.rankValue = rank.getRankValue();
-		dto.cooldownPenalty = TopWordComparator.getCooldownPenalty(rank);
+		dto.cooldownPenalty = TopWordComparator.getSingleCooldownPenalty(rank);
 		dto.effectiveRank = TopWordComparator.getEffectiveRankValue(rank);
 		dto.triesCount = rank.getTriesCount();
 		if (rank.getLastUse() != null) {

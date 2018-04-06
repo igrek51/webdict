@@ -18,7 +18,7 @@ public class WordStatisticsLogic {
 	}
 	
 	public static boolean isWordCoolingDown(Rank rank) {
-		return TopWordComparator.getCooldownPenalty(rank) > 0.0;
+		return TopWordComparator.getSingleCooldownPenalty(rank) > 0.0;
 	}
 	
 }

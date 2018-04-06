@@ -34,10 +34,23 @@ public class RankJpaDao extends BaseJpaDao<Rank> implements RankDao {
 	
 	@Override
 	public Optional<Rank> getTop(Dictionary dictionary, boolean reversedDictionary, User user) {
+		// FIXME merge bidirectional ranks into one entity
 		List<Rank> ranks = findByDictionaryAndUser(dictionary, reversedDictionary, user);
+		List<Rank> reversedRanks = findByDictionaryAndUser(dictionary, !reversedDictionary, user);
+		ranks.forEach(rank -> {
+			rank.setReversedRank(findRespectiveReversedRank(rank, reversedRanks));
+		});
 		// shuffle list in order to get random entry when ranks are equal
 		Collections.shuffle(ranks);
 		return ranks.stream().min(new TopWordComparator());
+	}
+	
+	private Optional<Rank> findRespectiveReversedRank(Rank simpleRank, List<Rank> reversedRanks) {
+		for (Rank reversedRank : reversedRanks) {
+			if (reversedRank.getUserWord().getId().equals(simpleRank.getUserWord().getId()))
+				return Optional.of(reversedRank);
+		}
+		return Optional.empty();
 	}
 	
 	@Override

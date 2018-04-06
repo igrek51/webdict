@@ -50,7 +50,7 @@ public class TopWordComparator implements Comparator<Rank> {
 		return value;
 	}
 	
-	public static double getCooldownPenalty(Rank rank) {
+	public static double getSingleCooldownPenalty(Rank rank) {
 		if (rank.getLastUse() == null)
 			return 0;
 		
@@ -64,8 +64,15 @@ public class TopWordComparator implements Comparator<Rank> {
 		return (cooldownSeconds - elapsedSeconds) * COOLDOWN_MAX_PENALTY / cooldownSeconds;
 	}
 	
+	public static double getBothCooldownPenalty(Rank rank) {
+		if (!rank.getReversedRank().isPresent())
+			return getSingleCooldownPenalty(rank);
+		return Math.max(getSingleCooldownPenalty(rank), getSingleCooldownPenalty(rank.getReversedRank()
+				.get()));
+	}
+	
 	public static double getEffectiveRankValue(Rank rank) {
-		return rank.getRankValue() - getCooldownPenalty(rank);
+		return rank.getRankValue() - getBothCooldownPenalty(rank);
 	}
 	
 }

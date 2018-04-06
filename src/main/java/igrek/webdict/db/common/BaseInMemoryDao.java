@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import igrek.webdict.model.HasId;
 
+//TODO turn into inmemory real sql database (H2)
 public abstract class BaseInMemoryDao<T extends HasId> {
 	
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
