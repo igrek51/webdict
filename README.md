@@ -50,4 +50,4 @@ mvn spring-boot:run -P memdb
 ```
 
 ## Example screen:
-![alt tag](https://github.com/igrek51/webdict/blob/master/wiki/webdict-screen-1.png)
+![alt tag](https://github.com/igrek51/webdict/blob/master/wiki/img/webdict-screen-1.png)
