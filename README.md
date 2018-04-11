@@ -23,8 +23,6 @@ Web application for vocabulary training with dynamic word rankings.
 * Git
 * HTML
 
-License: Beerware
-
 ## Build:
 ### Dev environment
 ```
