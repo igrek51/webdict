@@ -1,4 +1,5 @@
 # webdict
+[![Build Status](https://travis-ci.org/igrek51/webdict.svg?branch=master)](https://travis-ci.org/igrek51/webdict)
 
 Web application for vocabulary training with dynamic word rankings.
 
