@@ -1,8 +1,8 @@
-## webdict
+# webdict
 
 Web application for vocabulary training with dynamic word rankings.
 
-### Technologies used:
+## Technologies used:
 * Java 8
 * Spring Core
 * Spring Boot
@@ -25,26 +25,29 @@ Web application for vocabulary training with dynamic word rankings.
 
 License: Beerware
 
-### Build:
-#### Dev environment
+## Build:
+### Dev environment
 ```
 mvn package
 ```
-#### Test environment
+### Test environment
 ```
 mvn package -P test
 ```
-#### Production environment
+### Production environment
 ```
 mvn package -P prod
 ```
 
-### Run with Hibernate DB (MySQL):
+## Run with Hibernate DB (MySQL):
 ```
 mvn spring-boot:run
 ```
 
-### Run with in-memory DB:
+## Run with in-memory DB:
 ```
 mvn spring-boot:run -P memdb
 ```
+
+## Example screen:
+![alt tag](https://github.com/igrek51/webdict/blob/master/wiki/webdict-screen-1.png)
