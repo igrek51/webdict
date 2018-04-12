@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
@@ -14,12 +13,11 @@ import igrek.webdict.domain.entity.Language;
 import igrek.webdict.service.DictionaryService;
 import igrek.webdict.service.LanguageService;
 
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("memdb")
-public class DaoTests {
+public class RepositoryTests {
 	
 	@Autowired
 	private DictionaryService dictionaryService;
@@ -35,8 +33,7 @@ public class DaoTests {
 		dictionaryService.save(new Dictionary(sourceLang, targetLang));
 		
 		Optional<Dictionary> oDictionary = dictionaryService.findByLanguages("en", "pl");
-		
-		assertTrue(oDictionary.isPresent());
+		assertThat(oDictionary.isPresent()).isTrue();
 	}
 	
 }

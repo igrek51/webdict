@@ -31,14 +31,14 @@ import igrek.webdict.service.WordService;
 @Controller
 @SessionScope
 @RequestMapping("/")
-public class WordController extends BaseUIController {
+public class WordUIController extends BaseUIController {
 	
 	private final WordService wordService;
 	private final RankService rankService;
 	private final UserWordService userWordService;
 	
 	@Autowired
-	public WordController(SessionSettings sessionSettings, WordService wordService, RankService rankService, UserWordService userWordService) {
+	public WordUIController(SessionSettings sessionSettings, WordService wordService, RankService rankService, UserWordService userWordService) {
 		super(sessionSettings);
 		this.wordService = wordService;
 		this.rankService = rankService;
