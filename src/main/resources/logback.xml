@@ -4,7 +4,7 @@
 
     <!-- custom coloring conversion -->
     <conversionRule conversionWord="highlightex"
-                    converterClass="igrek.webdict.log.HighlightingCompositeConverterEx"/>
+                    converterClass="igrek.webdict.config.log.HighlightingCompositeConverterEx"/>
 
     <!-- File appender -->>
     <property name="LOG_FILE" value="log/webdict.log"/>

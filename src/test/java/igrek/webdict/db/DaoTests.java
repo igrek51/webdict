@@ -9,10 +9,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
 
-import igrek.webdict.db.dictionary.DictionaryDao;
-import igrek.webdict.db.language.LanguageDao;
-import igrek.webdict.model.entity.Dictionary;
-import igrek.webdict.model.entity.Language;
+import igrek.webdict.domain.entity.Dictionary;
+import igrek.webdict.domain.entity.Language;
+import igrek.webdict.repository.dictionary.DictionaryDao;
+import igrek.webdict.repository.language.LanguageDao;
 
 import static org.junit.Assert.assertTrue;
 

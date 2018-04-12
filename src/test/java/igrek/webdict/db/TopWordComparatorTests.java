@@ -11,14 +11,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import igrek.webdict.db.dictionary.DictionaryDao;
-import igrek.webdict.db.rank.RankDao;
-import igrek.webdict.db.user.UserDao;
-import igrek.webdict.logic.TopWordComparator;
-import igrek.webdict.model.DictionaryCode;
-import igrek.webdict.model.entity.Dictionary;
-import igrek.webdict.model.entity.Rank;
-import igrek.webdict.model.entity.User;
+import igrek.webdict.domain.DictionaryCode;
+import igrek.webdict.domain.TopWordComparator;
+import igrek.webdict.domain.entity.Dictionary;
+import igrek.webdict.domain.entity.Rank;
+import igrek.webdict.domain.entity.User;
+import igrek.webdict.repository.dictionary.DictionaryDao;
+import igrek.webdict.repository.rank.RankDao;
+import igrek.webdict.repository.user.UserDao;
 
 import static org.junit.Assert.assertEquals;
 

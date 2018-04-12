@@ -8,7 +8,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import igrek.webdict.controllers.ui.hello.HelloController;
+import igrek.webdict.controller.info.InfoController;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,15 +21,15 @@ public class RestTests {
 	private TestRestTemplate restTemplate;
 	
 	@Autowired
-	private HelloController helloController;
+	private InfoController infoController;
 	
 	@Test
 	public void testHelloRest() {
-		assertThat(helloController).isNotNull();
-		assertThat(helloController.welcome()).startsWith("Hello Dupa");
+		assertThat(infoController).isNotNull();
+		assertThat(infoController.info()).startsWith("status: UP");
 		
-		String body = this.restTemplate.getForObject("/hello", String.class);
-		assertThat(body).startsWith("Hello Dupa");
+		String body = this.restTemplate.getForObject("/api/info", String.class);
+		assertThat(body).startsWith("status: UP");
 	}
 	
 }
