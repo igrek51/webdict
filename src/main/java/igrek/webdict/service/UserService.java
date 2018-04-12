@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import igrek.webdict.domain.entity.User;
+import igrek.webdict.domain.user.User;
 import igrek.webdict.repository.UserRepository;
 import igrek.webdict.service.repository.AbstractRepositoryService;
 

@@ -12,12 +12,12 @@ import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 
-import igrek.webdict.domain.entity.Dictionary;
-import igrek.webdict.domain.entity.Language;
-import igrek.webdict.domain.entity.Rank;
-import igrek.webdict.domain.entity.User;
-import igrek.webdict.domain.entity.UserWord;
-import igrek.webdict.domain.entity.Word;
+import igrek.webdict.domain.dictionary.Dictionary;
+import igrek.webdict.domain.dictionary.Language;
+import igrek.webdict.domain.user.User;
+import igrek.webdict.domain.word.UserWord;
+import igrek.webdict.domain.word.Word;
+import igrek.webdict.domain.wordrank.Rank;
 import igrek.webdict.repository.DictionaryRepository;
 import igrek.webdict.repository.LanguageRepository;
 import igrek.webdict.repository.RankRepository;

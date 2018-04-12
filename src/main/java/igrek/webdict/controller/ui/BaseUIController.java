@@ -11,13 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import igrek.webdict.domain.DictionaryCode;
 import igrek.webdict.domain.alert.BootstrapAlert;
 import igrek.webdict.domain.alert.BootstrapAlertType;
-import igrek.webdict.domain.entity.Dictionary;
-import igrek.webdict.domain.entity.User;
+import igrek.webdict.domain.dictionary.Dictionary;
+import igrek.webdict.domain.dictionary.DictionaryCode;
 import igrek.webdict.domain.session.NotLoggedInException;
 import igrek.webdict.domain.session.SessionSettings;
+import igrek.webdict.domain.user.User;
 
 public abstract class BaseUIController {
 	

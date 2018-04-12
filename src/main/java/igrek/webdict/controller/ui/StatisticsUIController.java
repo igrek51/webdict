@@ -11,14 +11,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import igrek.webdict.domain.DictionaryCode;
-import igrek.webdict.domain.entity.Dictionary;
-import igrek.webdict.domain.entity.Rank;
-import igrek.webdict.domain.entity.User;
+import igrek.webdict.domain.dictionary.Dictionary;
+import igrek.webdict.domain.dictionary.DictionaryCode;
 import igrek.webdict.domain.session.SessionSettings;
 import igrek.webdict.domain.statistics.BidirectionalRank;
 import igrek.webdict.domain.statistics.DictionaryStatisticsDTO;
 import igrek.webdict.domain.statistics.WordStatisticsLogic;
+import igrek.webdict.domain.user.User;
+import igrek.webdict.domain.wordrank.Rank;
 import igrek.webdict.service.RankService;
 
 @Controller

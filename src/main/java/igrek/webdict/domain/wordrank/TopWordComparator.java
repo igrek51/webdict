@@ -1,4 +1,4 @@
-package igrek.webdict.domain;
+package igrek.webdict.domain.wordrank;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -6,8 +6,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-
-import igrek.webdict.domain.entity.Rank;
 
 public class TopWordComparator implements Comparator<Rank> {
 	
@@ -35,7 +33,7 @@ public class TopWordComparator implements Comparator<Rank> {
 		// prior - entries which were used more times (more difficult)
 		if (o1.getTriesCount() != o2.getTriesCount())
 			return o2.getTriesCount() - o1.getTriesCount();
-
+		
 		return 0;
 	}
 	

@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import igrek.webdict.domain.entity.Dictionary;
-import igrek.webdict.domain.entity.Language;
+import igrek.webdict.domain.dictionary.Dictionary;
+import igrek.webdict.domain.dictionary.Language;
 import igrek.webdict.repository.DictionaryRepository;
 import igrek.webdict.repository.LanguageRepository;
 import igrek.webdict.service.repository.AbstractRepositoryService;

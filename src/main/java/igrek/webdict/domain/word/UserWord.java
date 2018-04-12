@@ -1,4 +1,4 @@
-package igrek.webdict.domain.entity;
+package igrek.webdict.domain.word;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import igrek.webdict.domain.user.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

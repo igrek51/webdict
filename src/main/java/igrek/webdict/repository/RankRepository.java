@@ -6,10 +6,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import igrek.webdict.domain.entity.Dictionary;
-import igrek.webdict.domain.entity.Rank;
-import igrek.webdict.domain.entity.User;
-import igrek.webdict.domain.entity.UserWord;
+import igrek.webdict.domain.dictionary.Dictionary;
+import igrek.webdict.domain.user.User;
+import igrek.webdict.domain.word.UserWord;
+import igrek.webdict.domain.wordrank.Rank;
 
 @Transactional
 public interface RankRepository extends JpaRepository<Rank, Long> {

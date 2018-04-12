@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import igrek.webdict.domain.DictionaryCode;
-import igrek.webdict.domain.dto.WordDTO;
-import igrek.webdict.domain.entity.Dictionary;
-import igrek.webdict.domain.entity.User;
-import igrek.webdict.domain.entity.UserWord;
+import igrek.webdict.domain.dictionary.Dictionary;
+import igrek.webdict.domain.dictionary.DictionaryCode;
+import igrek.webdict.domain.user.User;
+import igrek.webdict.domain.word.UserWord;
+import igrek.webdict.domain.word.WordDTO;
 import igrek.webdict.service.DictionaryService;
 import igrek.webdict.service.RankService;
 import igrek.webdict.service.UserService;

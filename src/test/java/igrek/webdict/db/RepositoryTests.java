@@ -9,8 +9,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
 
-import igrek.webdict.domain.entity.Dictionary;
-import igrek.webdict.domain.entity.Language;
+import igrek.webdict.domain.dictionary.Dictionary;
+import igrek.webdict.domain.dictionary.Language;
 import igrek.webdict.service.DictionaryService;
 import igrek.webdict.service.LanguageService;
 

@@ -14,13 +14,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import igrek.webdict.domain.DictionaryCode;
 import igrek.webdict.domain.alert.BootstrapAlert;
 import igrek.webdict.domain.alert.BootstrapAlertType;
-import igrek.webdict.domain.dto.SettingsDTO;
-import igrek.webdict.domain.entity.Dictionary;
-import igrek.webdict.domain.entity.User;
+import igrek.webdict.domain.dictionary.Dictionary;
+import igrek.webdict.domain.dictionary.DictionaryCode;
 import igrek.webdict.domain.session.SessionSettings;
+import igrek.webdict.domain.session.SettingsDTO;
+import igrek.webdict.domain.user.User;
 import igrek.webdict.service.DictionaryService;
 import igrek.webdict.service.UserService;
 

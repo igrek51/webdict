@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import igrek.webdict.domain.dto.DictionaryDTO;
-import igrek.webdict.domain.entity.Dictionary;
+import igrek.webdict.domain.dictionary.Dictionary;
+import igrek.webdict.domain.dictionary.DictionaryDTO;
 import igrek.webdict.service.DictionaryService;
 
 @RestController

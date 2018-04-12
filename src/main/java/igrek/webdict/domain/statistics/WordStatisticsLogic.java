@@ -1,7 +1,7 @@
 package igrek.webdict.domain.statistics;
 
-import igrek.webdict.domain.TopWordComparator;
-import igrek.webdict.domain.entity.Rank;
+import igrek.webdict.domain.wordrank.Rank;
+import igrek.webdict.domain.wordrank.TopWordComparator;
 
 public class WordStatisticsLogic {
 	

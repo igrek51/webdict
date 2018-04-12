@@ -1,10 +1,8 @@
-package igrek.webdict.domain.dto;
+package igrek.webdict.domain.wordrank;
 
 import java.time.format.DateTimeFormatter;
 
-import igrek.webdict.domain.TopWordComparator;
-import igrek.webdict.domain.entity.Rank;
-import igrek.webdict.domain.entity.Word;
+import igrek.webdict.domain.word.Word;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,7 +30,8 @@ public class WordRanksDetailsDTO {
 		dto.effectiveRank = TopWordComparator.getEffectiveRankValue(rank);
 		dto.triesCount = rank.getTriesCount();
 		if (rank.getLastUse() != null) {
-			dto.lastUse = rank.getLastUse().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+			dto.lastUse = rank.getLastUse()
+					.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 		}
 		return dto;
 	}

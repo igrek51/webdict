@@ -1,4 +1,4 @@
-package igrek.webdict.domain.entity;
+package igrek.webdict.domain.wordrank;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import igrek.webdict.domain.word.UserWord;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

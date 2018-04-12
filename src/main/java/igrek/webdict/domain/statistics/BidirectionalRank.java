@@ -1,6 +1,6 @@
 package igrek.webdict.domain.statistics;
 
-import igrek.webdict.domain.entity.Rank;
+import igrek.webdict.domain.wordrank.Rank;
 
 public class BidirectionalRank {
 	

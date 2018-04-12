@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import igrek.webdict.domain.entity.Language;
+import igrek.webdict.domain.dictionary.Language;
 
 @Transactional
 public interface LanguageRepository extends JpaRepository<Language, Long> {

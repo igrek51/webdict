@@ -393,7 +393,7 @@ if (typeof jQuery === 'undefined') {
 
         if (pos > (this.$items.length - 1) || pos < 0) return
 
-        if (this.sliding)       return this.$element.one('slid.bs.carousel', function () {
+        if (this.sliding) return this.$element.one('slid.bs.carousel', function () {
             that.to(pos)
         }) // yes, "slid"
         if (activeIndex == pos) return this.pause().cycle()
@@ -1651,21 +1651,21 @@ if (typeof jQuery === 'undefined') {
 
     Tooltip.prototype.getCalculatedOffset = function (placement, pos, actualWidth, actualHeight) {
         return placement == 'bottom' ? {
-            top: pos.top + pos.height,
-            left: pos.left + pos.width / 2 - actualWidth / 2
-        } :
-            placement == 'top' ? {
-                top: pos.top - actualHeight,
+                top: pos.top + pos.height,
                 left: pos.left + pos.width / 2 - actualWidth / 2
             } :
-                placement == 'left' ? {
-                    top: pos.top + pos.height / 2 - actualHeight / 2,
-                    left: pos.left - actualWidth
+            placement == 'top' ? {
+                    top: pos.top - actualHeight,
+                    left: pos.left + pos.width / 2 - actualWidth / 2
                 } :
+                placement == 'left' ? {
+                        top: pos.top + pos.height / 2 - actualHeight / 2,
+                        left: pos.left - actualWidth
+                    } :
                     /* placement == 'right' */ {
-                    top: pos.top + pos.height / 2 - actualHeight / 2,
-                    left: pos.left + pos.width
-                }
+                        top: pos.top + pos.height / 2 - actualHeight / 2,
+                        left: pos.left + pos.width
+                    }
 
     }
 

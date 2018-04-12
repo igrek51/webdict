@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-import igrek.webdict.domain.entity.UserWord;
+import igrek.webdict.domain.word.UserWord;
 import igrek.webdict.repository.UserWordRepository;
 import igrek.webdict.service.repository.AbstractRepositoryService;
 

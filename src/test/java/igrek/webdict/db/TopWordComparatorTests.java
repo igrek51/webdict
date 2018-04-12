@@ -11,11 +11,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import igrek.webdict.domain.DictionaryCode;
-import igrek.webdict.domain.TopWordComparator;
-import igrek.webdict.domain.entity.Dictionary;
-import igrek.webdict.domain.entity.Rank;
-import igrek.webdict.domain.entity.User;
+import igrek.webdict.domain.dictionary.Dictionary;
+import igrek.webdict.domain.dictionary.DictionaryCode;
+import igrek.webdict.domain.user.User;
+import igrek.webdict.domain.wordrank.Rank;
+import igrek.webdict.domain.wordrank.TopWordComparator;
 import igrek.webdict.service.DictionaryService;
 import igrek.webdict.service.RankService;
 import igrek.webdict.service.UserService;

@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import igrek.webdict.domain.entity.User;
+import igrek.webdict.domain.user.User;
 
 @Transactional
 public interface UserRepository extends JpaRepository<User, Long> {

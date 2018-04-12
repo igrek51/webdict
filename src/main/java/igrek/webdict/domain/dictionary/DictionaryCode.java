@@ -1,9 +1,7 @@
-package igrek.webdict.domain;
+package igrek.webdict.domain.dictionary;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import igrek.webdict.domain.entity.Dictionary;
 
 public class DictionaryCode {
 	
@@ -26,7 +24,7 @@ public class DictionaryCode {
 	public static String toDictionaryDisplayName(Dictionary dictionary, boolean reversedDictionary) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(dictionary.getSourceLanguage().getCode());
-		if (!reversedDictionary){
+		if (!reversedDictionary) {
 			sb.append(" -> ");
 		} else {
 			sb.append(" <- ");

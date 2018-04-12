@@ -1,4 +1,4 @@
-package igrek.webdict.domain.dto;
+package igrek.webdict.domain.session;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

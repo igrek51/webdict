@@ -1,6 +1,5 @@
-package igrek.webdict.domain.dto;
+package igrek.webdict.domain.word;
 
-import igrek.webdict.domain.entity.Word;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

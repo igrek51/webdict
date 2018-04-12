@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import igrek.webdict.domain.entity.UserWord;
+import igrek.webdict.domain.word.UserWord;
 
 @Transactional
 public interface UserWordRepository extends JpaRepository<UserWord, Long> {

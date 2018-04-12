@@ -1,4 +1,4 @@
-package igrek.webdict.domain.entity;
+package igrek.webdict.domain.dictionary;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

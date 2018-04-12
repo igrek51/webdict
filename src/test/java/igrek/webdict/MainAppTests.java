@@ -12,10 +12,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class MainAppTests {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
+	
 	@Test
 	public void contextLoads() {
 		logger.debug("Context loaded successfully.");
 	}
-
+	
 }

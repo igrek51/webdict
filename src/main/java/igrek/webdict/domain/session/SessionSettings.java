@@ -3,8 +3,8 @@ package igrek.webdict.domain.session;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
-import igrek.webdict.domain.entity.Dictionary;
-import igrek.webdict.domain.entity.User;
+import igrek.webdict.domain.dictionary.Dictionary;
+import igrek.webdict.domain.user.User;
 
 @Component
 @SessionScope
