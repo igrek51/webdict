@@ -7,13 +7,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class RepositoryService<T> {
+public abstract class AbstractRepositoryService<T> {
 	
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	private JpaRepository<T, Long> jpaRepository;
 	
-	public RepositoryService(JpaRepository<T, Long> jpaRepository) {
+	public AbstractRepositoryService(JpaRepository<T, Long> jpaRepository) {
 		this.jpaRepository = jpaRepository;
 	}
 	

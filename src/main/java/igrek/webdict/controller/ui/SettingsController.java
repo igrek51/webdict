@@ -22,23 +22,23 @@ import igrek.webdict.domain.dto.SettingsDTO;
 import igrek.webdict.domain.entity.Dictionary;
 import igrek.webdict.domain.entity.User;
 import igrek.webdict.domain.session.SessionSettings;
-import igrek.webdict.repository.dictionary.DictionaryDao;
-import igrek.webdict.repository.user.UserDao;
+import igrek.webdict.service.DictionaryService;
+import igrek.webdict.service.UserService;
 
 @Controller
 @SessionScope
 @RequestMapping("/settings")
 public class SettingsController extends BaseUIController {
 	
-	private final UserDao userDao;
-	private final DictionaryDao dictionaryDao;
+	private final UserService userService;
+	private final DictionaryService dictionaryService;
 	
 	@Autowired
-	public SettingsController(SessionSettings sessionSettings, UserDao userDao, DictionaryDao dictionaryDao) {
+	public SettingsController(SessionSettings sessionSettings, UserService userService, DictionaryService dictionaryService) {
 		super(sessionSettings);
+		this.userService = userService;
+		this.dictionaryService = dictionaryService;
 		this.sessionSettings = sessionSettings;
-		this.userDao = userDao;
-		this.dictionaryDao = dictionaryDao;
 	}
 	
 	@GetMapping({"", "/"})
@@ -53,13 +53,12 @@ public class SettingsController extends BaseUIController {
 		SettingsDTO settingsDTO = new SettingsDTO(userId, dictionaryCode);
 		model.put("settingsDTO", settingsDTO);
 		
-		List<User> users = userDao.findAll();
+		List<User> users = userService.findAll();
 		model.put("users", users);
 		
-		List<Dictionary> dicts = dictionaryDao.findAll();
+		List<Dictionary> dicts = dictionaryService.findAll();
 		Map<String, String> dictsMap = new LinkedHashMap<>();
 		for (Dictionary dict : dicts) {
-			StringBuilder sb = new StringBuilder();
 			dictsMap.put(DictionaryCode.toDictionaryCode(dict, false), DictionaryCode.toDictionaryDisplayName(dict, false));
 			//reversed
 			dictsMap.put(DictionaryCode.toDictionaryCode(dict, true), DictionaryCode.toDictionaryDisplayName(dict, true));
@@ -76,14 +75,14 @@ public class SettingsController extends BaseUIController {
 		model.put("alerts", alerts);
 		
 		// update user
-		Optional<User> oUser = userDao.findOne(settingsDTO.getUserId());
+		Optional<User> oUser = userService.findOne(settingsDTO.getUserId());
 		sessionSettings.setUser(oUser.get());
 		
 		// update dictionary and direction
 		DictionaryCode dictionaryCode = DictionaryCode.parse(settingsDTO.getDictionaryCode());
 		sessionSettings.setReversedDictionary(dictionaryCode.isReversedDictionary());
 		
-		Optional<Dictionary> oDictionary = dictionaryDao.findByLanguages(dictionaryCode.getSourceLanguage(), dictionaryCode
+		Optional<Dictionary> oDictionary = dictionaryService.findByLanguages(dictionaryCode.getSourceLanguage(), dictionaryCode
 				.getTargetLanguage());
 		sessionSettings.setDictionary(oDictionary.get());
 		

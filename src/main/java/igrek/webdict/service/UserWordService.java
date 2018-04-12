@@ -8,10 +8,10 @@ import java.util.Optional;
 
 import igrek.webdict.domain.entity.UserWord;
 import igrek.webdict.repository.UserWordRepository;
-import igrek.webdict.service.repository.RepositoryService;
+import igrek.webdict.service.repository.AbstractRepositoryService;
 
 @Service
-public class UserWordService extends RepositoryService<UserWord> {
+public class UserWordService extends AbstractRepositoryService<UserWord> {
 	
 	private final UserWordRepository userWordRepository;
 	

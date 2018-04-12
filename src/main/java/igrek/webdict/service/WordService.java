@@ -7,10 +7,10 @@ import java.util.Optional;
 
 import igrek.webdict.domain.entity.Word;
 import igrek.webdict.repository.WordRepository;
-import igrek.webdict.service.repository.RepositoryService;
+import igrek.webdict.service.repository.AbstractRepositoryService;
 
 @Service
-public class WordService extends RepositoryService<Word> {
+public class WordService extends AbstractRepositoryService<Word> {
 	
 	private final WordRepository wordRepository;
 	

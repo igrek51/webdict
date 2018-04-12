@@ -12,22 +12,22 @@ import java.util.stream.Collectors;
 
 import igrek.webdict.domain.dto.DictionaryDTO;
 import igrek.webdict.domain.entity.Dictionary;
-import igrek.webdict.repository.dictionary.DictionaryDao;
+import igrek.webdict.service.DictionaryService;
 
 @RestController
 @RequestMapping("/api/dictionary")
 class DictionaryController {
 	
-	private final DictionaryDao dictionaryDao;
+	private final DictionaryService dictionaryService;
 	
 	@Autowired
-	public DictionaryController(DictionaryDao dictionaryDao) {
-		this.dictionaryDao = dictionaryDao;
+	public DictionaryController(DictionaryService dictionaryService) {
+		this.dictionaryService = dictionaryService;
 	}
 	
 	@GetMapping({"", "/", "all"})
 	public List<DictionaryDTO> getAll() {
-		return dictionaryDao.findAll()
+		return dictionaryService.findAll()
 				.stream()
 				.map(DictionaryDTO::createDTO)
 				.collect(Collectors.toList());
@@ -35,7 +35,7 @@ class DictionaryController {
 	
 	@GetMapping("/{sourceLanguage}/{targetLanguage}")
 	public DictionaryDTO findByLanguages(@PathVariable("sourceLanguage") String sourceLanguage, @PathVariable("targetLanguage") String targetLanguage) {
-		Optional<Dictionary> dictionary = dictionaryDao.findByLanguages(sourceLanguage, targetLanguage);
+		Optional<Dictionary> dictionary = dictionaryService.findByLanguages(sourceLanguage, targetLanguage);
 		return dictionary.map(DictionaryDTO::createDTO).orElse(null);
 	}
 	

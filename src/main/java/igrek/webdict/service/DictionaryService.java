@@ -9,10 +9,10 @@ import igrek.webdict.domain.entity.Dictionary;
 import igrek.webdict.domain.entity.Language;
 import igrek.webdict.repository.DictionaryRepository;
 import igrek.webdict.repository.LanguageRepository;
-import igrek.webdict.service.repository.RepositoryService;
+import igrek.webdict.service.repository.AbstractRepositoryService;
 
 @Service
-public class DictionaryService extends RepositoryService<Dictionary> {
+public class DictionaryService extends AbstractRepositoryService<Dictionary> {
 	
 	private final DictionaryRepository dictionaryRepository;
 	private final LanguageRepository languageRepository;

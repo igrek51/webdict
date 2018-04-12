@@ -7,10 +7,10 @@ import java.util.Optional;
 
 import igrek.webdict.domain.entity.Language;
 import igrek.webdict.repository.LanguageRepository;
-import igrek.webdict.service.repository.RepositoryService;
+import igrek.webdict.service.repository.AbstractRepositoryService;
 
 @Service
-public class LanguageService extends RepositoryService<Language> {
+public class LanguageService extends AbstractRepositoryService<Language> {
 	
 	private final LanguageRepository languageRepository;
 	

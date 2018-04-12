@@ -20,26 +20,20 @@ import igrek.webdict.domain.session.SessionSettings;
 import igrek.webdict.domain.statistics.BidirectionalRank;
 import igrek.webdict.domain.statistics.DictionaryStatisticsDTO;
 import igrek.webdict.domain.statistics.WordStatisticsLogic;
-import igrek.webdict.repository.rank.RankDao;
-import igrek.webdict.repository.userword.UserWordDao;
-import igrek.webdict.repository.word.WordDao;
+import igrek.webdict.service.RankService;
 
 @Controller
 @SessionScope
 @RequestMapping("/statistics")
 public class StatisticsController extends BaseUIController {
 	
-	private final WordDao wordDao;
-	private final RankDao rankDao;
-	private final UserWordDao userWordDao;
+	private final RankService rankService;
 	
 	@Autowired
-	public StatisticsController(WordDao wordDao, RankDao rankDao, SessionSettings sessionSettings, UserWordDao userWordDao) {
+	public StatisticsController(SessionSettings sessionSettings, RankService rankService) {
 		super(sessionSettings);
-		this.wordDao = wordDao;
-		this.rankDao = rankDao;
+		this.rankService = rankService;
 		this.sessionSettings = sessionSettings;
-		this.userWordDao = userWordDao;
 	}
 	
 	@GetMapping({"", "/"})
@@ -53,8 +47,8 @@ public class StatisticsController extends BaseUIController {
 		Dictionary dictionary = sessionSettings.getDictionary();
 		User user = sessionSettings.getUser();
 		
-		List<Rank> simpleRanks = rankDao.findByDictionaryAndUser(dictionary, false, user);
-		List<Rank> reversedRanks = rankDao.findByDictionaryAndUser(dictionary, true, user);
+		List<Rank> simpleRanks = rankService.findByDictionaryAndUser(dictionary, false, user);
+		List<Rank> reversedRanks = rankService.findByDictionaryAndUser(dictionary, true, user);
 		
 		List<DictionaryStatisticsDTO> dictStats = new ArrayList<>();
 		dictStats.add(generateDictStats(dictionary, false, simpleRanks));

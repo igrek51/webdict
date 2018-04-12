@@ -24,26 +24,26 @@ import igrek.webdict.domain.entity.User;
 import igrek.webdict.domain.entity.UserWord;
 import igrek.webdict.domain.entity.Word;
 import igrek.webdict.domain.session.SessionSettings;
-import igrek.webdict.repository.rank.RankDao;
-import igrek.webdict.repository.userword.UserWordDao;
-import igrek.webdict.repository.word.WordDao;
+import igrek.webdict.service.RankService;
+import igrek.webdict.service.UserWordService;
+import igrek.webdict.service.WordService;
 
 @Controller
 @SessionScope
 @RequestMapping("/")
 public class WordController extends BaseUIController {
 	
-	private final WordDao wordDao;
-	private final RankDao rankDao;
-	private final UserWordDao userWordDao;
+	private final WordService wordService;
+	private final RankService rankService;
+	private final UserWordService userWordService;
 	
 	@Autowired
-	public WordController(WordDao wordDao, RankDao rankDao, SessionSettings sessionSettings, UserWordDao userWordDao) {
+	public WordController(SessionSettings sessionSettings, WordService wordService, RankService rankService, UserWordService userWordService) {
 		super(sessionSettings);
-		this.wordDao = wordDao;
-		this.rankDao = rankDao;
+		this.wordService = wordService;
+		this.rankService = rankService;
+		this.userWordService = userWordService;
 		this.sessionSettings = sessionSettings;
-		this.userWordDao = userWordDao;
 	}
 	
 	@GetMapping({"", "/", "/top"})
@@ -57,7 +57,7 @@ public class WordController extends BaseUIController {
 		User user = sessionSettings.getUser();
 		boolean reversed = sessionSettings.isReversedDictionary();
 		
-		WordRankDTO wordrank = rankDao.getTop(dictionary, reversed, user)
+		WordRankDTO wordrank = rankService.getTop(dictionary, reversed, user)
 				.map(WordRankDTO::createDTO)
 				.orElse(null);
 		model.put("wordrank", wordrank);
@@ -76,7 +76,7 @@ public class WordController extends BaseUIController {
 		User user = sessionSettings.getUser();
 		boolean reversed = sessionSettings.isReversedDictionary();
 		
-		List<WordRankDTO> entries = rankDao.findByDictionaryAndUser(dictionary, reversed, user)
+		List<WordRankDTO> entries = rankService.findByDictionaryAndUser(dictionary, reversed, user)
 				.stream()
 				.sorted(new TopWordComparator())
 				.map(WordRankDTO::createDTO)
@@ -120,19 +120,19 @@ public class WordController extends BaseUIController {
 		}
 		
 		Long userId = user == null ? null : user.getId();
-		if (userWordDao.findByName(name, dictionary.getId(), userId).isPresent()) {
+		if (userWordService.findByName(name, dictionary.getId(), userId).isPresent()) {
 			addAlert(alerts, "word '" + name + "' already exists", BootstrapAlertType.ERROR);
 			return addNew(model);
 		}
 		
 		// create word
 		Word word = new Word(dictionary, name, definition);
-		wordDao.save(word);
+		wordService.save(word);
 		model.put("word", word);
 		
 		// and user word
 		UserWord userWord = new UserWord(user, word);
-		userWordDao.save(userWord);
+		userWordService.save(userWord);
 		
 		addAlert(alerts, "Word '" + name + "' has been added successfully.", BootstrapAlertType.SUCCESS);
 		logger.info("new word has been added: " + name + ": " + definition);

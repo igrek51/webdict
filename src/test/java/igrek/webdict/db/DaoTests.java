@@ -11,8 +11,8 @@ import java.util.Optional;
 
 import igrek.webdict.domain.entity.Dictionary;
 import igrek.webdict.domain.entity.Language;
-import igrek.webdict.repository.dictionary.DictionaryDao;
-import igrek.webdict.repository.language.LanguageDao;
+import igrek.webdict.service.DictionaryService;
+import igrek.webdict.service.LanguageService;
 
 import static org.junit.Assert.assertTrue;
 
@@ -22,19 +22,19 @@ import static org.junit.Assert.assertTrue;
 public class DaoTests {
 	
 	@Autowired
-	private DictionaryDao dictionaryDao;
+	private DictionaryService dictionaryService;
 	
 	@Autowired
-	private LanguageDao languageDao;
+	private LanguageService languageService;
 	
 	@Test
 	public void testDictionaryDao() {
 		
-		Language sourceLang = languageDao.findByCode("en").get();
-		Language targetLang = languageDao.findByCode("pl").get();
-		dictionaryDao.save(new Dictionary(sourceLang, targetLang));
+		Language sourceLang = languageService.findByCode("en").get();
+		Language targetLang = languageService.findByCode("pl").get();
+		dictionaryService.save(new Dictionary(sourceLang, targetLang));
 		
-		Optional<Dictionary> oDictionary = dictionaryDao.findByLanguages("en", "pl");
+		Optional<Dictionary> oDictionary = dictionaryService.findByLanguages("en", "pl");
 		
 		assertTrue(oDictionary.isPresent());
 	}

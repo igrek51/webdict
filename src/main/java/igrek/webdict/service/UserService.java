@@ -7,10 +7,10 @@ import java.util.Optional;
 
 import igrek.webdict.domain.entity.User;
 import igrek.webdict.repository.UserRepository;
-import igrek.webdict.service.repository.RepositoryService;
+import igrek.webdict.service.repository.AbstractRepositoryService;
 
 @Service
-public class UserService extends RepositoryService<User> {
+public class UserService extends AbstractRepositoryService<User> {
 	
 	private final UserRepository userRepository;
 	

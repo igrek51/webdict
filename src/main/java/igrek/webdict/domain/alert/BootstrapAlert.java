@@ -1,10 +1,10 @@
 package igrek.webdict.domain.alert;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
+@AllArgsConstructor
 public class BootstrapAlert {
 	
 	private String message;

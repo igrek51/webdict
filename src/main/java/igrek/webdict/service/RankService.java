@@ -15,10 +15,10 @@ import igrek.webdict.domain.entity.Rank;
 import igrek.webdict.domain.entity.User;
 import igrek.webdict.domain.entity.UserWord;
 import igrek.webdict.repository.RankRepository;
-import igrek.webdict.service.repository.RepositoryService;
+import igrek.webdict.service.repository.AbstractRepositoryService;
 
 @Service
-public class RankService extends RepositoryService<Rank> {
+public class RankService extends AbstractRepositoryService<Rank> {
 	
 	private final RankRepository rankRepository;
 	
