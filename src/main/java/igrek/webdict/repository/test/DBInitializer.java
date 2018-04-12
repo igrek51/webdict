@@ -1,9 +1,8 @@
-package igrek.webdict.service.test;
+package igrek.webdict.repository.test;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -27,7 +26,6 @@ import igrek.webdict.repository.UserWordRepository;
 import igrek.webdict.repository.WordRepository;
 import igrek.webdict.service.DictionaryService;
 
-@Service
 public class DBInitializer {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
