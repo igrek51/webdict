@@ -21,8 +21,8 @@ import igrek.webdict.service.DictionaryService;
 public class DbConfiguration {
 	
 	@Configuration
-	@Profile("memdb")
-	public class MemDbConfiguration {
+	@Profile("testdb")
+	public class TestDbConfiguration {
 		
 		@Bean
 		public DBInitializer provideDBInitializer(DictionaryRepository dictionaryRepository, LanguageRepository languageRepository, UserRepository userRepository, WordRepository wordRepository, UserWordRepository userwordRepository, RankRepository rankRepository, DictionaryService dictionaryService) {

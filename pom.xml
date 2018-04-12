@@ -13,7 +13,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.4.7.RELEASE</version>
+        <version>1.5.12.RELEASE</version>
         <relativePath/>
     </parent>
 
@@ -27,12 +27,14 @@
     <profiles>
         <!-- propagate maven build-time profile to enable spring runtime profile -->
         <profile>
-            <id>memdb</id>
+            <!--db with test data-->
+            <id>testdb</id>
             <properties>
-                <spring.profiles.active>memdb</spring.profiles.active>
+                <spring.profiles.active>testdb</spring.profiles.active>
             </properties>
         </profile>
         <profile>
+            <!--test environment-->
             <id>test</id>
             <properties>
                 <spring.profiles.active>test</spring.profiles.active>
@@ -42,6 +44,7 @@
             </build>
         </profile>
         <profile>
+            <!--production environment-->
             <id>prod</id>
             <properties>
                 <spring.profiles.active>prod</spring.profiles.active>

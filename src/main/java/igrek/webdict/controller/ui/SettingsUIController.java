@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import igrek.webdict.controller.common.BaseUIController;
 import igrek.webdict.domain.DictionaryCode;
 import igrek.webdict.domain.alert.BootstrapAlert;
 import igrek.webdict.domain.alert.BootstrapAlertType;
@@ -28,13 +27,13 @@ import igrek.webdict.service.UserService;
 @Controller
 @SessionScope
 @RequestMapping("/settings")
-public class SettingsController extends BaseUIController {
+public class SettingsUIController extends BaseUIController {
 	
 	private final UserService userService;
 	private final DictionaryService dictionaryService;
 	
 	@Autowired
-	public SettingsController(SessionSettings sessionSettings, UserService userService, DictionaryService dictionaryService) {
+	public SettingsUIController(SessionSettings sessionSettings, UserService userService, DictionaryService dictionaryService) {
 		super(sessionSettings);
 		this.userService = userService;
 		this.dictionaryService = dictionaryService;

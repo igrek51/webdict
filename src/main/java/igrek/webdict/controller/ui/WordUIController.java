@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import igrek.webdict.controller.common.BaseUIController;
 import igrek.webdict.domain.TopWordComparator;
 import igrek.webdict.domain.alert.BootstrapAlert;
 import igrek.webdict.domain.alert.BootstrapAlertType;

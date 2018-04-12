@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import igrek.webdict.controller.common.BaseUIController;
 import igrek.webdict.domain.DictionaryCode;
 import igrek.webdict.domain.entity.Dictionary;
 import igrek.webdict.domain.entity.Rank;
@@ -25,12 +24,12 @@ import igrek.webdict.service.RankService;
 @Controller
 @SessionScope
 @RequestMapping("/statistics")
-public class StatisticsController extends BaseUIController {
+public class StatisticsUIController extends BaseUIController {
 	
 	private final RankService rankService;
 	
 	@Autowired
-	public StatisticsController(SessionSettings sessionSettings, RankService rankService) {
+	public StatisticsUIController(SessionSettings sessionSettings, RankService rankService) {
 		super(sessionSettings);
 		this.rankService = rankService;
 		this.sessionSettings = sessionSettings;

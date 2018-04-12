@@ -24,7 +24,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("memdb")
+@ActiveProfiles("testdb")
 public class TopWordComparatorTests {
 	
 	@Autowired

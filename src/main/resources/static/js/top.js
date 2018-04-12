@@ -60,7 +60,7 @@ function ajaxPutRequest(endpoint, onSuccess) {
 }
 
 function clickedWordAction(endpointAction) {
-    ajaxPutRequest(window.location.href + '/../rest/rank/' + rankId + '/' + endpointAction, function () {
+    ajaxPutRequest(window.location.href + '/../api/rank/' + rankId + '/' + endpointAction, function () {
         refreshPage();
     });
 }
