@@ -65,17 +65,17 @@ public class DBInitializer {
 		addSampleUser("jancio", "dupa");
 		
 		logger.debug("Initializing words...");
-		addSampleWord("dick", "dik");
+		addSampleWord("angular", "kanciasty");
+		addSampleWord("garbage", "śmieć");
 		addSampleWord("moby dick", "taki wieloryb");
-		addSampleWord("ass", "dupa");
 		addSampleWord("mock", "próbny");
 		
 		logger.debug("Initializing userwords...");
-		addSampleUserWord("dick", 1L);
+		addSampleUserWord("angular", 1L);
 		addSampleUserWord("moby dick", 1L);
-		addSampleUserWord("ass", 1L);
+		addSampleUserWord("garbage", 1L);
 		addSampleUserWord("mock", 1L);
-		addSampleUserWord("dick", 2L);
+		addSampleUserWord("angular", 2L);
 		addSampleUserWord("moby dick", 2L);
 		
 		logger.debug("Initializing ranks...");

@@ -134,6 +134,32 @@ class WordRankRestController {
 		return responseDictEntryOK(updateRankRelative(rankId, +1));
 	}
 	
+	@PostMapping("/offset/{userId}/{dictionaryCode}/{relativeOffset}")
+	public ResponseEntity offsetRanks(@PathVariable("userId") long userId, @PathVariable("dictionaryCode") String dictionaryCode, @PathVariable("relativeOffset") long relativeOffset) {
+		// user retrieval and validation
+		Optional<User> oUser = userService.findOne(userId);
+		if (!oUser.isPresent())
+			throw new IllegalArgumentException("user with given id doesn't exist");
+		
+		// dictionary retrieval and validation
+		DictionaryCode dictCode = DictionaryCode.parse(dictionaryCode);
+		Optional<Dictionary> oDictionary = dictionaryService.findByLanguages(dictCode.getSourceLanguage(), dictCode
+				.getTargetLanguage());
+		if (!oDictionary.isPresent())
+			throw new IllegalArgumentException("dictionary with given languages doesn't exist");
+		boolean reversedDictionary = dictCode.isReversedDictionary();
+		
+		// change filtered ranks by the same relative offset
+		List<Rank> ranks = rankService.findByDictionaryAndUser(oDictionary.get(), reversedDictionary, oUser
+				.get());
+		ranks.forEach(rank -> {
+			rank.setRankValue(rank.getRankValue() + relativeOffset);
+			rankService.save(rank);
+		});
+		
+		return new ResponseEntity("all ranks of user " + userId + " and dict " + dictionaryCode + " have been changed by " + relativeOffset, HttpStatus.OK);
+	}
+	
 	private Rank findWordRank(long rankId) {
 		Optional<Rank> oRank = rankService.findOne(rankId);
 		if (!oRank.isPresent())
