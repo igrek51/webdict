@@ -1,51 +1,58 @@
 # webdict
 [![Build Status](https://travis-ci.org/igrek51/webdict.svg?branch=master)](https://travis-ci.org/igrek51/webdict)
 
-Web application for vocabulary training with dynamic word rankings.
+Sample Web application for vocabulary training with dynamic word rankings.
 
 ## Technologies used:
 * Java 8
-* Spring Core
+* Spring Framework (Core)
 * Spring Boot
 * Spring MVC
 * Spring Data JPA
 * Hibernate
 * MySQL
+* H2
 * Thymeleaf
 * Tomcat
+* Maven
+* jUnit
+* Lombok
 * JavaScript
 * jQuery
 * AJAX
-* Maven
 * REST
-* JSON
 * CSS
 * Bootstrap
 * Git
-* HTML
+* Travis CI
 
-## Build:
-### Dev environment
+## Run
+### Run with In-Memory Database (H2):
+```
+mvn spring-boot:run
+```
+### Run with sample test data (H2):
+```
+mvn spring-boot:run -P testdb
+```
+
+## Build
+### Dev environment (In-Memory H2 Database)
 ```
 mvn package
 ```
-### Test environment
+### Test environment (MySQL Database)
 ```
 mvn package -P test
 ```
-### Production environment
+### Production environment (MySQL Database)
 ```
 mvn package -P prod
 ```
 
-## Run with Hibernate DB (MySQL):
+## Run tests
 ```
-mvn spring-boot:run
-```
-
-## Run with in-memory DB:
-```
-mvn spring-boot:run -P memdb
+mvn test
 ```
 
 ## Example screen:
