@@ -35,6 +35,10 @@ mvn spring-boot:run
 ```
 mvn spring-boot:run -P testdb
 ```
+### Run with local MySQL Database:
+```
+mvn spring-boot:run -P test
+```
 
 ## Build
 ### Dev environment (In-Memory H2 Database)
