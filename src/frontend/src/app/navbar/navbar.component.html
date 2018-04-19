@@ -1,0 +1,49 @@
+<nav class="navbar navbar-inverse bg-inverse no-rounding">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" routerLink="/">WebDict</a>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li [class.active]="activeTab == 'settings'"><a
+          routerLink="/settings">Settings</a>
+        </li>
+        <li [class.active]="activeTab == 'top'"><a
+          routerLink="/top">Top</a>
+        </li>
+        <li [class.active]="activeTab == 'all'"><a
+          routerLink="/all">All</a>
+        </li>
+        <li [class.active]="activeTab == 'add'"><a
+          routerLink="/add">Add</a>
+        </li>
+        <li [class.active]="activeTab == 'statistics'"><a
+          routerLink="/statistics">Statistics</a>
+        </li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right"
+          *ngIf="settings_user != null && settings_dictionary != null">
+        <li>
+          <a routerLink="/settings">
+            <span class="glyphicon glyphicon-user"></span>
+            {{settings_user}}
+          </a>
+        </li>
+        <li>
+          <a routerLink="/settings">
+            <span class="glyphicon glyphicon-book"></span>
+            {{settings_dictionary}}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

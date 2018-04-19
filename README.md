@@ -33,7 +33,7 @@ mvn spring-boot:run
 ```
 ### Run with sample test data (H2):
 ```
-mvn spring-boot:run -P testdb
+mvn spring-boot:run -P sampledata
 ```
 ### Run with local MySQL Database:
 ```

@@ -28,9 +28,9 @@
         <!-- propagate maven build-time profile to enable spring runtime profile -->
         <profile>
             <!--db with test data-->
-            <id>testdb</id>
+            <id>sampledata</id>
             <properties>
-                <spring.profiles.active>testdb</spring.profiles.active>
+                <spring.profiles.active>sampledata</spring.profiles.active>
             </properties>
         </profile>
         <profile>
