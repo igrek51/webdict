@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import igrek.webdict.controller.info.InfoController;
+import igrek.webdict.controller.rest.AppInfoController;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -19,15 +19,14 @@ public class RestTests {
 	private TestRestTemplate restTemplate;
 	
 	@Autowired
-	private InfoController infoController;
+	private AppInfoController infoController;
 	
 	@Test
 	public void testHelloRest() {
 		assertThat(infoController).isNotNull();
-		assertThat(infoController.info()).startsWith("status: UP");
 		
 		String body = this.restTemplate.getForObject("/api/info", String.class);
-		assertThat(body).startsWith("status: UP");
+		assertThat(body).contains("status").contains("UP");
 	}
 	
 }

@@ -9,5 +9,6 @@ public class EnvironmentInfo {
 	
 	private String environmentName;
 	private String buildVersion;
+	private String status;
 	
 }

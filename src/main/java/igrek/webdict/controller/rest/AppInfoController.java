@@ -9,7 +9,7 @@ import igrek.webdict.domain.env.EnvironmentInfo;
 
 @RestController
 @RequestMapping("/api/info")
-class AppInfoController {
+public class AppInfoController {
 	
 	@Value("${info.build.env}")
 	private String environmentName;
@@ -19,7 +19,7 @@ class AppInfoController {
 	
 	@GetMapping({"", "/"})
 	public EnvironmentInfo getEnvironmentInfo() {
-		return new EnvironmentInfo(environmentName, buildVersion);
+		return new EnvironmentInfo(environmentName, buildVersion, "UP");
 	}
 	
 }

@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {EnvironmentInfo} from "./EnvironmentInfo";
 
-const infoUrl = 'http://localhost:8081/api/info';
+const infoUrl = '/api/info';
 
 @Component({
   selector: 'app-footer',
@@ -17,7 +17,10 @@ export class FooterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.http.get<EnvironmentInfo>(infoUrl).subscribe(data => this.environmentInfo = data);
+    this.http.get<EnvironmentInfo>(infoUrl).subscribe(
+      data => this.environmentInfo = data,
+      err => console.log(err)
+    );
   }
 
 }
