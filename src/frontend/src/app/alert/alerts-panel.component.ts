@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Alert} from "./Alert";
+import {AlertService} from "./alert.service";
 
 @Component({
   selector: 'app-alerts-panel',
@@ -8,12 +9,17 @@ import {Alert} from "./Alert";
 })
 export class AlertsPanelComponent implements OnInit {
 
-  alerts: Alert[];
+  alerts: Alert[] = [];
 
-  constructor() {
+  constructor(private alertService: AlertService) {
   }
 
   ngOnInit() {
+    this.alertService.getAlerts().subscribe(alert => {
+        this.alerts.push(alert);
+        console.log(alert);
+      }
+    );
   }
 
 }

@@ -20,21 +20,20 @@ import igrek.webdict.domain.user.User;
 import igrek.webdict.domain.wordrank.Rank;
 import igrek.webdict.domain.wordrank.TopWordComparator;
 import igrek.webdict.domain.wordrank.WordRankDTO;
-import igrek.webdict.domain.wordrank.WordRanksDetailsDTO;
 import igrek.webdict.service.DictionaryService;
 import igrek.webdict.service.RankService;
 import igrek.webdict.service.UserService;
 
 @RestController
 @RequestMapping("/api/rank")
-class WordRankRestController {
+class WordRankController {
 	
 	private final UserService userService;
 	private final RankService rankService;
 	private final DictionaryService dictionaryService;
 	
 	@Autowired
-	public WordRankRestController(UserService userService, RankService rankService, DictionaryService dictionaryService) {
+	public WordRankController(UserService userService, RankService rankService, DictionaryService dictionaryService) {
 		this.userService = userService;
 		this.rankService = rankService;
 		this.dictionaryService = dictionaryService;
@@ -48,30 +47,8 @@ class WordRankRestController {
 				.collect(Collectors.toList());
 	}
 	
-	@GetMapping("/tops/{userId}/{dictionaryCode}")
-	public List<WordRanksDetailsDTO> getAllOrderByTop(@PathVariable("userId") long userId, @PathVariable("dictionaryCode") String dictionaryCode) {
-		// user retrieval and validation
-		Optional<User> oUser = userService.findOne(userId);
-		if (!oUser.isPresent())
-			throw new IllegalArgumentException("user with given id doesn't exist");
-		
-		// dictionary retrieval and validation
-		DictionaryCode dictCode = DictionaryCode.parse(dictionaryCode);
-		Optional<Dictionary> oDictionary = dictionaryService.findByLanguages(dictCode.getSourceLanguage(), dictCode
-				.getTargetLanguage());
-		if (!oDictionary.isPresent())
-			throw new IllegalArgumentException("dictionary with given languages doesn't exist");
-		boolean reversedDictionary = dictCode.isReversedDictionary();
-		
-		return rankService.findByDictionaryAndUser(oDictionary.get(), reversedDictionary, oUser.get())
-				.stream()
-				.sorted(new TopWordComparator())
-				.map(WordRanksDetailsDTO::createDTO)
-				.collect(Collectors.toList());
-	}
-	
 	@GetMapping("/all/{userId}/{dictionaryCode}")
-	public List<WordRanksDetailsDTO> getAll(@PathVariable("userId") long userId, @PathVariable("dictionaryCode") String dictionaryCode) {
+	public List<WordRankDTO> getAll(@PathVariable("userId") long userId, @PathVariable("dictionaryCode") String dictionaryCode) {
 		// user retrieval and validation
 		Optional<User> oUser = userService.findOne(userId);
 		if (!oUser.isPresent())
@@ -87,7 +64,7 @@ class WordRankRestController {
 		
 		return rankService.findByDictionaryAndUser(oDictionary.get(), reversedDictionary, oUser.get())
 				.stream()
-				.map(WordRanksDetailsDTO::createDTO)
+				.sorted(new TopWordComparator()).map(WordRankDTO::createDTO)
 				.collect(Collectors.toList());
 	}
 	

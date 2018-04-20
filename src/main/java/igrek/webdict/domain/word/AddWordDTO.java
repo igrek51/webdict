@@ -11,5 +11,7 @@ public class AddWordDTO {
 	
 	private String word;
 	private String definition;
+	private long userId;
+	private String dictionaryCode;
 	
 }
