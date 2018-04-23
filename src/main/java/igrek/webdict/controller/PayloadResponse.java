@@ -17,27 +17,27 @@ public class PayloadResponse<T> {
 		this.payload = payload;
 	}
 	
-	public static <U> PayloadResponse<U> ok(U payload) {
-		return new PayloadResponse<>(HttpStatus.OK, null, payload);
-	}
-	
 	public static <U> PayloadResponse<U> ok(U payload, String successMessage) {
 		return new PayloadResponse<>(HttpStatus.OK, successMessage, payload);
 	}
 	
-	public static PayloadResponse ok(String successMessage) {
+	public static <U> PayloadResponse<U> ok(U payload) {
+		return new PayloadResponse<>(HttpStatus.OK, null, payload);
+	}
+	
+	public static <U> PayloadResponse<U> ok(String successMessage) {
 		return new PayloadResponse<>(HttpStatus.OK, successMessage, null);
 	}
 	
-	public static PayloadResponse ok() {
+	public static <U> PayloadResponse<U> ok() {
 		return new PayloadResponse<>(HttpStatus.OK, null, null);
 	}
 	
-	public static PayloadResponse error(HttpStatus httpStatus, String errorMessage) {
+	public static <U> PayloadResponse<U> error(HttpStatus httpStatus, String errorMessage) {
 		return new PayloadResponse<>(httpStatus, errorMessage, null);
 	}
 	
-	public static PayloadResponse error(String errorMessage) {
+	public static <U> PayloadResponse<U> error(String errorMessage) {
 		return new PayloadResponse<>(HttpStatus.BAD_REQUEST, errorMessage, null);
 	}
 	

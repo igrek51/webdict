@@ -1,13 +1,10 @@
 export class WordRank {
+  rankId: number;
+  dictionaryId: number;
+  reversedDictionary: boolean;
   wordName: string;
   definition: string;
   rankValue: number;
   triesCount: number;
-
-  constructor(wordName, definition, rankValue, triesCount) {
-    this.wordName = wordName;
-    this.definition = definition;
-    this.rankValue = rankValue;
-    this.triesCount = triesCount;
-  }
+  lastUse: string;
 }

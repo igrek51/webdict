@@ -63,8 +63,7 @@ class WordRankController {
 		boolean reversedDictionary = dictCode.isReversedDictionary();
 		
 		return rankService.findByDictionaryAndUser(oDictionary.get(), reversedDictionary, oUser.get())
-				.stream()
-				.sorted(new TopWordComparator()).map(WordRankDTO::createDTO)
+				.stream().sorted(new TopWordComparator()).map(WordRankDTO::createDTO)
 				.collect(Collectors.toList());
 	}
 	
@@ -134,7 +133,7 @@ class WordRankController {
 			rankService.save(rank);
 		});
 		
-		return new ResponseEntity("all ranks of user " + userId + " and dict " + dictionaryCode + " have been changed by " + relativeOffset, HttpStatus.OK);
+		return new ResponseEntity<>("all ranks of user " + userId + " and dict " + dictionaryCode + " have been changed by " + relativeOffset, HttpStatus.OK);
 	}
 	
 	private Rank findWordRank(long rankId) {

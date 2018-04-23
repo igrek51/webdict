@@ -21,7 +21,7 @@ import igrek.webdict.service.DictionaryService;
 public class DbConfiguration {
 	
 	@Configuration
-	@Profile("sampledata")
+	@Profile("data")
 	public class TestDbConfiguration {
 		
 		@Bean

@@ -1,0 +1,18 @@
+#button-answer-correct, #button-answer-wrong {
+  display: none;
+}
+
+#dict-word {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+#dict-definition {
+  min-height: 3em;
+  text-align: center;
+}
+
+#buttons-panel {
+  text-align: center;
+}

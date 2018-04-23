@@ -1,61 +1,67 @@
-package igrek.webdict.controller.ui;
+package igrek.webdict.controller.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.context.annotation.SessionScope;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import igrek.webdict.domain.dictionary.Dictionary;
 import igrek.webdict.domain.dictionary.DictionaryCode;
-import igrek.webdict.domain.session.SessionSettings;
 import igrek.webdict.domain.statistics.BidirectionalRank;
 import igrek.webdict.domain.statistics.DictionaryStatisticsDTO;
 import igrek.webdict.domain.statistics.WordStatisticsLogic;
 import igrek.webdict.domain.user.User;
 import igrek.webdict.domain.wordrank.Rank;
+import igrek.webdict.service.DictionaryService;
 import igrek.webdict.service.RankService;
+import igrek.webdict.service.UserService;
 
-@Controller
-@SessionScope
-@RequestMapping("/statistics")
-public class StatisticsUIController extends BaseUIController {
+@RestController
+@RequestMapping("/api/stats")
+public class StatisticsController {
 	
+	private final UserService userService;
 	private final RankService rankService;
+	private final DictionaryService dictionaryService;
 	
 	@Autowired
-	public StatisticsUIController(SessionSettings sessionSettings, RankService rankService) {
-		super(sessionSettings);
+	public StatisticsController(UserService userService, RankService rankService, DictionaryService dictionaryService) {
+		this.userService = userService;
 		this.rankService = rankService;
-		this.sessionSettings = sessionSettings;
+		this.dictionaryService = dictionaryService;
 	}
 	
-	@GetMapping({"", "/"})
-	public String showAll(Map<String, Object> model) {
-		checkSessionValid();
-		model.put("title", "Statistics");
-		setActiveTab(model, "statistics");
-		setSettingsData(model);
+	@GetMapping("/{userId}/{dictionaryCode}")
+	public List<DictionaryStatisticsDTO> showAll(@PathVariable("userId") long userId, @PathVariable("dictionaryCode") String dictionaryCode) {
+		// user retrieval and validation
+		Optional<User> oUser = userService.findOne(userId);
+		if (!oUser.isPresent()) {
+			throw new IllegalArgumentException("user with given id doesn't exist");
+		}
 		
-		// get session settings
-		Dictionary dictionary = sessionSettings.getDictionary();
-		User user = sessionSettings.getUser();
+		// dictionary retrieval and validation
+		DictionaryCode dictCode = DictionaryCode.parse(dictionaryCode);
+		Optional<Dictionary> oDictionary = dictionaryService.findByLanguages(dictCode.getSourceLanguage(), dictCode
+				.getTargetLanguage());
+		if (!oDictionary.isPresent()) {
+			throw new IllegalArgumentException("dictionary with given languages doesn't exist");
+		}
 		
-		List<Rank> simpleRanks = rankService.findByDictionaryAndUser(dictionary, false, user);
-		List<Rank> reversedRanks = rankService.findByDictionaryAndUser(dictionary, true, user);
+		List<Rank> simpleRanks = rankService.findByDictionaryAndUser(oDictionary.get(), false, oUser
+				.get());
+		List<Rank> reversedRanks = rankService.findByDictionaryAndUser(oDictionary.get(), true, oUser
+				.get());
 		
 		List<DictionaryStatisticsDTO> dictStats = new ArrayList<>();
-		dictStats.add(generateDictStats(dictionary, false, simpleRanks));
-		dictStats.add(generateDictStats(dictionary, true, reversedRanks));
-		dictStats.add(generateBothDirectionStats(dictionary, simpleRanks, reversedRanks));
-		model.put("dictStats", dictStats);
-		
-		return "statistics";
+		dictStats.add(generateDictStats(oDictionary.get(), false, simpleRanks));
+		dictStats.add(generateDictStats(oDictionary.get(), true, reversedRanks));
+		dictStats.add(generateBothDirectionStats(oDictionary.get(), simpleRanks, reversedRanks));
+		return dictStats;
 	}
 	
 	private DictionaryStatisticsDTO generateDictStats(Dictionary dictionary, boolean reversedDictionary, List<Rank> ranks) {

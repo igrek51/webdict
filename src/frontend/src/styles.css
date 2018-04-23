@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 body {
   font-family: Arial, sans-serif;
+  /* Margin bottom by footer height */
+  margin-bottom: 40px;
 }
 
 .container {
@@ -12,48 +14,8 @@ body {
   padding-right: 0;
 }
 
-#button-answer-correct, #button-answer-wrong {
-  display: none;
-}
-
-#dict-word {
-  text-align: center;
-  font-weight: bold;
-  font-size: 1.2em;
-}
-
-#dict-definition {
-  min-height: 3em;
-  text-align: center;
-}
-
-#buttons-panel {
-  text-align: center;
-}
-
-.row-form-add-word {
-  text-align: center;
-  margin-top: 10px;
-}
-
-.row-form-center {
-  text-align: center;
-  margin-top: 10px;
-}
-
-.row-form-center > label {
-  text-align: left;
-  margin-top: 10px;
-  width: 100%;
-}
-
-.row-form-add-word > .input-group-addon {
-  min-width: 8em;
-  text-align: right;
-}
-
-.statistics-dictionary-name {
-  font-weight: bold;
+.no-rounding {
+  border-radius: 0px;
 }
 
 /* Sticky footer styles
@@ -61,38 +23,4 @@ body {
 html {
   position: relative;
   min-height: 100%;
-}
-
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 40px;
-}
-
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 40px;
-  line-height: 40px; /* Vertically center the text there */
-  background-color: #f5f5f5;
-  padding: 0 10px;
-  text-align: center;
-}
-
-.no-rounding {
-  border-radius: 0px;
-}
-
-/* progress bars with centered text */
-.progress {
-  position: relative;
-}
-
-.progress span.progress-centered {
-  position: absolute;
-  display: block;
-  width: 100%;
-  color: #000;
-  font-weight: bold;
 }

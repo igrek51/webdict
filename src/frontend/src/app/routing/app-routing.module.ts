@@ -1,11 +1,11 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {PageNotFoundComponent} from '../errors/page-not-found.component';
-import {TopWordComponent} from "../pages/top-word.component";
+import {TopWordComponent} from "../pages/top/top-word.component";
 import {AddWordComponent} from "../pages/addword/add-word.component";
-import {SettingsComponent} from "../pages/settings.component";
-import {StatisticsComponent} from "../pages/statistics.component";
-import {WordsListComponent} from "../pages/words-list.component";
+import {SettingsComponent} from "../pages/settings/settings.component";
+import {StatisticsComponent} from "../pages/stats/statistics.component";
+import {WordsListComponent} from "../pages/wordslist/words-list.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/top', pathMatch: 'full'},

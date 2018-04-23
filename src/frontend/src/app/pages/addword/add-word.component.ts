@@ -35,12 +35,12 @@ export class AddWordComponent implements OnInit {
   }
 
   addNewWordResult(response: PayloadResponse) {
-    if (response.httpStatus != 200) {
+    if (PayloadResponse.isOk(response)) {
+      this.alertService.success(response.message);
+    } else {
       // error occurred
       console.log(response.message);
       this.alertService.error(response.message);
-    } else {
-      this.alertService.success(response.message);
     }
     this.wordName = '';
     this.definition = '';

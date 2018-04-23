@@ -7,34 +7,25 @@ import {Subject} from "rxjs/Subject";
 export class AlertService {
 
   private subject = new Subject<Alert>();
-  private keepAfterNavigationChange = false;
 
-  // constructor(private router: Router) {
-  //   // clear alert message on route change
-  //   router.events.subscribe(event => {
-  //     if (event instanceof NavigationStart) {
-  //       if (this.keepAfterNavigationChange) {
-  //         // only keep for a single location change
-  //         this.keepAfterNavigationChange = false;
-  //       } else {
-  //         // clear alert
-  //         // this.subject.next();
-  //       }
-  //     }
-  //   });
-  // }
-
-  success(message: string, keepAfterNavigationChange = false) {
-    this.keepAfterNavigationChange = keepAfterNavigationChange;
+  success(message: string) {
     this.subject.next(new Alert(message, 'alert-success'));
   }
 
-  error(message: string, keepAfterNavigationChange = false) {
-    this.keepAfterNavigationChange = keepAfterNavigationChange;
-    this.subject.next(new Alert(message, 'alert-error'));
+  info(message: string) {
+    this.subject.next(new Alert(message, 'alert-info'));
+  }
+
+  warn(message: string) {
+    this.subject.next(new Alert(message, 'alert-warning'));
+  }
+
+  error(message: string) {
+    this.subject.next(new Alert(message, 'alert-danger'));
   }
 
   getAlerts(): Observable<Alert> {
     return this.subject.asObservable();
   }
+
 }
