@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {WordRank} from "../../wordrank/WordRank";
-import {WordRankService} from "../../wordrank/word-rank.service";
+import {WordRank} from "../wordrank/WordRank";
+import {WordRankService} from "../wordrank/word-rank.service";
 
 @Component({
   selector: 'app-words-list',

@@ -15,7 +15,7 @@ body {
 }
 
 .no-rounding {
-  border-radius: 0px;
+  border-radius: 0px !important;
 }
 
 /* Sticky footer styles

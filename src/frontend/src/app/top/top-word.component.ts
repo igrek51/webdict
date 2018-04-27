@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {WordRank} from "../../wordrank/WordRank";
+import {WordRank} from "../wordrank/WordRank";
+import {UserDataService} from "../user/user-data.service";
 
 declare var $: any;
 
@@ -14,20 +15,20 @@ const fadeTime = 500;
 export class TopWordComponent implements OnInit {
 
   topWord: WordRank;
-  userId = 1;
-  dictionaryCode = 'en-pl';
   reversedDictionary = false;
   displayWordName;
   displayDefinition;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private userData: UserDataService) { }
 
   ngOnInit() {
     this.nextTopWordInit();
   }
 
   nextTopWordInit() {
-    const url = `/api/rank/top/${this.userId}/${this.dictionaryCode}`;
+    let userId = this.userData.userId;
+    let dictionaryCode = this.userData.dictionaryCode;
+    const url = `/api/rank/top/${userId}/${dictionaryCode}`;
     return this.http.get<WordRank>(url).subscribe(
       response => this.onTopWordReceived(response),
       err => console.log(err)

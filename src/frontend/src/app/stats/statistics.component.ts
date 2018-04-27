@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {DictionaryStatisticsDTO} from "../../stats/DictionaryStatisticsDTO";
+import {DictionaryStatisticsDTO} from "./DictionaryStatisticsDTO";
 import {HttpClient} from "@angular/common/http";
+import {UserDataService} from "../user/user-data.service";
 
 @Component({
   selector: 'app-statistics',
@@ -10,14 +11,14 @@ import {HttpClient} from "@angular/common/http";
 export class StatisticsComponent implements OnInit {
 
   dictStats: DictionaryStatisticsDTO[] = [];
-  userId = 1;
-  dictionaryCode = 'en-pl';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private userData: UserDataService) {
   }
 
   ngOnInit() {
-    const url = `/api/stats/${this.userId}/${this.dictionaryCode}`;
+    let userId = this.userData.userId;
+    let dictionaryCode = this.userData.dictionaryCode;
+    const url = `/api/stats/${userId}/${dictionaryCode}`;
     return this.http.get<DictionaryStatisticsDTO[]>(url).subscribe(
       response => this.dictStats = response,
       err => console.log(err)

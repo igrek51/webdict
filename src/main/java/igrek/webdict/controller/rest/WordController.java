@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import igrek.webdict.controller.PayloadResponse;
+import igrek.webdict.controller.payload.PayloadResponse;
 import igrek.webdict.domain.dictionary.Dictionary;
 import igrek.webdict.domain.dictionary.DictionaryCode;
 import igrek.webdict.domain.user.User;

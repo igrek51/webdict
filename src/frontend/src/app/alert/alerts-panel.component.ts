@@ -16,10 +16,19 @@ export class AlertsPanelComponent implements OnInit {
 
   ngOnInit() {
     this.alertService.getAlerts().subscribe(alert => {
+      if (!alert) {
+        // clear alerts when an empty alert is received
+        this.alerts = [];
+        return;
+      }
         this.alerts.push(alert);
         console.log(alert);
       }
     );
+  }
+
+  hideAlert(alert: Alert) {
+    this.alerts = this.alerts.filter(a => a !== alert);
   }
 
 }

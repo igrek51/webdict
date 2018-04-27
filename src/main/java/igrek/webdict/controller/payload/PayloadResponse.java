@@ -1,4 +1,4 @@
-package igrek.webdict.controller;
+package igrek.webdict.controller.payload;
 
 import org.springframework.http.HttpStatus;
 

@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {UserDataService} from "../user/user-data.service";
 
 @Component({
   selector: 'app-navbar',
@@ -7,14 +8,21 @@ import {Component, OnInit} from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  activeTab;
-  settings_user = null;
-  settings_dictionary = null;
+  username;
+  dictionaryName;
 
-  constructor() {
+  constructor(private userData: UserDataService) {
   }
 
   ngOnInit() {
+    this.userData.changes.subscribe(() => this.updateUserData());
+    this.updateUserData();
   }
 
+  updateUserData() {
+    if (this.userData.loggedIn()) {
+      this.username = this.userData.username;
+      this.dictionaryName = this.userData.dictionaryDisplayName;
+    }
+  }
 }

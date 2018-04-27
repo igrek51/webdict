@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {PayloadResponse} from "../../rest/PayloadResponse";
-import {AlertService} from "../../alert/alert.service";
+import {PayloadResponse} from "../rest/PayloadResponse";
+import {AlertService} from "../alert/alert.service";
+import {UserDataService} from "../user/user-data.service";
 
 @Component({
   selector: 'app-add-word',
@@ -13,7 +14,7 @@ export class AddWordComponent implements OnInit {
   wordName: string;
   definition: string;
 
-  constructor(private http: HttpClient, private alertService: AlertService) {
+  constructor(private http: HttpClient, private alertService: AlertService, private userData: UserDataService) {
   }
 
   ngOnInit() {
@@ -23,8 +24,8 @@ export class AddWordComponent implements OnInit {
     let addWordDTO = {
       'word': this.wordName,
       'definition': this.definition,
-      'userId': 1,
-      'dictionaryCode': 'en-pl',
+      'userId': this.userData.userId,
+      'dictionaryCode': this.userData.dictionaryCode,
     };
     const url = '/api/word';
 
