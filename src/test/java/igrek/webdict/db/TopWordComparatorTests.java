@@ -20,7 +20,7 @@ import igrek.webdict.service.DictionaryService;
 import igrek.webdict.service.RankService;
 import igrek.webdict.service.UserService;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -56,7 +56,7 @@ public class TopWordComparatorTests {
 		TopWordComparator comparator = new TopWordComparator();
 		
 		for (Rank rank : ranks) {
-			assertEquals(0, comparator.compare(rank, rank));
+			assertThat(comparator.compare(rank, rank)).isEqualTo(0);
 		}
 		
 		// sgn(compare(x, y)) == -sgn(compare(y, x))
@@ -64,7 +64,7 @@ public class TopWordComparatorTests {
 			for (Rank rank : ranks) {
 				Rank r1 = ranks.get(i);
 				Rank r2 = rank;
-				assertEquals(comparator.compare(r1, r2), -comparator.compare(r2, r1));
+				assertThat(comparator.compare(r1, r2)).isEqualTo(-comparator.compare(r2, r1));
 			}
 		}
 		

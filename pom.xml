@@ -6,7 +6,7 @@
 
     <groupId>igrek.webdict</groupId>
     <artifactId>webdict</artifactId>
-    <version>1.2.2-SNAPSHOT</version>
+    <version>1.2.4-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>webdict</name>
 
@@ -24,17 +24,17 @@
         <spring.profiles.active>default</spring.profiles.active>
     </properties>
 
+    <!-- propagate maven build-time profile to enable spring runtime profile -->
     <profiles>
-        <!-- propagate maven build-time profile to enable spring runtime profile -->
+        <!--db with test data-->
         <profile>
-            <!--db with test data-->
             <id>data</id>
             <properties>
                 <spring.profiles.active>data</spring.profiles.active>
             </properties>
         </profile>
+        <!--test environment-->
         <profile>
-            <!--test environment-->
             <id>test</id>
             <properties>
                 <spring.profiles.active>test</spring.profiles.active>
@@ -43,14 +43,52 @@
                 <finalName>webdict-test</finalName>
             </build>
         </profile>
+        <!--production environment-->
         <profile>
-            <!--production environment-->
             <id>prod</id>
             <properties>
                 <spring.profiles.active>prod</spring.profiles.active>
             </properties>
             <build>
                 <finalName>webdict</finalName>
+            </build>
+        </profile>
+        <!--Angular frontend build-->
+        <profile>
+            <id>frontend</id>
+            <activation>
+                <property>
+                    <!--workaround for activeByDefault with multiple profiles-->
+                    <name>!skipFrontendBuild</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.6.0</version>
+                        <executions>
+                            <execution>
+                                <id>exec-npm-ng-build</id>
+                                <phase>generate-sources</phase>
+                                <configuration>
+                                    <workingDirectory>${project.basedir}/src/frontend
+                                    </workingDirectory>
+                                    <executable>ng</executable>
+                                    <arguments>
+                                        <argument>build</argument>
+                                        <argument>--prod</argument>
+                                        <argument>--output-path=../main/resources/static</argument>
+                                    </arguments>
+                                </configuration>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
             </build>
         </profile>
     </profiles>

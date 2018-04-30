@@ -15,7 +15,7 @@ public class MainAppTests {
 	
 	@Test
 	public void contextLoads() {
-		logger.debug("Context loaded successfully.");
+		logger.debug("Spring Context loaded successfully.");
 	}
 	
 }
