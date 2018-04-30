@@ -122,6 +122,6 @@ class WordController {
 		
 		logger.info("new word has been added: " + name + ": " + definition);
 		
-		return PayloadResponse.ok(WordDTO.createDTO(word), "Word '" + name + "' has been added successfully.");
+		return PayloadResponse.ok(WordDTO.createDTO(word), "Word '" + name + "' - '" + definition + "' has been added successfully.");
 	}
 }

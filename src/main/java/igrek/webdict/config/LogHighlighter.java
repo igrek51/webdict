@@ -1,11 +1,11 @@
-package igrek.webdict.config.log;
+package igrek.webdict.config;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.pattern.color.ANSIConstants;
 import ch.qos.logback.core.pattern.color.ForegroundCompositeConverterBase;
 
-public class HighlightingCompositeConverterEx extends ForegroundCompositeConverterBase<ILoggingEvent> {
+public class LogHighlighter extends ForegroundCompositeConverterBase<ILoggingEvent> {
 	
 	@Override
 	protected String getForegroundColorCode(ILoggingEvent event) {
