@@ -38,6 +38,8 @@ public class DBInitializer {
 	private final RankRepository rankRepository;
 	private final DictionaryService dictionaryService;
 	
+	private static boolean initialized = false; // although singleton scope, there's a weird Spring twice initialization
+	
 	@Autowired
 	public DBInitializer(DictionaryRepository dictionaryRepository, LanguageRepository languageRepository, UserRepository userRepository, WordRepository wordRepository, UserWordRepository userwordRepository, RankRepository rankRepository, DictionaryService dictionaryService) {
 		this.dictionaryRepository = dictionaryRepository;
@@ -51,6 +53,11 @@ public class DBInitializer {
 	
 	@PostConstruct
 	public void init() {
+		if (initialized) {
+			logger.debug("Skipping another initalization");
+			return;
+		}
+		
 		logger.debug("Initializing languages...");
 		addSampleLanguage("en");
 		addSampleLanguage("pl");
@@ -84,6 +91,7 @@ public class DBInitializer {
 			addSampleRank(userWord, false, 0, 0);
 		}
 		
+		initialized = true;
 		logger.info("Test DB initialized.");
 	}
 	
