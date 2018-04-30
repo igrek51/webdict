@@ -1,4 +1,5 @@
 import {EventEmitter, Injectable, OnInit} from '@angular/core';
+import {Router} from "@angular/router";
 
 @Injectable()
 export class UserDataService implements OnInit {
@@ -8,15 +9,15 @@ export class UserDataService implements OnInit {
   username: string;
   dictionary: string;
   reversedDictionary: boolean;
-
   changes = new EventEmitter<any>();
+  storage = sessionStorage; // sessionStorage or localStorage
 
-  constructor() {
-    if (sessionStorage.getItem('userId')) {
-      this.userId = parseInt(sessionStorage.getItem('userId'));
-      this.username = sessionStorage.getItem('username');
+  constructor(private router: Router) {
+    if (this.storage.getItem('userId')) {
+      this.userId = parseInt(this.storage.getItem('userId'));
+      this.username = this.storage.getItem('username');
     }
-    this.setDictionary(sessionStorage.getItem('dictionaryCode'));
+    this.setDictionary(this.storage.getItem('dictionaryCode'));
   }
 
   ngOnInit() {
@@ -27,10 +28,14 @@ export class UserDataService implements OnInit {
   }
 
   get dictionaryDisplayName(): string {
-    if (this.reversedDictionary) {
-      return this.dictionary.replace('-', '<-');
+    if (this.dictionary) {
+      if (this.reversedDictionary) {
+        return this.dictionary.replace('-', '<-');
+      } else {
+        return this.dictionary.replace('-', '->');
+      }
     } else {
-      return this.dictionary.replace('-', '->');
+      return null;
     }
   }
 
@@ -38,19 +43,34 @@ export class UserDataService implements OnInit {
     this.userId = userId;
     this.username = username;
 
-    sessionStorage.setItem('userId', '' + this.userId);
-    sessionStorage.setItem('username', this.username);
+    this.storage.setItem('userId', '' + this.userId);
+    this.storage.setItem('username', this.username);
+
+    this.changes.emit(); // emit settings changed
   }
 
   setDictionary(dictionaryCode: string) {
     if (dictionaryCode) {
       this.dictionary = dictionaryCode.substr(0, 5);
       this.reversedDictionary = dictionaryCode.endsWith('-r');
-      sessionStorage.setItem('dictionaryCode', dictionaryCode);
+      this.storage.setItem('dictionaryCode', dictionaryCode);
     }
+    this.changes.emit(); // emit settings changed
   }
 
   loggedIn(): boolean {
-    return this.userId != null;
+    return this.userId != null && this.dictionary != null;
+  }
+
+  logOut() {
+    this.userId = null;
+    this.username = null;
+    this.dictionary = null;
+    this.reversedDictionary = null;
+
+    this.storage.clear();
+    this.changes.emit(); // emit settings changed
+
+    this.router.navigate([this.router.url]);
   }
 }

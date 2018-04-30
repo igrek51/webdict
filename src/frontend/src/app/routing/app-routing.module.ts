@@ -10,16 +10,36 @@ import {AuthGuardService} from "./auth-guard.service";
 
 const routes: Routes = [
   {path: '', redirectTo: '/top', pathMatch: 'full'},
-  {path: 'top', component: TopWordComponent, canActivate: [AuthGuardService]},
-  {path: 'list', component: WordsListComponent, canActivate: [AuthGuardService]},
-  {path: 'add', component: AddWordComponent, canActivate: [AuthGuardService]},
-  {path: 'stats', component: StatisticsComponent, canActivate: [AuthGuardService]},
+  {
+    path: 'top',
+    component: TopWordComponent,
+    canActivate: [AuthGuardService],
+    runGuardsAndResolvers: 'always'
+  },
+  {
+    path: 'list',
+    component: WordsListComponent,
+    canActivate: [AuthGuardService],
+    runGuardsAndResolvers: 'always'
+  },
+  {
+    path: 'add',
+    component: AddWordComponent,
+    canActivate: [AuthGuardService],
+    runGuardsAndResolvers: 'always'
+  },
+  {
+    path: 'stats',
+    component: StatisticsComponent,
+    canActivate: [AuthGuardService],
+    runGuardsAndResolvers: 'always'
+  },
   {path: 'settings', component: SettingsComponent},
   {path: '**', component: PageNotFoundComponent},
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {useHash: true})],
+  imports: [RouterModule.forRoot(routes, {useHash: true, onSameUrlNavigation: 'reload'})],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

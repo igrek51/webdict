@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {CanActivate, Router} from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {UserDataService} from "../user/user-data.service";
 import {AlertService} from "../alert/alert.service";
 
@@ -8,11 +8,13 @@ export class AuthGuardService implements CanActivate {
 
   constructor(private router: Router, private userDataService: UserDataService, private alertService: AlertService) { }
 
-  canActivate() {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if (!this.userDataService.loggedIn()) {
-      this.router.navigate(['/settings']).then(() => {
-        this.alertService.warn('Choose an user and dictionary first.');
+      // not logged in - redirect to login page with return url
+      this.router.navigate(['/settings'], {queryParams: {returnUrl: state.url}}).then(() => {
+        this.alertService.warn('Choose an user and dictionary.');
       });
+      return false;
     }
     return true;
   }

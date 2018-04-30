@@ -22,7 +22,7 @@ export class AlertsPanelComponent implements OnInit {
         return;
       }
         this.alerts.push(alert);
-        console.log(alert);
+      console.log(alert.message);
       }
     );
   }

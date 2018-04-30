@@ -37,16 +37,23 @@ export class TopWordComponent implements OnInit {
 
   onTopWordReceived(topWord) {
     this.topWord = topWord;
-    if (this.reversedDictionary) {
-      this.displayWordName = '';
-      this.displayDefinition = this.topWord.definition;
+    if (this.topWord == null) {
+      $("#button-skip").hide();
+      $("#button-check").hide();
+      $("#button-answer-correct").hide();
+      $("#button-answer-wrong").hide();
     } else {
-      this.displayWordName = this.topWord.wordName;
-      this.displayDefinition = '';
+      if (this.reversedDictionary) {
+        this.displayWordName = '';
+        this.displayDefinition = this.topWord.definition;
+      } else {
+        this.displayWordName = this.topWord.wordName;
+        this.displayDefinition = '';
+      }
+      $("#button-check").show();
+      $("#button-answer-correct").hide();
+      $("#button-answer-wrong").hide();
     }
-    $("#button-check").show();
-    $("#button-answer-correct").hide();
-    $("#button-answer-wrong").hide();
   }
 
   checkAnswer() {

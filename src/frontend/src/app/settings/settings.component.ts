@@ -1,23 +1,26 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterContentChecked, Component, OnInit} from '@angular/core';
 import {UserDataService} from "../user/user-data.service";
 import {HttpClient} from "@angular/common/http";
-import "rxjs/add/operator/map";
 import {AlertService} from "../alert/alert.service";
-
+import {ActivatedRoute, Router} from '@angular/router';
+import "rxjs/add/operator/filter";
+import "rxjs/add/operator/map";
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css']
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent implements OnInit, AfterContentChecked {
 
   userId: number;
   dictionaryCode: string;
   users = [];
   dicts = [];
+  returnUrl;
 
-  constructor(private http: HttpClient, private userData: UserDataService, private alertService: AlertService) {
+  constructor(private http: HttpClient, private userData: UserDataService, private alertService: AlertService, private route: ActivatedRoute,
+              private router: Router) {
     if (this.userData.loggedIn()) {
       this.userId = this.userData.userId;
       this.dictionaryCode = this.userData.dictionaryCode;
@@ -25,6 +28,7 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit() {
+    // populate user list
     let url = `/api/user`;
     this.http.get<any[]>(url).subscribe(
       response => {
@@ -35,11 +39,17 @@ export class SettingsComponent implements OnInit {
       },
       err => console.log(err)
     );
+    // populate dicts list
     url = `/api/dictionary`;
     this.http.get<any[]>(url).subscribe(
       response => this.buildDicts(response),
       err => console.log(err)
     );
+  }
+
+  ngAfterContentChecked() { // each time page is shown
+    // get return url from route parameters or default
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || null;
   }
 
   buildDicts(dictsRaw: any[]) {
@@ -74,8 +84,11 @@ export class SettingsComponent implements OnInit {
     }
     this.userData.setUser(this.userId, username);
     this.userData.setDictionary(this.dictionaryCode);
-    this.userData.changes.emit(); // emit settings changed
     this.alertService.success('Settings have been successfully saved.');
+    // redirect to return url
+    if (this.returnUrl) {
+      this.router.navigateByUrl(this.returnUrl);
+    }
   }
 
 }

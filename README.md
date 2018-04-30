@@ -12,17 +12,17 @@ Sample Web application for vocabulary training with dynamic word rankings.
 * Hibernate
 * MySQL
 * H2
-* Thymeleaf
+* Angular 5
+* RxJS
 * Tomcat
 * Maven
 * jUnit
 * Lombok
-* JavaScript
-* jQuery
-* AJAX
 * REST
-* CSS
 * Bootstrap
+* TypeScript
+* jQuery
+* CSS
 * Git
 * Travis CI
 
