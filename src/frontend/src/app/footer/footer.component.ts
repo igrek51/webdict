@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {EnvironmentInfo} from "./EnvironmentInfo";
+import {environment} from '../../environments/environment';
 
 const infoUrl = '/api/info';
 
@@ -12,6 +13,7 @@ const infoUrl = '/api/info';
 export class FooterComponent implements OnInit {
 
   environmentInfo: EnvironmentInfo;
+  frontendVersion = environment.VERSION;
 
   constructor(private http: HttpClient) {
   }

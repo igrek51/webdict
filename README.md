@@ -21,6 +21,7 @@ Sample Web application for vocabulary training with dynamic word rankings.
 * REST
 * Bootstrap
 * TypeScript
+* npm
 * jQuery
 * CSS
 * Git
