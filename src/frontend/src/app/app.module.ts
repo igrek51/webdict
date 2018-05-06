@@ -19,6 +19,7 @@ import {WordRankService} from "./wordrank/word-rank.service";
 import {UserDataService} from "./user/user-data.service";
 import {AuthGuardService} from "./routing/auth-guard.service";
 import {ApiUrlInterceptorService} from "./routing/api-url-interceptor.service";
+import {HardestWordComponent} from './top/hardest-word.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import {ApiUrlInterceptorService} from "./routing/api-url-interceptor.service";
     WordsListComponent,
     FooterComponent,
     NavbarComponent,
-    AlertsPanelComponent
+    AlertsPanelComponent,
+    HardestWordComponent
   ],
   imports: [
     BrowserModule,
