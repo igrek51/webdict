@@ -22,6 +22,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <spring.profiles.active>default</spring.profiles.active>
+        <!--deploy url-->
+        <frontend.basehref>./</frontend.basehref>
     </properties>
 
     <!-- propagate maven build-time profile to enable spring runtime profile -->
@@ -38,6 +40,7 @@
             <id>test</id>
             <properties>
                 <spring.profiles.active>test</spring.profiles.active>
+                <frontend.basehref>/webdict-test</frontend.basehref>
             </properties>
             <build>
                 <finalName>webdict-test</finalName>
@@ -48,6 +51,7 @@
             <id>prod</id>
             <properties>
                 <spring.profiles.active>prod</spring.profiles.active>
+                <frontend.basehref>/webdict</frontend.basehref>
             </properties>
             <build>
                 <finalName>webdict</finalName>
@@ -80,6 +84,7 @@
                                         <argument>build</argument>
                                         <argument>--prod</argument>
                                         <argument>--output-path=../main/resources/static</argument>
+                                        <argument>--base-href=${frontend.basehref}</argument>
                                     </arguments>
                                 </configuration>
                                 <goals>
