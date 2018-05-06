@@ -15,7 +15,6 @@ const fadeTime = 500;
 export class HardestWordComponent implements OnInit {
 
   topWord: WordRank;
-  reversedDictionary = false;
   displayWordName;
   displayDefinition;
 
@@ -44,7 +43,7 @@ export class HardestWordComponent implements OnInit {
       $("#button-answer-correct").hide();
       $("#button-answer-wrong").hide();
     } else {
-      if (this.reversedDictionary) {
+      if (this.topWord.reversedDictionary) {
         this.displayWordName = '';
         this.displayDefinition = this.topWord.definition;
       } else {
@@ -65,7 +64,7 @@ export class HardestWordComponent implements OnInit {
     this.displayWordName = this.topWord.wordName;
     this.displayDefinition = this.topWord.definition;
 
-    if (!this.reversedDictionary) {
+    if (!this.topWord.reversedDictionary) {
       $("#dict-definition")
         .hide()
         .fadeIn(fadeTime);
