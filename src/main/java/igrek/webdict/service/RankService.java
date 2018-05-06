@@ -12,6 +12,7 @@ import igrek.webdict.domain.dictionary.Dictionary;
 import igrek.webdict.domain.dictionary.DictionaryCode;
 import igrek.webdict.domain.user.User;
 import igrek.webdict.domain.word.UserWord;
+import igrek.webdict.domain.wordrank.HardestWordComparator;
 import igrek.webdict.domain.wordrank.Rank;
 import igrek.webdict.domain.wordrank.TopWordComparator;
 import igrek.webdict.repository.RankRepository;
@@ -44,6 +45,17 @@ public class RankService extends AbstractRepositoryService<Rank> {
 		// shuffle list in order to get random entry when ranks are equal
 		Collections.shuffle(ranks);
 		return ranks.stream().min(new TopWordComparator());
+	}
+	
+	public Optional<Rank> getHardest(Dictionary dictionary, boolean reversedDictionary, User user) {
+		List<Rank> ranks = findByDictionaryAndUser(dictionary, reversedDictionary, user);
+		List<Rank> reversedRanks = findByDictionaryAndUser(dictionary, !reversedDictionary, user);
+		ranks.forEach(rank -> {
+			rank.setReversedRank(findRespectiveReversedRank(rank, reversedRanks));
+		});
+		// shuffle list in order to get random entry when ranks are equal
+		Collections.shuffle(ranks);
+		return ranks.stream().min(new HardestWordComparator());
 	}
 	
 	private Optional<Rank> findRespectiveReversedRank(Rank simpleRank, List<Rank> reversedRanks) {

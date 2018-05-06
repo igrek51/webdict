@@ -23,6 +23,7 @@ import igrek.webdict.domain.wordrank.WordRankDTO;
 import igrek.webdict.service.DictionaryService;
 import igrek.webdict.service.RankService;
 import igrek.webdict.service.UserService;
+import lombok.Data;
 
 @RestController
 @RequestMapping("/api/rank")
@@ -49,20 +50,11 @@ class WordRankController {
 	
 	@GetMapping("/all/{userId}/{dictionaryCode}")
 	public List<WordRankDTO> getAll(@PathVariable("userId") long userId, @PathVariable("dictionaryCode") String dictionaryCode) {
-		// user retrieval and validation
-		Optional<User> oUser = userService.findOne(userId);
-		if (!oUser.isPresent())
-			throw new IllegalArgumentException("user with given id doesn't exist");
+		// user and dictionary retrieval and validation
+		UserDictionaryInfo userDict = new UserDictionaryInfo(userId, dictionaryCode);
 		
-		// dictionary retrieval and validation
-		DictionaryCode dictCode = DictionaryCode.parse(dictionaryCode);
-		Optional<Dictionary> oDictionary = dictionaryService.findByLanguages(dictCode.getSourceLanguage(), dictCode
-				.getTargetLanguage());
-		if (!oDictionary.isPresent())
-			throw new IllegalArgumentException("dictionary with given languages doesn't exist");
-		boolean reversedDictionary = dictCode.isReversedDictionary();
-		
-		return rankService.findByDictionaryAndUser(oDictionary.get(), reversedDictionary, oUser.get())
+		return rankService.findByDictionaryAndUser(userDict.getDictionary(), userDict.isReversedDictionary(), userDict
+				.getUser())
 				.stream().sorted(new TopWordComparator()).map(WordRankDTO::createDTO)
 				.collect(Collectors.toList());
 	}
@@ -75,24 +67,22 @@ class WordRankController {
 	
 	@GetMapping("/top/{userId}/{dictionaryCode}")
 	public WordRankDTO getTop(@PathVariable("userId") long userId, @PathVariable("dictionaryCode") String dictionaryCode) {
-		// user retrieval and validation
-		Optional<User> oUser = userService.findOne(userId);
-		if (!oUser.isPresent()) {
-			throw new IllegalArgumentException("user with given id doesn't exist");
-		}
+		// user and dictionary retrieval and validation
+		UserDictionaryInfo userDict = new UserDictionaryInfo(userId, dictionaryCode);
 		
-		// dictionary retrieval and validation
-		DictionaryCode dictCode = DictionaryCode.parse(dictionaryCode);
-		Optional<Dictionary> oDictionary = dictionaryService.findByLanguages(dictCode.getSourceLanguage(), dictCode
-				.getTargetLanguage());
-		if (!oDictionary.isPresent()) {
-			throw new IllegalArgumentException("dictionary with given languages doesn't exist");
-		}
-		boolean reversedDictionary = dictCode.isReversedDictionary();
-		
-		return rankService.getTop(oDictionary.get(), reversedDictionary, oUser.get())
+		return rankService.getTop(userDict.getDictionary(), userDict.isReversedDictionary(), userDict
+				.getUser())
 				.map(WordRankDTO::createDTO)
 				.orElse(null);
+	}
+	
+	@GetMapping("/hardest/{userId}/{dictionaryCode}")
+	public WordRankDTO getHardest(@PathVariable("userId") long userId, @PathVariable("dictionaryCode") String dictionaryCode) {
+		// user and dictionary retrieval and validation
+		UserDictionaryInfo userDict = new UserDictionaryInfo(userId, dictionaryCode);
+		
+		return rankService.getHardest(userDict.getDictionary(), userDict.isReversedDictionary(), userDict
+				.getUser()).map(WordRankDTO::createDTO).orElse(null);
 	}
 	
 	@PostMapping("/{rankId}/skip")
@@ -112,22 +102,12 @@ class WordRankController {
 	
 	@PostMapping("/offset/{userId}/{dictionaryCode}/{relativeOffset}")
 	public ResponseEntity offsetRanks(@PathVariable("userId") long userId, @PathVariable("dictionaryCode") String dictionaryCode, @PathVariable("relativeOffset") long relativeOffset) {
-		// user retrieval and validation
-		Optional<User> oUser = userService.findOne(userId);
-		if (!oUser.isPresent())
-			throw new IllegalArgumentException("user with given id doesn't exist");
-		
-		// dictionary retrieval and validation
-		DictionaryCode dictCode = DictionaryCode.parse(dictionaryCode);
-		Optional<Dictionary> oDictionary = dictionaryService.findByLanguages(dictCode.getSourceLanguage(), dictCode
-				.getTargetLanguage());
-		if (!oDictionary.isPresent())
-			throw new IllegalArgumentException("dictionary with given languages doesn't exist");
-		boolean reversedDictionary = dictCode.isReversedDictionary();
+		// user and dictionary retrieval and validation
+		UserDictionaryInfo userDict = new UserDictionaryInfo(userId, dictionaryCode);
 		
 		// change filtered ranks by the same relative offset
-		List<Rank> ranks = rankService.findByDictionaryAndUser(oDictionary.get(), reversedDictionary, oUser
-				.get());
+		List<Rank> ranks = rankService.findByDictionaryAndUser(userDict.getDictionary(), userDict.isReversedDictionary(), userDict
+				.getUser());
 		ranks.forEach(rank -> {
 			rank.setRankValue(rank.getRankValue() + relativeOffset);
 			rankService.save(rank);
@@ -156,5 +136,31 @@ class WordRankController {
 	
 	private ResponseEntity<WordRankDTO> responseDictEntryOK(Rank rank) {
 		return new ResponseEntity<>(WordRankDTO.createDTO(rank), HttpStatus.OK);
+	}
+	
+	@Data
+	private class UserDictionaryInfo {
+		
+		private User user;
+		private Dictionary dictionary;
+		private boolean reversedDictionary;
+		
+		UserDictionaryInfo(long userId, String dictionaryCode) throws IllegalArgumentException {
+			// user retrieval and validation
+			Optional<User> oUser = userService.findOne(userId);
+			if (!oUser.isPresent())
+				throw new IllegalArgumentException("user with given id doesn't exist");
+			user = oUser.get();
+			
+			// dictionary retrieval and validation
+			DictionaryCode dictCode = DictionaryCode.parse(dictionaryCode);
+			Optional<Dictionary> oDictionary = dictionaryService.findByLanguages(dictCode.getSourceLanguage(), dictCode
+					.getTargetLanguage());
+			if (!oDictionary.isPresent())
+				throw new IllegalArgumentException("dictionary with given languages doesn't exist");
+			dictionary = oDictionary.get();
+			reversedDictionary = dictCode.isReversedDictionary();
+		}
+		
 	}
 }
