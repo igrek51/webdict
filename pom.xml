@@ -6,7 +6,7 @@
 
     <groupId>igrek.webdict</groupId>
     <artifactId>webdict</artifactId>
-    <version>1.2.4-SNAPSHOT</version>
+    <version>1.2.5-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>webdict</name>
 
@@ -22,8 +22,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <spring.profiles.active>default</spring.profiles.active>
-        <!--deploy url-->
-        <frontend.basehref>./</frontend.basehref>
+        <!--frontend deploy url-->
+        <deploy.url>./</deploy.url>
     </properties>
 
     <!-- propagate maven build-time profile to enable spring runtime profile -->
@@ -40,7 +40,7 @@
             <id>test</id>
             <properties>
                 <spring.profiles.active>test</spring.profiles.active>
-                <frontend.basehref>/webdict-test</frontend.basehref>
+                <deploy.url>/webdict-test/</deploy.url>
             </properties>
             <build>
                 <finalName>webdict-test</finalName>
@@ -51,7 +51,7 @@
             <id>prod</id>
             <properties>
                 <spring.profiles.active>prod</spring.profiles.active>
-                <frontend.basehref>/webdict</frontend.basehref>
+                <deploy.url>/webdict/</deploy.url>
             </properties>
             <build>
                 <finalName>webdict</finalName>
@@ -84,7 +84,8 @@
                                         <argument>build</argument>
                                         <argument>--prod</argument>
                                         <argument>--output-path=../main/resources/static</argument>
-                                        <argument>--base-href=${frontend.basehref}</argument>
+                                        <argument>--base-href=${deploy.url}</argument>
+                                        <argument>--deploy-url=${deploy.url}</argument>
                                     </arguments>
                                 </configuration>
                                 <goals>
