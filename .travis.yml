@@ -9,3 +9,4 @@ before_install:
 
 script:
   - mvn test package -B
+  - mvn package -P prod
