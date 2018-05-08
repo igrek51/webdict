@@ -1,6 +1,11 @@
 language: java
 sudo: false
 jdk: oraclejdk8
-script: mvn test package -B
 # git:
 #   depth: false
+
+before_script:
+  - npm install -g @angular/cli
+
+script:
+  - mvn test package -B
