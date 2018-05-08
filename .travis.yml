@@ -5,7 +5,7 @@ jdk: oraclejdk8
 #   depth: false
 
 before_install:
-  - npm install -g @angular/cli
+  - npm install -g @angular/cli@6
 
 script:
   - mvn test package -B
