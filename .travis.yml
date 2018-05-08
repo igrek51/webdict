@@ -6,6 +6,7 @@ jdk: oraclejdk8
 
 before_install:
   - npm install -g @angular/cli@6
+  - cd src/frontend && npm install
 
 script:
   - mvn test package -B
