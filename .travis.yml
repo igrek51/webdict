@@ -1,10 +1,10 @@
 language: java
-sudo: false
+#sudo: false
 jdk: oraclejdk8
 # git:
 #   depth: false
 
-before_script:
+before_install:
   - npm install -g @angular/cli
 
 script:
