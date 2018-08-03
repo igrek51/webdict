@@ -85,6 +85,15 @@ class WordRankController {
 				.getUser()).map(WordRankDTO::createDTO).orElse(null);
 	}
 	
+	@GetMapping("/oldest/{userId}/{dictionaryCode}")
+	public WordRankDTO getOldest(@PathVariable("userId") long userId, @PathVariable("dictionaryCode") String dictionaryCode) {
+		// user and dictionary retrieval and validation
+		UserDictionaryInfo userDict = new UserDictionaryInfo(userId, dictionaryCode);
+		
+		return rankService.getOldest(userDict.getDictionary(), userDict.isReversedDictionary(), userDict
+				.getUser()).map(WordRankDTO::createDTO).orElse(null);
+	}
+	
 	@PostMapping("/{rankId}/skip")
 	public ResponseEntity<WordRankDTO> skipEntry(@PathVariable("rankId") long rankId) {
 		return responseDictEntryOK(updateRankRelative(rankId, 0));

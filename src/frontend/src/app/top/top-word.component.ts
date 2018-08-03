@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {WordRank} from "../wordrank/WordRank";
 import {UserDataService} from "../user/user-data.service";
+import {ActivatedRoute} from "@angular/router";
 
 declare var $: any;
 
@@ -17,17 +18,30 @@ export class TopWordComponent implements OnInit {
   topWord: WordRank;
   displayWordName;
   displayDefinition;
+  order: string;
 
-  constructor(private http: HttpClient, private userData: UserDataService) { }
+  constructor(private http: HttpClient, private userData: UserDataService, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    // get from url
+    this.route.params.subscribe(params => {
+      this.order = params['order'];
+    });
     this.nextTopWordInit();
   }
 
   nextTopWordInit() {
     let userId = this.userData.userId;
     let dictionaryCode = this.userData.dictionaryCode;
-    const url = `/api/rank/top/${userId}/${dictionaryCode}`;
+    let orderby;
+    if (this.order == 'byRank')
+      orderby = 'top';
+    if (this.order == 'byHardest')
+      orderby = 'hardest';
+    if (this.order == 'byOldest')
+      orderby = 'oldest';
+    const url = `/api/rank/${orderby}/${userId}/${dictionaryCode}`;
+    console.log(url);
     return this.http.get<WordRank>(url).subscribe(
       response => this.onTopWordReceived(response),
       err => console.log(err)
