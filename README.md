@@ -3,7 +3,7 @@
 
 Sample Web application for vocabulary training with dynamic word rankings.
 
-## Technologies used:
+## Used libraries & tools:
 * Java 8
 * Spring Framework (Core)
 * Spring Boot
@@ -19,13 +19,9 @@ Sample Web application for vocabulary training with dynamic word rankings.
 * jUnit
 * AssertJ
 * Lombok
-* REST
 * Bootstrap
 * TypeScript
 * npm
-* jQuery
-* CSS
-* Git
 * Travis CI
 
 ## Run

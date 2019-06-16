@@ -62,14 +62,14 @@ public class TopWordComparator implements Comparator<Rank> {
 		return (cooldownSeconds - elapsedSeconds) * COOLDOWN_MAX_PENALTY / cooldownSeconds;
 	}
 	
-	public static double getBothCooldownPenalty(Rank rank) {
+	private static double getBothCooldownPenalty(Rank rank) {
 		if (!rank.getReversedRank().isPresent())
 			return getSingleCooldownPenalty(rank);
 		return Math.max(getSingleCooldownPenalty(rank), getSingleCooldownPenalty(rank.getReversedRank()
 				.get()));
 	}
 	
-	public static double getEffectiveRankValue(Rank rank) {
+	static double getEffectiveRankValue(Rank rank) {
 		return rank.getRankValue() - getBothCooldownPenalty(rank);
 	}
 	
