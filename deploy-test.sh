@@ -1,11 +1,14 @@
 #/bin/bash
+set -ex
+
+USER=root
+HOST=
+SSH_PORT=2222
 
 # Test
-echo "Building test WAR..."
+echo "Building WAR..."
 mvn package -P test
-echo "Copying test WAR..."
-scp target/webdict-test.war igrek@35.187.18.31:/home/igrek/webdict-test.war
-echo "Deploying to Tomcat..."
-ssh -t igrek@35.187.18.31 "sudo cp /home/igrek/webdict-test.war /opt/tomcat8/webapps/webdict-test.war"
+echo "Copying WAR..."
+scp -P $SSH_PORT target/webdict-test.war $USER@$HOST:/opt/tomcat8/webapps/webdict-test.war
 
 echo "done"
