@@ -13,7 +13,7 @@ public class OldestWordComparator implements Comparator<Rank> {
 	private Map<Rank, Double> valueCache = new HashMap<>();
 	
 	private final static transient Duration COOLDOWN_TIME = Duration.ofMinutes(30);
-	private final static transient double COOLDOWN_MAX_PENALTY = 1000;
+	private final static transient double COOLDOWN_MAX_PENALTY = 60 * 60 * 24 * 365;
 	
 	@Override
 	public int compare(Rank o1, Rank o2) {
@@ -33,13 +33,13 @@ public class OldestWordComparator implements Comparator<Rank> {
 		return value;
 	}
 	
-	public static double getValue(Rank rank) {
+	private static double getValue(Rank rank) {
 		LocalDateTime lastUse = rank.getLastUse();
 		if (lastUse == null) {
 			lastUse = LocalDateTime.now();
 		}
 		long epochSeconds = lastUse.toEpochSecond(ZoneOffset.UTC);
-		return epochSeconds - getBothCooldownPenalty(rank);
+		return epochSeconds + getBothCooldownPenalty(rank);
 	}
 	
 	private static double getBothCooldownPenalty(Rank rank) {
