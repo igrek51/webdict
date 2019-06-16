@@ -4,7 +4,6 @@ import {Router} from "@angular/router";
 @Injectable()
 export class UserDataService implements OnInit {
 
-  // TODO use JWT token
   userId: number;
   username: string;
   dictionary: string;
@@ -13,11 +12,18 @@ export class UserDataService implements OnInit {
   storage = sessionStorage; // sessionStorage or localStorage
 
   constructor(private router: Router) {
+    // default user logged in initially
+    this.userId = 1
+    this.username = 'igrek'
+    this.dictionary = 'en-pl'
+
     if (this.storage.getItem('userId')) {
       this.userId = parseInt(this.storage.getItem('userId'));
       this.username = this.storage.getItem('username');
     }
-    this.setDictionary(this.storage.getItem('dictionaryCode'));
+    if (this.storage.getItem('dictionaryCode')) {
+      this.setDictionary(this.storage.getItem('dictionaryCode'));
+    }
   }
 
   ngOnInit() {
