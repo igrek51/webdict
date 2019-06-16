@@ -7,19 +7,13 @@ import {SettingsComponent} from "../settings/settings.component";
 import {StatisticsComponent} from "../stats/statistics.component";
 import {WordsListComponent} from "../wordslist/words-list.component";
 import {AuthGuardService} from "./auth-guard.service";
-import {HardestWordComponent} from "../top/hardest-word.component";
 
 const routes: Routes = [
-  {path: '', redirectTo: '/top', pathMatch: 'full'},
-  {
-    path: 'top',
+{path: '', redirectTo: '/word/top', pathMatch: 'full'
+},
+{
+path: 'word/:sortby',
     component: TopWordComponent,
-    canActivate: [AuthGuardService],
-    runGuardsAndResolvers: 'always'
-  },
-  {
-    path: 'hardest',
-    component: HardestWordComponent,
     canActivate: [AuthGuardService],
     runGuardsAndResolvers: 'always'
   },

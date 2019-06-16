@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {WordRank} from "../wordrank/WordRank";
 import {UserDataService} from "../user/user-data.service";
+import {ActivatedRoute}from "@angular/router";
+import {Router}from "@angular/router";
 
 declare var $: any;
 
@@ -17,17 +19,25 @@ export class TopWordComponent implements OnInit {
   topWord: WordRank;
   displayWordName;
   displayDefinition;
+sortby;
 
-  constructor(private http: HttpClient, private userData: UserDataService) { }
+constructor(private http: HttpClient, private userData: UserDataService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
+    // force to reload on url change
+    this.router.routeReuseStrategy.shouldReuseRoute = function(){
+      return false;
+    };
+
+    this.sortby = this.route.snapshot.paramMap.get("sortby")
     this.nextTopWordInit();
   }
 
   nextTopWordInit() {
     let userId = this.userData.userId;
     let dictionaryCode = this.userData.dictionaryCode;
-    const url = `/api/rank/top/${userId}/${dictionaryCode}`;
+    let sortby = this.sortby
+    const url = `/api/rank/${sortby}/${userId}/${dictionaryCode}`;
     return this.http.get<WordRank>(url).subscribe(
       response => this.onTopWordReceived(response),
       err => console.log(err)
