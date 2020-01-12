@@ -1,0 +1,11 @@
+version: '3'
+services:
+
+  webdict:
+    build:
+      context: ..
+      dockerfile: deploy/docker/webdict/Dockerfile
+    image: webdict
+    container_name: webdict
+    network_mode: host
+    restart: unless-stopped

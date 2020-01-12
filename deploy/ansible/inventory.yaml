@@ -1,0 +1,18 @@
+all:
+  hosts:
+    igrek.dev:
+  vars:
+    ansible_connection: ssh
+    ansible_port: 2222
+    ansible_user: root
+    ask_pass: true
+    ssh_args: "-o PubkeyAuthentication=yes -o PasswordAuthentication=yes -o ControlMaster=auto -o ControlPersist=60s"
+    component_name: webdict
+    component_dir: "/opt/{{ component_name }}"
+    built_components:
+      - webdict
+    component_dirs:
+      - "{{ component_dir }}/volumes/db"
+    copy_sources:
+      - "webdict.tar.gz"
+      - "docker-compose.remote.yaml"

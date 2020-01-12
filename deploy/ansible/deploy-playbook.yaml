@@ -1,0 +1,41 @@
+- hosts: localhost
+  tasks:
+    - name: "build docker images"
+      command: "docker-compose build"
+      args:
+        chdir: ".."
+
+    - name: "save docker images"
+      command: "docker save -o {{ item }}.tar {{ item }}"
+      args:
+        chdir: ".."
+      with_items: "{{ built_components }}"
+
+    - name: "compress docker images"
+      command: "gzip -f {{ item }}.tar"
+      args:
+        chdir: ".."
+      with_items: "{{ built_components }}"
+
+- hosts: all
+  tasks:
+    - name: create required directories
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items: "{{ component_dirs }}"
+
+    - name: transfer required files to remote
+      copy:
+        src: "../{{ item }}"
+        dest: "{{ component_dir }}/{{ item }}"
+      with_items: "{{ copy_sources }}"
+
+    - name: load docker images
+      command: "docker load -i {{ component_dir }}/{{ item }}.tar.gz"
+      with_items: "{{ built_components }}"
+
+    - name: run init script
+      command: "bash init-cert.sh"
+      args:
+        chdir: "{{ component_dir }}"

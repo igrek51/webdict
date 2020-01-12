@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 12, 2020 at 12:49 AM
+-- Generation Time: Jan 12, 2020 at 02:11 AM
 -- Server version: 10.1.26-MariaDB-0+deb9u1
 -- PHP Version: 7.0.27-0+deb9u1
 
@@ -1117,7 +1117,9 @@ INSERT INTO `rank` (`id`, `reversed_dictionary`, `last_use`, `rank_value`, `trie
 (1135, b'0', NULL, 0, 0, 568),
 (1136, b'0', NULL, 0, 0, 569),
 (1137, b'1', NULL, 0, 0, 568),
-(1138, b'1', NULL, 0, 0, 569);
+(1138, b'1', NULL, 0, 0, 569),
+(1139, b'0', NULL, 0, 0, 570),
+(1140, b'1', NULL, 0, 0, 570);
 
 -- --------------------------------------------------------
 
@@ -1674,7 +1676,8 @@ INSERT INTO `user_word` (`id`, `user_id`, `word_id`) VALUES
 (566, 1, 566),
 (567, 1, 567),
 (568, 1, 568),
-(569, 1, 569);
+(569, 1, 569),
+(570, 1, 570);
 
 -- --------------------------------------------------------
 
@@ -2260,7 +2263,8 @@ INSERT INTO `word` (`id`, `dictionary_id`, `name`, `definition`) VALUES
 (566, 1, 'kinky', 'perwersyjny, zboczony'),
 (567, 1, 'tickle', 'łaskotać'),
 (568, 1, 'resent', 'oburzać się, obrazić się'),
-(569, 1, 'attend', 'brać udział w, asystować, troszczyć się');
+(569, 1, 'attend', 'brać udział w, asystować, troszczyć się'),
+(570, 1, 'cutlery', 'sztućce');
 
 --
 -- Indexes for dumped tables
@@ -2329,7 +2333,7 @@ ALTER TABLE `language`
 -- AUTO_INCREMENT for table `rank`
 --
 ALTER TABLE `rank`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1139;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1141;
 --
 -- AUTO_INCREMENT for table `user`
 --
@@ -2339,12 +2343,12 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `user_word`
 --
 ALTER TABLE `user_word`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=570;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=571;
 --
 -- AUTO_INCREMENT for table `word`
 --
 ALTER TABLE `word`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=570;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=571;
 --
 -- Constraints for dumped tables
 --

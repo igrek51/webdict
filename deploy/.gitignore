@@ -1,0 +1,4 @@
+webdict.tar
+webdict.tar.gz
+*.retry
+volumes/
