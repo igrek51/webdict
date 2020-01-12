@@ -18,7 +18,10 @@ COPY pom.xml /build/
 COPY src /build/src
 COPY --from=frontend-builder /build/static /build/src/main/resources/static
 WORKDIR /build
-RUN mvn package -DskipFrontendBuild
+RUN mvn package -P prod -DskipFrontendBuild
+
+RUN ls -al /build
+RUN ls -al /build/target
 
 FROM openjdk:8-jdk-alpine
 COPY --from=backend-builder /build/target/*.jar /webdict.jar

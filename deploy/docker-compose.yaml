@@ -9,3 +9,15 @@ services:
     container_name: webdict
     network_mode: host
     restart: unless-stopped
+
+  mysql:
+    image: mysql
+    container_name: mysql
+    network_mode: host
+    restart: unless-stopped
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+      - MYSQL_ROOT_HOST=localhost
+      - MYSQL_DATABASE=webdict
+      - MYSQL_USER=webdict
+      - MYSQL_PASSWORD=Sh4QqTvAwR8TwzlW
