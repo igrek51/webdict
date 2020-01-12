@@ -9,15 +9,33 @@ services:
     container_name: webdict
     network_mode: host
     restart: unless-stopped
+    depends_on:
+      - mysql
 
   mysql:
-    image: mysql
+    image: mysql:5.7
     container_name: mysql
-    network_mode: host
+#    network_mode: host
     restart: unless-stopped
     environment:
-      - MYSQL_RANDOM_ROOT_PASSWORD=yes
-      - MYSQL_ROOT_HOST=localhost
+      - MYSQL_ROOT_PASSWORD=Sh4QqTvAwR8TwzlW
       - MYSQL_DATABASE=webdict
       - MYSQL_USER=webdict
       - MYSQL_PASSWORD=Sh4QqTvAwR8TwzlW
+#      - MYSQL_ROOT_HOST=localhost
+#      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=Sh4QqTvAwR8TwzlW
+      - MYSQL_USER=webdict
+      - MYSQL_PASSWORD=Sh4QqTvAwR8TwzlW
+    links:
+      - mysql:db
+    ports:
+      - "81:80"
+    depends_on:
+      - mysql
