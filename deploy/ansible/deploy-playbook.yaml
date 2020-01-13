@@ -23,19 +23,19 @@
       file:
         path: "{{ item }}"
         state: directory
-      with_items: "{{ component_dirs }}"
+      with_items: "{{ app_dirs }}"
 
     - name: transfer required files to remote
       copy:
         src: "../{{ item }}"
-        dest: "{{ component_dir }}/{{ item }}"
+        dest: "{{ app_dir }}/{{ item }}"
       with_items: "{{ copy_sources }}"
 
     - name: load docker images
-      command: "docker load -i {{ component_dir }}/{{ item }}.tar.gz"
+      command: "docker load -i {{ app_dir }}/{{ item }}.tar.gz"
       with_items: "{{ built_components }}"
 
-    - name: run init script
-      command: "bash init-cert.sh"
+    - name: ensure containers are running
+      command: "docker-compose -f docker-compose.remote.yaml up -d"
       args:
-        chdir: "{{ component_dir }}"
+        chdir: "{{ app_dir }}"

@@ -1,6 +1,5 @@
 FROM node:9 AS frontend-builder
 RUN npm install -g @angular/cli@6
-
 COPY src/frontend/src /build/src
 COPY src/frontend/angular.json \
     src/frontend/package.json \
@@ -19,9 +18,6 @@ COPY src /build/src
 COPY --from=frontend-builder /build/static /build/src/main/resources/static
 WORKDIR /build
 RUN mvn package -P prod -DskipFrontendBuild
-
-RUN ls -al /build
-RUN ls -al /build/target
 
 FROM openjdk:8-jdk-alpine
 COPY --from=backend-builder /build/target/*.jar /webdict.jar
