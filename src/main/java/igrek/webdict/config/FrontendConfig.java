@@ -25,6 +25,7 @@ public class FrontendConfig extends WebMvcConfigurerAdapter {
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/").setViewName("forward:/webdict/index.html");
 		registry.addViewController("/webdict").setViewName("forward:/webdict/index.html");
+		registry.addViewController("/webdict/").setViewName("forward:/webdict/index.html");
 	}
 	
 }

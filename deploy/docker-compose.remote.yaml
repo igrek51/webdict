@@ -17,7 +17,7 @@ services:
     container_name: mysql
     restart: unless-stopped
     environment:
-      - MYSQL_ROOT_PASSWORD=Sh4QqTvAwR8TwzlW
+      - MYSQL_ROOT_PASSWORD=changeme
       - MYSQL_PASSWORD=Sh4QqTvAwR8TwzlW
       - MYSQL_USER=webdict
       - MYSQL_DATABASE=webdict
@@ -30,11 +30,6 @@ services:
     image: phpmyadmin/phpmyadmin:latest
     container_name: phpmyadmin
     restart: unless-stopped
-    environment:
-      - MYSQL_ROOT_PASSWORD=Sh4QqTvAwR8TwzlW
-      - MYSQL_USER=webdict
-      - MYSQL_PASSWORD=Sh4QqTvAwR8TwzlW
-      - PMA_ABSOLUTE_URI=/pma
     depends_on:
       - mysql
     links:
