@@ -1,13 +1,11 @@
-language: java
-#sudo: false
-jdk: oraclejdk8
-# git:
-#   depth: false
+env:
+  - DOCKER_COMPOSE_VERSION=1.4.2
 
 before_install:
-  - npm install -g @angular/cli@6
-  - cd src/frontend && npm install && cd ../..
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
 
 script:
-  - mvn test package -B
-  - mvn package -P prod
+  - cd deploy && docker-compose build
