@@ -1,5 +1,10 @@
 - hosts: localhost
   tasks:
+    - name: "clear docker volumes"
+      command: "sudo rm -rf ./volumes"
+      args:
+        chdir: ".."
+
     - name: "build docker images"
       command: "docker-compose build"
       args:

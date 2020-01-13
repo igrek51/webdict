@@ -10,7 +10,7 @@ COPY src/frontend/angular.json \
     /build/
 WORKDIR /build
 RUN npm install
-RUN ng build --prod --output-path=static
+RUN ng build --prod --output-path=static --deploy-url=/webdict --base-href=/webdict
 
 FROM maven:3.6.3-jdk-8 AS backend-builder
 COPY pom.xml /build/
